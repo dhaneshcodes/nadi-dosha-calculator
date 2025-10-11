@@ -1043,7 +1043,9 @@ class Autocomplete {
 
     // Add click handlers
     this.dropdown.querySelectorAll('.autocomplete-item').forEach(item => {
-      item.addEventListener('click', () => {
+      item.addEventListener('mousedown', (e) => {
+        // Use mousedown instead of click to execute before blur
+        e.preventDefault(); // Prevent focus loss
         this.selectCity(item.dataset.value);
       });
       
@@ -1110,7 +1112,13 @@ class Autocomplete {
 
   selectCity(city) {
     this.input.value = city;
-    this.hideDropdown();
+    
+    // Hide dropdown immediately
+    this.dropdown.classList.remove('active');
+    this.selectedIndex = -1;
+    
+    // Blur the input to close keyboard on mobile
+    this.input.blur();
     
     // Visual feedback
     this.input.style.borderColor = '#10b981';
