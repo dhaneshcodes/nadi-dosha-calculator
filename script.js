@@ -1810,6 +1810,71 @@ function initializeAutocomplete() {
   console.log(`✅ Initialized autocomplete with ${cities.length} unique cities worldwide`);
 }
 
+/**
+ * Initialize date pickers with DD-MM-YYYY format
+ */
+function initializeDatePickers() {
+  // Helper function to convert YYYY-MM-DD to DD-MM-YYYY
+  const formatDateToDDMMYYYY = (dateStr) => {
+    if (!dateStr) return '';
+    const [year, month, day] = dateStr.split('-');
+    return `${day}-${month}-${year}`;
+  };
+  
+  // Helper function to convert DD-MM-YYYY to YYYY-MM-DD
+  const formatDateToYYYYMMDD = (dateStr) => {
+    if (!dateStr) return '';
+    const parts = dateStr.split(/[-\/]/);
+    if (parts.length !== 3) return '';
+    const [day, month, year] = parts;
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  };
+  
+  // Setup for dob1
+  const dob1 = document.getElementById('dob1');
+  const dob1Helper = document.getElementById('dob1Helper');
+  
+  // When hidden date picker changes, update visible input
+  dob1Helper.addEventListener('change', (e) => {
+    if (e.target.value) {
+      dob1.value = formatDateToDDMMYYYY(e.target.value);
+      // Trigger input event for validation
+      dob1.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  });
+  
+  // When user types in visible input, try to update hidden picker
+  dob1.addEventListener('input', (e) => {
+    const yyyymmdd = formatDateToYYYYMMDD(e.target.value);
+    if (yyyymmdd && /^\d{4}-\d{2}-\d{2}$/.test(yyyymmdd)) {
+      dob1Helper.value = yyyymmdd;
+    }
+  });
+  
+  // Setup for dob2
+  const dob2 = document.getElementById('dob2');
+  const dob2Helper = document.getElementById('dob2Helper');
+  
+  // When hidden date picker changes, update visible input
+  dob2Helper.addEventListener('change', (e) => {
+    if (e.target.value) {
+      dob2.value = formatDateToDDMMYYYY(e.target.value);
+      // Trigger input event for validation
+      dob2.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  });
+  
+  // When user types in visible input, try to update hidden picker
+  dob2.addEventListener('input', (e) => {
+    const yyyymmdd = formatDateToYYYYMMDD(e.target.value);
+    if (yyyymmdd && /^\d{4}-\d{2}-\d{2}$/.test(yyyymmdd)) {
+      dob2Helper.value = yyyymmdd;
+    }
+  });
+  
+  console.log('✅ Date pickers initialized with DD-MM-YYYY format');
+}
+
 // Run cleanup and initialization on page load
 window.addEventListener('load', () => {
   // Initialize custom autocomplete immediately for better UX
@@ -2770,6 +2835,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Hide results initially
   resultSection.style.display = 'none';
+
+  // Initialize date pickers
+  initializeDatePickers();
 
   // Initialize language system
   const savedLang = localStorage.getItem('nadi_lang') || 'en';

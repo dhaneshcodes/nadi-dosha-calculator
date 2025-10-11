@@ -74,7 +74,11 @@
             </div>
             <div class="field-group">
               <label for="dob1" data-i18n="form.dob">Date of Birth</label>
-              <input type="text" id="dob1" name="dob1" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" required>
+              <div class="date-input-wrapper">
+                <input type="text" id="dob1" name="dob1" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" required>
+                <input type="date" id="dob1Helper" class="date-helper">
+                <i class="fas fa-calendar-alt date-icon" onclick="document.getElementById('dob1Helper').showPicker()"></i>
+              </div>
               <small class="input-hint" data-i18n="form.dobHint">Example: 20-12-1998 or 20/12/1998</small>
             </div>
             <div class="field-group">
@@ -114,7 +118,11 @@
             </div>
             <div class="field-group">
               <label for="dob2" data-i18n="form.dob">Date of Birth</label>
-              <input type="text" id="dob2" name="dob2" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" maxlength="10" pattern="\d{2}-\d{2}-\d{4}">
+              <div class="date-input-wrapper">
+                <input type="text" id="dob2" name="dob2" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" maxlength="10" pattern="\d{2}-\d{2}-\d{4}">
+                <input type="date" id="dob2Helper" class="date-helper">
+                <i class="fas fa-calendar-alt date-icon" onclick="document.getElementById('dob2Helper').showPicker()"></i>
+              </div>
               <small class="input-hint" data-i18n="form.dobHint">Example: 20-12-1998 or 20/12/1998</small>
             </div>
             <div class="field-group">

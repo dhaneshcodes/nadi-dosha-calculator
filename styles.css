@@ -375,6 +375,41 @@ main {
   color: #667eea;
 }
 
+/* Date Input with Picker */
+.date-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.date-input-wrapper input[type="text"] {
+  flex: 1;
+  padding-right: 3rem;
+}
+
+.date-helper {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+.date-icon {
+  position: absolute;
+  right: 1rem;
+  color: #667eea;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  pointer-events: all;
+}
+
+.date-icon:hover {
+  color: #764ba2;
+  transform: scale(1.1);
+}
+
 .time-hour:focus, .time-minute:focus, .time-period:focus {
   border-color: #667eea;
   outline: none;
