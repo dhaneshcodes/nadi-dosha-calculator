@@ -82,7 +82,7 @@ const translations = {
       dob: 'Date of Birth',
       dobHint: 'Format: 1998-12-20 or 20-12-1998 or 20/12/1998',
       tob: 'Time of Birth',
-      tobHint: '24-hour format: 14:30 for 2:30 PM',
+      tobHint: '12-hour format: 2:30 PM or 10:15 AM',
       pob: 'Place of Birth',
       pobPlaceholder: 'Start typing city name...',
       pobHint: '💡 Select from suggestions or enter any city worldwide',
@@ -136,7 +136,7 @@ const translations = {
       dob: 'जन्म तिथि',
       dobHint: 'प्रारूप: 1998-12-20 या 20-12-1998 या 20/12/1998',
       tob: 'जन्म समय',
-      tobHint: '24-घंटे प्रारूप: दोपहर 2:30 बजे के लिए 14:30',
+      tobHint: '12-घंटे प्रारूप: दोपहर 2:30 या सुबह 10:15',
       pob: 'जन्म स्थान',
       pobPlaceholder: 'शहर का नाम टाइप करना शुरू करें...',
       pobHint: '💡 सुझाव से चुनें या विश्व भर का कोई भी शहर दर्ज करें',
@@ -190,7 +190,7 @@ const translations = {
       dob: 'ਜਨਮ ਤਾਰੀਖ',
       dobHint: 'ਫਾਰਮੈਟ: 1998-12-20 ਜਾਂ 20-12-1998 ਜਾਂ 20/12/1998',
       tob: 'ਜਨਮ ਸਮਾਂ',
-      tobHint: '24-ਘੰਟੇ ਫਾਰਮੈਟ: ਦੁਪਹਿਰ 2:30 ਲਈ 14:30',
+      tobHint: '12-ਘੰਟੇ ਫਾਰਮੈਟ: ਦੁਪਹਿਰ 2:30 ਜਾਂ ਸਵੇਰੇ 10:15',
       pob: 'ਜਨਮ ਸਥਾਨ',
       pobPlaceholder: 'ਸ਼ਹਿਰ ਦਾ ਨਾਮ ਟਾਈਪ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ...',
       pobHint: '💡 ਸੁਝਾਵਾਂ ਵਿੱਚੋਂ ਚੁਣੋ ਜਾਂ ਦੁਨੀਆ ਭਰ ਦਾ ਕੋਈ ਵੀ ਸ਼ਹਿਰ ਦਰਜ ਕਰੋ',
@@ -2096,6 +2096,32 @@ function isValidDate(year, month, day) {
 }
 
 /**
+ * Convert 12-hour time format to 24-hour format
+ * @param {string} hour - Hour (1-12)
+ * @param {string} minute - Minute (00-59)
+ * @param {string} period - AM or PM
+ * @returns {string} 24-hour format (HH:MM)
+ */
+function convert12To24Hour(hour, minute, period) {
+  if (!hour || !minute || !period) return null;
+  
+  let h = parseInt(hour);
+  const m = minute.padStart(2, '0');
+  
+  // Validate hour (1-12)
+  if (isNaN(h) || h < 1 || h > 12) return null;
+  
+  // Convert to 24-hour
+  if (period === 'AM') {
+    if (h === 12) h = 0; // 12 AM = 00:00
+  } else { // PM
+    if (h !== 12) h += 12; // 1 PM = 13:00, but 12 PM = 12:00
+  }
+  
+  return `${h.toString().padStart(2, '0')}:${m}`;
+}
+
+/**
  * Validate form values; show alert if invalid.
  * @param {Object} d
  * @param {boolean} isSingleMode
@@ -2115,8 +2141,8 @@ function validateFormValues(d, isSingleMode) {
     // Update the value with normalized format
     d[`dob${i}`] = normalizedDate;
     
-    if (!timeRegex.test(d[`tob${i}`])) {
-      alert(`Person ${i}: Enter a valid time (HH:MM, 24-hour format).\n\nExample: 14:30 for 2:30 PM`);
+    if (!timeRegex.test(d[`tob${i}`]) || d[`tob${i}`] === null) {
+      alert(`Person ${i}: Please enter a valid time.\n\n• Hour: 1-12\n• Minute: 00-59\n• Select AM or PM\n\nExample: 2:30 PM or 10:15 AM`);
       return false;
     }
     if (!d[`pob${i}`] || d[`pob${i}`].trim().length < 2) {
@@ -2386,11 +2412,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const values = {
       name1: document.getElementById('name1').value.trim() || 'Person 1',
       dob1: document.getElementById('dob1').value,
-      tob1: document.getElementById('tob1').value,
+      tob1: convert12To24Hour(
+        document.getElementById('tobHour1').value,
+        document.getElementById('tobMin1').value,
+        document.getElementById('tobPeriod1').value
+      ),
       pob1: document.getElementById('pob1').value.trim(),
       name2: document.getElementById('name2').value.trim() || 'Person 2',
       dob2: document.getElementById('dob2').value,
-      tob2: document.getElementById('tob2').value,
+      tob2: convert12To24Hour(
+        document.getElementById('tobHour2').value,
+        document.getElementById('tobMin2').value,
+        document.getElementById('tobPeriod2').value
+      ),
       pob2: document.getElementById('pob2').value.trim(),
     };
     
@@ -2426,9 +2460,11 @@ document.addEventListener('DOMContentLoaded', () => {
           geo = await geocodePlace(values[`pob${i}`]);
         } catch (err) {
           // Enhanced error message with helpful suggestions
-          const errorMsg = `❌ Location Error (Person ${i})\n\n${err.message}\n\n💡 Tips:\n• Use format: "City, State/Region, Country"\n• Example: "Mumbai, Maharashtra, India"\n• Example: "London, England, UK"\n• Try a nearby major city if yours isn't found\n\n🔄 Please correct the location and try again.`;
-          alert(errorMsg);
-          doshaDiv.textContent = '';
+          // Show user-friendly error
+          showErrorState(`Could not find the location you entered.\n\n💡 Please try:\n• "Mumbai, Maharashtra, India"\n• "Delhi, India"\n• "London, UK"\n\nOr select from the dropdown suggestions.`);
+          
+          // Show form again
+          document.querySelector('.nadi-form').style.display = 'block';
           resultSection.style.display = 'none';
           
           // Highlight the problematic input

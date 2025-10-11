@@ -334,6 +334,57 @@ main {
   gap: 0.4rem;
 }
 
+.time-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.time-hour, .time-minute {
+  width: 60px;
+  font-size: 1rem;
+  padding: 0.9rem 0.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background: #fafafa;
+  text-align: center;
+}
+
+.time-separator {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+  margin: 0 0.2rem;
+}
+
+.time-period {
+  width: 80px;
+  font-size: 1rem;
+  padding: 0.9rem 0.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background: #fafafa;
+  cursor: pointer;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.time-hour:focus, .time-minute:focus, .time-period:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background: #ffffff;
+}
+
+.time-hour::placeholder, .time-minute::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
 .nadi-form .person-subcard label {
   font-size: 0.8rem;
   color: #222;

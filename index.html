@@ -79,8 +79,16 @@
             </div>
             <div class="field-group">
               <label for="tob1" data-i18n="form.tob">Time of Birth</label>
-              <input type="time" id="tob1" name="tob1" placeholder="HH:MM (24-hour)" required>
-              <small class="input-hint" data-i18n="form.tobHint">24-hour format: 14:30 for 2:30 PM</small>
+              <div class="time-input-group">
+                <input type="text" id="tobHour1" name="tobHour1" placeholder="HH" maxlength="2" pattern="[0-9]{1,2}" required class="time-hour">
+                <span class="time-separator">:</span>
+                <input type="text" id="tobMin1" name="tobMin1" placeholder="MM" maxlength="2" pattern="[0-9]{2}" required class="time-minute">
+                <select id="tobPeriod1" name="tobPeriod1" required class="time-period">
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </div>
+              <small class="input-hint" data-i18n="form.tobHint">12-hour format: 2:30 PM or 10:15 AM</small>
             </div>
             <div class="field-group autocomplete-wrapper">
               <label for="pob1" data-i18n="form.pob">Place of Birth</label>
@@ -111,8 +119,16 @@
             </div>
             <div class="field-group">
               <label for="tob2" data-i18n="form.tob">Time of Birth</label>
-              <input type="time" id="tob2" name="tob2" placeholder="HH:MM (24-hour)">
-              <small class="input-hint" data-i18n="form.tobHint">24-hour format: 14:30 for 2:30 PM</small>
+              <div class="time-input-group">
+                <input type="text" id="tobHour2" name="tobHour2" placeholder="HH" maxlength="2" pattern="[0-9]{1,2}" class="time-hour">
+                <span class="time-separator">:</span>
+                <input type="text" id="tobMin2" name="tobMin2" placeholder="MM" maxlength="2" pattern="[0-9]{2}" class="time-minute">
+                <select id="tobPeriod2" name="tobPeriod2" class="time-period">
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </div>
+              <small class="input-hint" data-i18n="form.tobHint">12-hour format: 2:30 PM or 10:15 AM</small>
             </div>
             <div class="field-group autocomplete-wrapper">
               <label for="pob2" data-i18n="form.pob">Place of Birth</label>
