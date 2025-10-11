@@ -246,28 +246,17 @@ function t(key) {
 function updateLanguage(lang) {
   currentLang = lang;
   
-  // Update header
+  // Update all text elements with data-i18n attribute
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     el.textContent = t(key);
   });
   
-  // Update mode labels
-  const modeSingleLabel = document.querySelector('label[for="modeSingle"] .mode-label');
-  const modeCompareLabel = document.querySelector('label[for="modeCompare"] .mode-label');
-  
-  if (modeSingleLabel) {
-    // Keep the icon, update text
-    modeSingleLabel.innerHTML = `<i class="fas fa-user"></i> ${t('mode.single')}`;
-  }
-  if (modeCompareLabel) {
-    modeCompareLabel.innerHTML = `<i class="fas fa-users"></i> ${t('mode.compare')}`;
-  }
-  
-  // Update form labels - Person 1
-  updateFormLabels('1');
-  // Update form labels - Person 2
-  updateFormLabels('2');
+  // Update all placeholders with data-i18n-placeholder attribute
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    el.placeholder = t(key);
+  });
   
   // Update button text based on mode
   const btnText = document.getElementById('btnText');
@@ -276,41 +265,20 @@ function updateLanguage(lang) {
     btnText.textContent = isSingleMode ? t('form.buttonSingle') : t('form.buttonCompare');
   }
   
+  // Update person titles
+  const person1Title = document.getElementById('person1Title');
+  const person2Title = document.getElementById('person2Title');
+  if (person1Title) {
+    person1Title.textContent = isSingleMode ? t('form.yourDetails') : t('form.person1');
+  }
+  if (person2Title) {
+    person2Title.textContent = t('form.person2');
+  }
+  
   // Save preference
   localStorage.setItem('nadi_lang', lang);
   
   console.log(`✅ Language switched to: ${lang}`);
-}
-
-function updateFormLabels(personNum) {
-  // Update labels
-  const nameLabel = document.querySelector(`label[for="name${personNum}"]`);
-  const dobLabel = document.querySelector(`label[for="dob${personNum}"]`);
-  const tobLabel = document.querySelector(`label[for="tob${personNum}"]`);
-  const pobLabel = document.querySelector(`label[for="pob${personNum}"]`);
-  
-  if (nameLabel) nameLabel.textContent = t('form.name');
-  if (dobLabel) dobLabel.textContent = t('form.dob');
-  if (tobLabel) tobLabel.textContent = t('form.tob');
-  if (pobLabel) pobLabel.textContent = t('form.pob');
-  
-  // Update placeholders
-  const nameInput = document.getElementById(`name${personNum}`);
-  const pobInput = document.getElementById(`pob${personNum}`);
-  
-  if (nameInput) nameInput.placeholder = t('form.namePlaceholder');
-  if (pobInput) pobInput.placeholder = t('form.pobPlaceholder');
-  
-  // Update hints
-  const dobHint = document.querySelector(`#dob${personNum} + .input-hint`);
-  const tobHint = document.querySelector(`#tob${personNum} + .input-hint`);
-  const pobHint = document.querySelector(`#pob${personNum}`)?.closest('.autocomplete-container')?.nextElementSibling;
-  
-  if (dobHint) dobHint.textContent = t('form.dobHint');
-  if (tobHint) tobHint.textContent = t('form.tobHint');
-  if (pobHint && pobHint.classList.contains('input-hint')) {
-    pobHint.textContent = t('form.pobHint');
-  }
 }
 
 // ============================================================
