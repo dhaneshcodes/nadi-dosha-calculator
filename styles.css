@@ -391,8 +391,12 @@ main {
 
 .nadi-form button {
   align-self: center;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
   color: #fff;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 0.9rem 3rem;
@@ -408,6 +412,15 @@ main {
 .nadi-form button:hover, .nadi-form button:focus {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.nadi-form button:hover i {
+  transform: scale(1.2);
+  transition: transform 0.3s ease;
+}
+
+.nadi-form button i {
+  transition: transform 0.3s ease;
 }
 
 .nadi-form button:active {

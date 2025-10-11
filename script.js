@@ -2091,6 +2091,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateFormMode() {
     const isSingleMode = modeSingle.checked;
     const personsContainer = document.querySelector('.persons-container');
+    const btnText = document.getElementById('btnText');
     
     if (isSingleMode) {
       // Hide Person 2 card completely for better UX
@@ -2099,6 +2100,8 @@ document.addEventListener('DOMContentLoaded', () => {
       personsContainer.classList.add('single-mode');
       // Update form title
       document.getElementById('person1Title').textContent = 'Your Details';
+      // Update button text
+      if (btnText) btnText.textContent = 'Check My Nadi';
     } else {
       // Show Person 2 card
       person2Card.style.display = 'block';
@@ -2106,6 +2109,8 @@ document.addEventListener('DOMContentLoaded', () => {
       personsContainer.classList.remove('single-mode');
       // Restore default titles
       document.getElementById('person1Title').textContent = 'Person 1';
+      // Update button text
+      if (btnText) btnText.textContent = 'Check Nadi Dosha';
     }
   }
 
