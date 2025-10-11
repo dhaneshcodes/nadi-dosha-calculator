@@ -910,35 +910,242 @@ function initializeCache() {
   }
 }
 
-// Populate autocomplete datalists with city suggestions
-function populateCitySuggestions() {
-  const datalist1 = document.getElementById('citySuggestions1');
-  const datalist2 = document.getElementById('citySuggestions2');
-  
-  if (!datalist1 || !datalist2) return;
-  
-  // Get unique city names sorted alphabetically
+// ============================================================
+// CUSTOM AUTOCOMPLETE SYSTEM
+// ============================================================
+
+/**
+ * Custom Autocomplete with beautiful UI/UX
+ * Features: Search highlighting, keyboard navigation, mobile-friendly
+ */
+class Autocomplete {
+  constructor(inputId, dropdownId, cities) {
+    this.input = document.getElementById(inputId);
+    this.dropdown = document.getElementById(dropdownId);
+    this.cities = cities;
+    this.selectedIndex = -1;
+    this.filteredCities = [];
+    
+    if (!this.input || !this.dropdown) return;
+    
+    this.init();
+  }
+
+  init() {
+    // Input event - show suggestions as user types
+    this.input.addEventListener('input', (e) => {
+      this.handleInput(e.target.value);
+    });
+
+    // Focus event - show dropdown with popular cities
+    this.input.addEventListener('focus', () => {
+      if (this.input.value.length === 0) {
+        this.showPopularCities();
+      } else {
+        this.handleInput(this.input.value);
+      }
+    });
+
+    // Blur event - hide dropdown after delay (to allow click)
+    this.input.addEventListener('blur', () => {
+      setTimeout(() => this.hideDropdown(), 200);
+    });
+
+    // Keyboard navigation
+    this.input.addEventListener('keydown', (e) => {
+      this.handleKeyboard(e);
+    });
+
+    // Click outside to close
+    document.addEventListener('click', (e) => {
+      if (!this.input.contains(e.target) && !this.dropdown.contains(e.target)) {
+        this.hideDropdown();
+      }
+    });
+  }
+
+  handleInput(value) {
+    if (value.length === 0) {
+      this.showPopularCities();
+      return;
+    }
+
+    const query = value.toLowerCase().trim();
+    
+    // Filter cities based on input
+    this.filteredCities = this.cities.filter(city => {
+      const cityLower = city.toLowerCase();
+      const parts = cityLower.split(',').map(p => p.trim());
+      
+      // Match if query is in any part of the city name
+      return parts.some(part => part.includes(query)) || 
+             cityLower.includes(query);
+    }).slice(0, 10); // Limit to 10 suggestions for better UX
+
+    this.selectedIndex = -1;
+    this.renderSuggestions(query);
+  }
+
+  showPopularCities() {
+    // Show top 10 popular cities
+    const popular = [
+      'Mumbai, Maharashtra, India',
+      'Delhi, India',
+      'Bangalore, Karnataka, India',
+      'Hyderabad, Telangana, India',
+      'Chennai, Tamil Nadu, India',
+      'Kolkata, West Bengal, India',
+      'Pune, Maharashtra, India',
+      'Ahmedabad, Gujarat, India',
+      'Jaipur, Rajasthan, India',
+      'Surat, Gujarat, India'
+    ];
+    
+    this.filteredCities = popular;
+    this.selectedIndex = -1;
+    this.renderSuggestions('', true);
+  }
+
+  renderSuggestions(query = '', isPopular = false) {
+    if (this.filteredCities.length === 0) {
+      this.dropdown.innerHTML = `
+        <div class="autocomplete-no-results">
+          <i class="fas fa-search"></i>
+          <div>No cities found. Try a different spelling or use a nearby major city.</div>
+        </div>
+      `;
+      this.dropdown.classList.add('active');
+      return;
+    }
+
+    this.dropdown.innerHTML = this.filteredCities.map((city, index) => {
+      const parts = city.split(',').map(p => p.trim());
+      const cityName = parts[0];
+      const location = parts.slice(1).join(', ');
+      
+      // Highlight matching text
+      const highlightedCity = query && !isPopular
+        ? this.highlightMatch(cityName, query)
+        : cityName;
+      
+      return `
+        <div class="autocomplete-item ${index === this.selectedIndex ? 'selected' : ''}" 
+             data-index="${index}" 
+             data-value="${city}">
+          <i class="fas fa-map-marker-alt autocomplete-item-icon"></i>
+          <div class="autocomplete-item-text">
+            <div class="autocomplete-item-primary">${highlightedCity}</div>
+            ${location ? `<div class="autocomplete-item-secondary">${location}</div>` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Add click handlers
+    this.dropdown.querySelectorAll('.autocomplete-item').forEach(item => {
+      item.addEventListener('click', () => {
+        this.selectCity(item.dataset.value);
+      });
+      
+      item.addEventListener('mouseenter', () => {
+        this.selectedIndex = parseInt(item.dataset.index);
+        this.updateSelection();
+      });
+    });
+
+    this.dropdown.classList.add('active');
+  }
+
+  highlightMatch(text, query) {
+    const index = text.toLowerCase().indexOf(query.toLowerCase());
+    if (index === -1) return text;
+    
+    const before = text.substring(0, index);
+    const match = text.substring(index, index + query.length);
+    const after = text.substring(index + query.length);
+    
+    return `${before}<mark>${match}</mark>${after}`;
+  }
+
+  handleKeyboard(e) {
+    if (!this.dropdown.classList.contains('active')) return;
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        this.selectedIndex = Math.min(this.selectedIndex + 1, this.filteredCities.length - 1);
+        this.updateSelection();
+        break;
+        
+      case 'ArrowUp':
+        e.preventDefault();
+        this.selectedIndex = Math.max(this.selectedIndex - 1, -1);
+        this.updateSelection();
+        break;
+        
+      case 'Enter':
+        e.preventDefault();
+        if (this.selectedIndex >= 0) {
+          this.selectCity(this.filteredCities[this.selectedIndex]);
+        }
+        break;
+        
+      case 'Escape':
+        this.hideDropdown();
+        break;
+    }
+  }
+
+  updateSelection() {
+    const items = this.dropdown.querySelectorAll('.autocomplete-item');
+    items.forEach((item, index) => {
+      if (index === this.selectedIndex) {
+        item.classList.add('selected');
+        item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      } else {
+        item.classList.remove('selected');
+      }
+    });
+  }
+
+  selectCity(city) {
+    this.input.value = city;
+    this.hideDropdown();
+    
+    // Visual feedback
+    this.input.style.borderColor = '#10b981';
+    setTimeout(() => {
+      this.input.style.borderColor = '';
+    }, 1000);
+  }
+
+  hideDropdown() {
+    this.dropdown.classList.remove('active');
+    this.selectedIndex = -1;
+  }
+
+  showDropdown() {
+    this.dropdown.classList.add('active');
+  }
+}
+
+// Initialize autocomplete for both inputs
+let autocomplete1, autocomplete2;
+
+function initializeAutocomplete() {
   const cities = [...new Set(INDIAN_CITIES_DATABASE.map(c => c.place))]
     .sort((a, b) => a.localeCompare(b));
   
-  // Populate both datalists
-  cities.forEach(city => {
-    const option1 = document.createElement('option');
-    option1.value = city;
-    datalist1.appendChild(option1);
-    
-    const option2 = document.createElement('option');
-    option2.value = city;
-    datalist2.appendChild(option2);
-  });
+  autocomplete1 = new Autocomplete('pob1', 'autocomplete1', cities);
+  autocomplete2 = new Autocomplete('pob2', 'autocomplete2', cities);
   
-  console.log(`✅ Populated autocomplete with ${cities.length} city suggestions`);
+  console.log(`✅ Initialized autocomplete with ${cities.length} cities`);
 }
 
 // Run cleanup and initialization on page load
 window.addEventListener('load', () => {
-  // Populate autocomplete immediately for better UX
-  populateCitySuggestions();
+  // Initialize custom autocomplete immediately for better UX
+  initializeAutocomplete();
   
   // Initialize cache and cleanup after a delay
   setTimeout(() => {

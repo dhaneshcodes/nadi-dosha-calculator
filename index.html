@@ -68,10 +68,14 @@
               <input type="time" id="tob1" name="tob1" placeholder="HH:MM (24-hour)" required>
               <small class="input-hint">24-hour format: 14:30 for 2:30 PM</small>
             </div>
-            <div class="field-group">
+            <div class="field-group autocomplete-wrapper">
               <label for="pob1">Place of Birth</label>
-              <input type="text" id="pob1" name="pob1" list="citySuggestions1" placeholder="Start typing city name..." required autocomplete="off">
-              <small class="input-hint">Type city name for suggestions (e.g., Mumbai, Chennai, Delhi)</small>
+              <div class="autocomplete-container">
+                <input type="text" id="pob1" name="pob1" placeholder="Start typing city name..." required autocomplete="off">
+                <i class="fas fa-search autocomplete-icon"></i>
+                <div class="autocomplete-dropdown" id="autocomplete1"></div>
+              </div>
+              <small class="input-hint">💡 Start typing to see instant suggestions</small>
             </div>
           </div>
         </div>
@@ -96,19 +100,19 @@
               <input type="time" id="tob2" name="tob2" placeholder="HH:MM (24-hour)">
               <small class="input-hint">24-hour format: 14:30 for 2:30 PM</small>
             </div>
-            <div class="field-group">
+            <div class="field-group autocomplete-wrapper">
               <label for="pob2">Place of Birth</label>
-              <input type="text" id="pob2" name="pob2" list="citySuggestions2" placeholder="Start typing city name..." autocomplete="off">
-              <small class="input-hint">Type city name for suggestions (e.g., Mumbai, Chennai, Delhi)</small>
+              <div class="autocomplete-container">
+                <input type="text" id="pob2" name="pob2" placeholder="Start typing city name..." autocomplete="off">
+                <i class="fas fa-search autocomplete-icon"></i>
+                <div class="autocomplete-dropdown" id="autocomplete2"></div>
+              </div>
+              <small class="input-hint">💡 Start typing to see instant suggestions</small>
             </div>
           </div>
         </div>
       </div>
       <button type="submit" id="calcBtn">Calculate Nadi</button>
-      
-      <!-- Autocomplete datalists for city suggestions -->
-      <datalist id="citySuggestions1"></datalist>
-      <datalist id="citySuggestions2"></datalist>
     </form>
 
     <section class="results-section" id="resultsSection" style="display: none;">
