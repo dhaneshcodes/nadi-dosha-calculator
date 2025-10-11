@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate Nadi Dosha compatibility for marriage using Vedic astrology. Check your Nadi type or compare two persons with enhanced astronomical accuracy.">
+  <meta name="keywords" content="nadi dosha, vedic astrology, kundali matching, nadi calculator, marriage compatibility">
+  <title>Nadi Dosha Calculator - Vedic Astrology Compatibility</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div id="corsWarning" class="cors-warning" style="display: none;">
+    <div class="cors-warning-content">
+      <i class="fas fa-exclamation-triangle"></i>
+      <div>
+        <strong>⚠️ CORS Error Detected!</strong>
+        <p>You opened this file directly (file://). This causes API blocking.</p>
+        <p><strong>Solution:</strong> Run a local web server:</p>
+        <code>python -m http.server 8000</code>
+        <p>Then open: <a href="http://localhost:8000" target="_blank" rel="noopener noreferrer">http://localhost:8000</a></p>
+        <p><small>See QUICK-START.md for detailed instructions</small></p>
+      </div>
+    </div>
+  </div>
+
+  <header class="header">
+    <h1>Nadi Dosha Calculator</h1>
+    <p class="subtitle">Check your Nadi or compare two persons for Nadi compatibility.</p>
+  </header>
+  <main>
+    <form class="nadi-form" id="nadiForm" autocomplete="off" novalidate>
+      <div class="mode-selector">
+        <label class="mode-option">
+          <input type="radio" name="mode" value="single" id="modeSingle" checked>
+          <span class="mode-label">
+            <i class="fas fa-user"></i>
+            Check My Nadi
+          </span>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="mode" value="compare" id="modeCompare">
+          <span class="mode-label">
+            <i class="fas fa-users"></i>
+            Compare for Nadi Dosha
+          </span>
+        </label>
+      </div>
+
+      <div class="persons-container">
+        <div class="person-subcard" id="person1Card">
+          <div class="person-header">
+            <i class="fas fa-user"></i>
+            <h3 id="person1Title">Person 1</h3>
+          </div>
+          <div class="person-fields">
+            <div class="field-group">
+              <label for="name1">Name</label>
+              <input type="text" id="name1" name="name1" placeholder="Enter name" required>
+            </div>
+            <div class="field-group">
+              <label for="dob1">Date of Birth</label>
+              <input type="date" id="dob1" name="dob1" placeholder="YYYY-MM-DD or DD-MM-YYYY" required>
+              <small class="input-hint">Format: 1998-12-20 or 20-12-1998 or 20/12/1998</small>
+            </div>
+            <div class="field-group">
+              <label for="tob1">Time of Birth</label>
+              <input type="time" id="tob1" name="tob1" placeholder="HH:MM (24-hour)" required>
+              <small class="input-hint">24-hour format: 14:30 for 2:30 PM</small>
+            </div>
+            <div class="field-group">
+              <label for="pob1">Place of Birth</label>
+              <input type="text" id="pob1" name="pob1" placeholder="e.g. Mumbai, Maharashtra, India" required>
+              <small class="input-hint">Use: City, Region, Country for best results</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="person-subcard" id="person2Card">
+          <div class="person-header">
+            <i class="fas fa-user"></i>
+            <h3 id="person2Title">Person 2</h3>
+          </div>
+          <div class="person-fields">
+            <div class="field-group">
+              <label for="name2">Name</label>
+              <input type="text" id="name2" name="name2" placeholder="Enter name">
+            </div>
+            <div class="field-group">
+              <label for="dob2">Date of Birth</label>
+              <input type="date" id="dob2" name="dob2" placeholder="YYYY-MM-DD or DD-MM-YYYY">
+              <small class="input-hint">Format: 1998-12-20 or 20-12-1998 or 20/12/1998</small>
+            </div>
+            <div class="field-group">
+              <label for="tob2">Time of Birth</label>
+              <input type="time" id="tob2" name="tob2" placeholder="HH:MM (24-hour)">
+              <small class="input-hint">24-hour format: 14:30 for 2:30 PM</small>
+            </div>
+            <div class="field-group">
+              <label for="pob2">Place of Birth</label>
+              <input type="text" id="pob2" name="pob2" placeholder="e.g. London, England, UK">
+              <small class="input-hint">Use: City, Region, Country for best results</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" id="calcBtn">Calculate Nadi</button>
+    </form>
+
+    <section class="results-section" id="resultsSection" style="display: none;">
+      <h2 class="results-title" id="resultsTitle">Compatibility Analysis</h2>
+      
+      <div class="results-persons" id="resultsPersons">
+        <div class="result-person" id="resultPerson1">
+          <div class="person-header">
+            <i class="fas fa-user person-icon"></i>
+            <h3 id="resultName1">Person 1</h3>
+          </div>
+          <div class="person-details">
+            <div class="detail-item">
+              <i class="fas fa-star detail-icon"></i>
+              <span class="detail-label">Nakshatra:</span>
+              <span class="detail-value" id="nakshatra1"></span>
+            </div>
+            <div class="nadi-badge" id="nadiBadge1">
+              <div class="nadi-icon" id="nadiIcon1"></div>
+              <div class="nadi-info">
+                <span class="nadi-label">Nadi Type</span>
+                <span class="nadi-value" id="nadi1"></span>
+              </div>
+            </div>
+            <div class="nadi-description" id="nadiDesc1"></div>
+          </div>
+        </div>
+
+        <div class="comparison-divider" id="comparisonDivider">
+          <div class="divider-line"></div>
+          <div class="vs-circle">VS</div>
+          <div class="divider-line"></div>
+        </div>
+
+        <div class="result-person" id="resultPerson2">
+          <div class="person-header">
+            <i class="fas fa-user person-icon"></i>
+            <h3 id="resultName2">Person 2</h3>
+          </div>
+          <div class="person-details">
+            <div class="detail-item">
+              <i class="fas fa-star detail-icon"></i>
+              <span class="detail-label">Nakshatra:</span>
+              <span class="detail-value" id="nakshatra2"></span>
+            </div>
+            <div class="nadi-badge" id="nadiBadge2">
+              <div class="nadi-icon" id="nadiIcon2"></div>
+              <div class="nadi-info">
+                <span class="nadi-label">Nadi Type</span>
+                <span class="nadi-value" id="nadi2"></span>
+              </div>
+            </div>
+            <div class="nadi-description" id="nadiDesc2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dosha-judgement-card">
+        <div class="judgement-icon" id="judgementIcon"></div>
+        <div class="dosha-judgement" id="doshaJudgement"></div>
+        <div class="judgement-explanation" id="judgementExplanation"></div>
+      </div>
+
+      <div class="calculation-info">
+        <i class="fas fa-info-circle"></i>
+        <span>Calculation Accuracy: <strong id="accuracyInfo">Enhanced Lunar Theory (±0.5 arc-minutes)</strong></span>
+        <span class="tech-note">Using IAU 2000B lunar elements with 60 ELP2000 periodic terms and Lahiri Ayanamsa</span>
+      </div>
+    </section>
+
+    <section class="explanation-section">
+      <h2>Understanding Nadi Dosha - The Critical Marriage Compatibility Factor</h2>
+      
+      <div class="info-card">
+        <i class="fas fa-exclamation-triangle info-icon"></i>
+        <div>
+          <h4>The Growing Crisis in Marital Life</h4>
+          <p>Due to Nadi Dosha, marital life is deteriorating day by day. Not only in India but throughout the world, situations are such that married life breaks apart shortly after it begins. The coordination and harmony that should exist between men and women is not established, making life miserable with constant fights, disputes, and severe consequences including divorce, suicide, and murder cases making headlines.</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <i class="fas fa-chart-line info-icon"></i>
+        <div>
+          <h4>Alarming Statistics</h4>
+          <p>According to WHO reports, 8 lakh people commit suicide worldwide every year - one person dies every 40 seconds. Shockingly, most of these are people who either commit suicide due to betrayal by their life partner or are driven to this extreme step by family troubles. In India, there was a 17.3% increase in suicides between 2005-2015. The biggest cause of suicide in India is specifically mismatched marriages.</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <i class="fas fa-search info-icon"></i>
+        <div>
+          <h4>How Nadi Dosha is Formed</h4>
+          <p><strong>The groom and bride's birth Nakshatras should not be of the same Nadi.</strong> Their Nadis should be different for it to be considered auspicious. Accordingly, Adi-Adi, Madhya-Madhya, and Antya-Antya Nadi combinations are considered inauspicious for marriage. It's essential that both have different Nadis. Adi-Madhya, Madhya-Antya, and Adi-Antya combinations are considered auspicious. If this doesn't happen, it's considered Nadi Dosha.</p>
+          <p><strong>If both have Madhya Nadi, it's considered extremely inauspicious</strong> and marriage should not be performed. Such marriages lead to chaotic married life with fights, disputes, separation, and even death.</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <i class="fas fa-skull-crossbones info-icon"></i>
+        <div>
+          <h4>Devastating Effects of Nadi Dosha</h4>
+          <p>If Nadi Dosha exists, the couple becomes afflicted with diseases, job/business losses, financial losses, family discord, lack of love and harmony between husband and wife. Nadi Dosha couples cannot have children, and if they do, the children are unhealthy. Both families face troubles, family members start dying due to diseases and accidents. The couple and family members face death-like sufferings.</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <i class="fas fa-scroll info-icon"></i>
+        <div>
+          <h4>Ancient Scriptures on Nadi Dosha</h4>
+          <p><strong>Sanskrit Shloka from Vashishtha Samhita (Chapter 32, Shloka 188):</strong></p>
+          <div class="sanskrit-shloka">
+            <strong>नाड़ी दोषे भवेन्मृत्यु गुणैः सर्वैः समन्वितः</strong>
+            <p><em>Meaning:</em> Even with all qualities present, marriage in Nadi Dosha definitely leads to death. This is a great sin and crime.</p>
+          </div>
+          
+          <p><strong>From Vashishtha Samhita (Chapter 32, Shloka 189):</strong></p>
+          <div class="sanskrit-shloka">
+            <strong>मध्यनाडी पतिहन्ति पार्श्वेनाड़ी तु कन्याकाम<br>
+            तस्मान्नाड़ो सदा त्याज्या दम्पत्यो शुभमिछुता</strong>
+            <p><em>Meaning:</em> Madhya Nadi Dosha causes the groom's death, Antya Nadi causes the bride's death. There's no doubt about this.</p>
+          </div>
+
+          <p><strong>From Brihad Daivajna Ranjanam (Chapter 71, Shloka 401):</strong></p>
+          <div class="sanskrit-shloka">
+            <strong>एकनाड़ी विवाहश्च गुणैः सर्वैः समन्वितः<br>
+            वर्जनीयः प्रयत्नेन दम्पत्योर्निधनं यत</strong>
+            <p><em>Meaning:</em> Even with all excellent qualities, if Nadi Dosha exists, such marriage should never be performed as it leads to certain death and great destruction.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <i class="fas fa-graduation-cap info-icon"></i>
+        <div>
+          <h4>Modern Academic Validation</h4>
+          <p>Kashi Vidvat Parishad scholars including Professor Ramchandra Pandey, Professor Umashankar Shukla, and others have declared that <strong>Nadi Dosha is a deadly defect</strong> that occurs when both partners have the same Nadi type. They emphasized that <strong>there is no remedy for Nadi Dosha through any worship, mantras, yajnas, or donations</strong>. The only solution is to abandon such relationships.</p>
+        </div>
+      </div>
+
+      <div class="info-card troubleshooting-card">
+        <i class="fas fa-lightbulb info-icon"></i>
+        <div>
+          <h4>Troubleshooting Location Lookup</h4>
+          <p><strong>If you get "Location Error", try these formats:</strong></p>
+          <ul class="location-examples">
+            <li><strong>India:</strong> Mumbai, Maharashtra, India</li>
+            <li><strong>USA:</strong> New York, NY, USA</li>
+            <li><strong>UK:</strong> London, England, UK</li>
+            <li><strong>Australia:</strong> Sydney, NSW, Australia</li>
+            <li><strong>General:</strong> Always include city, region/state, and country</li>
+          </ul>
+          <p style="margin-top: 0.8rem;"><em>💡 Tip: Use major cities if your town isn't found. The difference is minimal for astrological calculations.</em></p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
