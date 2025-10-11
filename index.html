@@ -70,8 +70,8 @@
             </div>
             <div class="field-group">
               <label for="pob1">Place of Birth</label>
-              <input type="text" id="pob1" name="pob1" placeholder="e.g. Mumbai, Maharashtra, India" required>
-              <small class="input-hint">Use: City, Region, Country for best results</small>
+              <input type="text" id="pob1" name="pob1" list="citySuggestions1" placeholder="Start typing city name..." required autocomplete="off">
+              <small class="input-hint">Type city name for suggestions (e.g., Mumbai, Chennai, Delhi)</small>
             </div>
           </div>
         </div>
@@ -98,13 +98,17 @@
             </div>
             <div class="field-group">
               <label for="pob2">Place of Birth</label>
-              <input type="text" id="pob2" name="pob2" placeholder="e.g. London, England, UK">
-              <small class="input-hint">Use: City, Region, Country for best results</small>
+              <input type="text" id="pob2" name="pob2" list="citySuggestions2" placeholder="Start typing city name..." autocomplete="off">
+              <small class="input-hint">Type city name for suggestions (e.g., Mumbai, Chennai, Delhi)</small>
             </div>
           </div>
         </div>
       </div>
       <button type="submit" id="calcBtn">Calculate Nadi</button>
+      
+      <!-- Autocomplete datalists for city suggestions -->
+      <datalist id="citySuggestions1"></datalist>
+      <datalist id="citySuggestions2"></datalist>
     </form>
 
     <section class="results-section" id="resultsSection" style="display: none;">
