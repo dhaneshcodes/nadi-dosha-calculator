@@ -3932,21 +3932,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const values = {
       name1: document.getElementById('name1').value.trim() || 'Person 1',
       dob1: document.getElementById('dob1').value,
-      tob1: convert12To24Hour(
-        document.getElementById('tobHour1').value,
-        document.getElementById('tobMin1').value,
-        document.getElementById('tobPeriod1').value
-      ),
+      tobHour1: document.getElementById('tobHour1').value,
+      tobMin1: document.getElementById('tobMin1').value,
+      tobPeriod1: document.getElementById('tobPeriod1').value,
       pob1: document.getElementById('pob1').value.trim(),
       name2: document.getElementById('name2').value.trim() || 'Person 2',
       dob2: document.getElementById('dob2').value,
-      tob2: convert12To24Hour(
-        document.getElementById('tobHour2').value,
-        document.getElementById('tobMin2').value,
-        document.getElementById('tobPeriod2').value
-      ),
+      tobHour2: document.getElementById('tobHour2').value,
+      tobMin2: document.getElementById('tobMin2').value,
+      tobPeriod2: document.getElementById('tobPeriod2').value,
       pob2: document.getElementById('pob2').value.trim(),
     };
+    
+    // Convert to 24-hour format after validation
+    values.tob1 = convert12To24Hour(values.tobHour1, values.tobMin1, values.tobPeriod1);
+    values.tob2 = convert12To24Hour(values.tobHour2, values.tobMin2, values.tobPeriod2);
     
     if (!validateFormValues(values, isSingleMode)) {
       return;
