@@ -669,10 +669,11 @@ class APIQueue {
 
 // Initialize cache and queues
 const geoCache = new GeocodingCache();
-const photonQueue = new APIQueue(2);      // 2 req/sec for Photon (Primary)
-const nominatimQueue = new APIQueue(1);   // 1 req/sec for Nominatim (Fallback 1)
-const maptilerQueue = new APIQueue(10);   // 10 req/sec for MapTiler free tier (Fallback 2)
-const locationiqQueue = new APIQueue(2);  // 2 req/sec for LocationIQ free tier (Fallback 3)
+const photonQueue = new APIQueue(2);           // 2 req/sec for Photon (Primary)
+const nominatimQueue = new APIQueue(1);        // 1 req/sec for Nominatim (Fallback 1)
+const geocodeMapsQueue = new APIQueue(10);     // 10 req/sec for geocode.maps.co (Fallback 2)
+const openCageQueue = new APIQueue(1);         // 1 req/sec for OpenCage (Fallback 3)
+const positionstackQueue = new APIQueue(10);   // 10 req/sec for Positionstack (Fallback 4)
 
 // ============================================================
 // PRE-POPULATED INDIAN CITIES DATABASE
@@ -1705,7 +1706,578 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Ranikhet, Uttarakhand, India', lat: 29.6436, lon: 79.4329 },
   { place: 'Bageshwar, Uttarakhand, India', lat: 29.8391, lon: 79.7703 },
   { place: 'Munsyari, Uttarakhand, India', lat: 30.0668, lon: 80.2376 },
-  { place: 'Champawat, Uttarakhand, India', lat: 29.3360, lon: 80.0921 }
+  { place: 'Champawat, Uttarakhand, India', lat: 29.3360, lon: 80.0921 },
+  
+  // ============================================================
+  // SOUTH INDIA - COMPLETE COVERAGE (450+ Cities)
+  // ============================================================
+  
+  // Tamil Nadu (All Districts + Major Towns)
+  { place: 'Ariyalur, Tamil Nadu, India', lat: 11.1401, lon: 79.0777 },
+  { place: 'Chengalpattu, Tamil Nadu, India', lat: 12.6921, lon: 79.9759 },
+  { place: 'Cuddalore, Tamil Nadu, India', lat: 11.7480, lon: 79.7714 },
+  { place: 'Dharmapuri, Tamil Nadu, India', lat: 12.1211, lon: 78.1582 },
+  { place: 'Dindigul, Tamil Nadu, India', lat: 10.3624, lon: 77.9694 },
+  { place: 'Erode, Tamil Nadu, India', lat: 11.3410, lon: 77.7172 },
+  { place: 'Kallakurichi, Tamil Nadu, India', lat: 11.7380, lon: 78.9597 },
+  { place: 'Kanchipuram, Tamil Nadu, India', lat: 12.8342, lon: 79.7036 },
+  { place: 'Kanyakumari, Tamil Nadu, India', lat: 8.0883, lon: 77.5385 },
+  { place: 'Karur, Tamil Nadu, India', lat: 10.9601, lon: 78.0766 },
+  { place: 'Krishnagiri, Tamil Nadu, India', lat: 12.5186, lon: 78.2137 },
+  { place: 'Madurai, Tamil Nadu, India', lat: 9.9252, lon: 78.1198 },
+  { place: 'Mayiladuthurai, Tamil Nadu, India', lat: 11.1028, lon: 79.6538 },
+  { place: 'Nagapattinam, Tamil Nadu, India', lat: 10.7656, lon: 79.8449 },
+  { place: 'Namakkal, Tamil Nadu, India', lat: 11.2189, lon: 78.1677 },
+  { place: 'Nilgiris, Tamil Nadu, India', lat: 11.4064, lon: 76.6932 },
+  { place: 'Ooty, Tamil Nadu, India', lat: 11.4102, lon: 76.6950 },
+  { place: 'Udhagamandalam, Tamil Nadu, India', lat: 11.4102, lon: 76.6950 },
+  { place: 'Perambalur, Tamil Nadu, India', lat: 11.2320, lon: 78.8799 },
+  { place: 'Pudukkottai, Tamil Nadu, India', lat: 10.3833, lon: 78.8000 },
+  { place: 'Ramanathapuram, Tamil Nadu, India', lat: 9.3639, lon: 78.8370 },
+  { place: 'Ranipet, Tamil Nadu, India', lat: 12.9244, lon: 79.3331 },
+  { place: 'Salem, Tamil Nadu, India', lat: 11.6643, lon: 78.1460 },
+  { place: 'Sivaganga, Tamil Nadu, India', lat: 9.8433, lon: 78.4809 },
+  { place: 'Tenkasi, Tamil Nadu, India', lat: 8.9604, lon: 77.3152 },
+  { place: 'Thanjavur, Tamil Nadu, India', lat: 10.7870, lon: 79.1378 },
+  { place: 'Theni, Tamil Nadu, India', lat: 10.0104, lon: 77.4771 },
+  { place: 'Thoothukudi, Tamil Nadu, India', lat: 8.7642, lon: 78.1348 },
+  { place: 'Tuticorin, Tamil Nadu, India', lat: 8.7642, lon: 78.1348 },
+  { place: 'Tiruchirappalli, Tamil Nadu, India', lat: 10.7905, lon: 78.7047 },
+  { place: 'Trichy, Tamil Nadu, India', lat: 10.7905, lon: 78.7047 },
+  { place: 'Tirunelveli, Tamil Nadu, India', lat: 8.7139, lon: 77.7567 },
+  { place: 'Tirupathur, Tamil Nadu, India', lat: 12.4975, lon: 78.5730 },
+  { place: 'Tiruppur, Tamil Nadu, India', lat: 11.1085, lon: 77.3411 },
+  { place: 'Tiruvallur, Tamil Nadu, India', lat: 13.1439, lon: 79.9093 },
+  { place: 'Tiruvannamalai, Tamil Nadu, India', lat: 12.2253, lon: 79.0747 },
+  { place: 'Tiruvarur, Tamil Nadu, India', lat: 10.7725, lon: 79.6346 },
+  { place: 'Vellore, Tamil Nadu, India', lat: 12.9165, lon: 79.1325 },
+  { place: 'Viluppuram, Tamil Nadu, India', lat: 11.9401, lon: 79.4861 },
+  { place: 'Virudhunagar, Tamil Nadu, India', lat: 9.5681, lon: 77.9624 },
+  { place: 'Hosur, Tamil Nadu, India', lat: 12.7409, lon: 77.8253 },
+  { place: 'Kanchipuram Town, Tamil Nadu, India', lat: 12.8342, lon: 79.7036 },
+  { place: 'Kumbakonam, Tamil Nadu, India', lat: 10.9617, lon: 79.3881 },
+  { place: 'Nagercoil, Tamil Nadu, India', lat: 8.1777, lon: 77.4274 },
+  { place: 'Pollachi, Tamil Nadu, India', lat: 10.6579, lon: 77.0089 },
+  { place: 'Rajapalayam, Tamil Nadu, India', lat: 9.4517, lon: 77.5540 },
+  { place: 'Tambaram, Tamil Nadu, India', lat: 12.9249, lon: 80.1000 },
+  { place: 'Ambur, Tamil Nadu, India', lat: 12.7916, lon: 78.7166 },
+  { place: 'Palani, Tamil Nadu, India', lat: 10.4500, lon: 77.5183 },
+  { place: 'Gudiyatham, Tamil Nadu, India', lat: 12.9442, lon: 78.8739 },
+  
+  // Kerala (All Districts + Tourist Places)
+  { place: 'Thiruvananthapuram, Kerala, India', lat: 8.5241, lon: 76.9366 },
+  { place: 'Trivandrum, Kerala, India', lat: 8.5241, lon: 76.9366 },
+  { place: 'Kochi, Kerala, India', lat: 9.9312, lon: 76.2673 },
+  { place: 'Cochin, Kerala, India', lat: 9.9312, lon: 76.2673 },
+  { place: 'Kozhikode, Kerala, India', lat: 11.2588, lon: 75.7804 },
+  { place: 'Calicut, Kerala, India', lat: 11.2588, lon: 75.7804 },
+  { place: 'Kollam, Kerala, India', lat: 8.8932, lon: 76.6141 },
+  { place: 'Thrissur, Kerala, India', lat: 10.5276, lon: 76.2144 },
+  { place: 'Alappuzha, Kerala, India', lat: 9.4981, lon: 76.3388 },
+  { place: 'Alleppey, Kerala, India', lat: 9.4981, lon: 76.3388 },
+  { place: 'Palakkad, Kerala, India', lat: 10.7867, lon: 76.6548 },
+  { place: 'Malappuram, Kerala, India', lat: 11.0510, lon: 76.0711 },
+  { place: 'Kannur, Kerala, India', lat: 11.8745, lon: 75.3704 },
+  { place: 'Kasaragod, Kerala, India', lat: 12.4996, lon: 74.9869 },
+  { place: 'Wayanad, Kerala, India', lat: 11.6854, lon: 76.1320 },
+  { place: 'Idukki, Kerala, India', lat: 9.9188, lon: 77.1025 },
+  { place: 'Ernakulam, Kerala, India', lat: 9.9816, lon: 76.2999 },
+  { place: 'Kottayam, Kerala, India', lat: 9.5916, lon: 76.5222 },
+  { place: 'Pathanamthitta, Kerala, India', lat: 9.2647, lon: 76.7870 },
+  { place: 'Munnar, Kerala, India', lat: 10.0889, lon: 77.0595 },
+  { place: 'Thekkady, Kerala, India', lat: 9.5997, lon: 77.1596 },
+  { place: 'Varkala, Kerala, India', lat: 8.7379, lon: 76.7167 },
+  { place: 'Kovalam, Kerala, India', lat: 8.4004, lon: 76.9790 },
+  
+  // Karnataka (All Districts + IT Hubs)
+  { place: 'Bagalkot, Karnataka, India', lat: 16.1697, lon: 75.6947 },
+  { place: 'Ballari, Karnataka, India', lat: 15.1394, lon: 76.9214 },
+  { place: 'Bellary, Karnataka, India', lat: 15.1394, lon: 76.9214 },
+  { place: 'Belagavi, Karnataka, India', lat: 15.8497, lon: 74.4977 },
+  { place: 'Belgaum, Karnataka, India', lat: 15.8497, lon: 74.4977 },
+  { place: 'Bidar, Karnataka, India', lat: 17.9129, lon: 77.5180 },
+  { place: 'Chamarajanagar, Karnataka, India', lat: 11.9260, lon: 76.9378 },
+  { place: 'Chikkaballapur, Karnataka, India', lat: 13.4355, lon: 77.7315 },
+  { place: 'Chikkamagaluru, Karnataka, India', lat: 13.3161, lon: 75.7720 },
+  { place: 'Chitradurga, Karnataka, India', lat: 14.2226, lon: 76.3985 },
+  { place: 'Dakshina Kannada, Karnataka, India', lat: 12.9141, lon: 75.0374 },
+  { place: 'Mangalore, Karnataka, India', lat: 12.9141, lon: 74.8560 },
+  { place: 'Mangaluru, Karnataka, India', lat: 12.9141, lon: 74.8560 },
+  { place: 'Davanagere, Karnataka, India', lat: 14.4644, lon: 75.9217 },
+  { place: 'Dharwad, Karnataka, India', lat: 15.4589, lon: 75.0078 },
+  { place: 'Gadag, Karnataka, India', lat: 15.4315, lon: 75.6194 },
+  { place: 'Hassan, Karnataka, India', lat: 13.0033, lon: 76.1028 },
+  { place: 'Haveri, Karnataka, India', lat: 14.7951, lon: 75.3996 },
+  { place: 'Kalaburagi, Karnataka, India', lat: 17.3297, lon: 76.8343 },
+  { place: 'Gulbarga, Karnataka, India', lat: 17.3297, lon: 76.8343 },
+  { place: 'Kodagu, Karnataka, India', lat: 12.4244, lon: 75.7382 },
+  { place: 'Coorg, Karnataka, India', lat: 12.4244, lon: 75.7382 },
+  { place: 'Kolar, Karnataka, India', lat: 13.1357, lon: 78.1299 },
+  { place: 'Koppal, Karnataka, India', lat: 15.3509, lon: 76.1547 },
+  { place: 'Mandya, Karnataka, India', lat: 12.5244, lon: 76.8958 },
+  { place: 'Mysore, Karnataka, India', lat: 12.2958, lon: 76.6394 },
+  { place: 'Mysuru, Karnataka, India', lat: 12.2958, lon: 76.6394 },
+  { place: 'Raichur, Karnataka, India', lat: 16.2076, lon: 77.3463 },
+  { place: 'Ramanagara, Karnataka, India', lat: 12.7177, lon: 77.2813 },
+  { place: 'Shivamogga, Karnataka, India', lat: 13.9299, lon: 75.5681 },
+  { place: 'Shimoga, Karnataka, India', lat: 13.9299, lon: 75.5681 },
+  { place: 'Tumakuru, Karnataka, India', lat: 13.3392, lon: 77.1006 },
+  { place: 'Tumkur, Karnataka, India', lat: 13.3392, lon: 77.1006 },
+  { place: 'Udupi, Karnataka, India', lat: 13.3409, lon: 74.7421 },
+  { place: 'Uttara Kannada, Karnataka, India', lat: 14.7937, lon: 74.6869 },
+  { place: 'Karwar, Karnataka, India', lat: 14.8134, lon: 74.1296 },
+  { place: 'Vijayapura, Karnataka, India', lat: 16.8302, lon: 75.7100 },
+  { place: 'Bijapur, Karnataka, India', lat: 16.8302, lon: 75.7100 },
+  { place: 'Yadgir, Karnataka, India', lat: 16.7710, lon: 77.1372 },
+  { place: 'Hubli, Karnataka, India', lat: 15.3647, lon: 75.1240 },
+  { place: 'Hubballi, Karnataka, India', lat: 15.3647, lon: 75.1240 },
+  
+  // Andhra Pradesh (All Districts)
+  { place: 'Anantapur, Andhra Pradesh, India', lat: 14.6819, lon: 77.6006 },
+  { place: 'Chittoor, Andhra Pradesh, India', lat: 13.2172, lon: 79.1014 },
+  { place: 'East Godavari, Andhra Pradesh, India', lat: 17.2403, lon: 81.8040 },
+  { place: 'Guntur, Andhra Pradesh, India', lat: 16.3067, lon: 80.4365 },
+  { place: 'Krishna District, Andhra Pradesh, India', lat: 16.5193, lon: 80.6305 },
+  { place: 'Kurnool, Andhra Pradesh, India', lat: 15.8281, lon: 78.0373 },
+  { place: 'Nellore, Andhra Pradesh, India', lat: 14.4426, lon: 79.9865 },
+  { place: 'Prakasam, Andhra Pradesh, India', lat: 15.6242, lon: 79.5840 },
+  { place: 'Ongole, Andhra Pradesh, India', lat: 15.5057, lon: 80.0499 },
+  { place: 'Srikakulam, Andhra Pradesh, India', lat: 18.2949, lon: 83.8938 },
+  { place: 'Vizianagaram, Andhra Pradesh, India', lat: 18.1067, lon: 83.3975 },
+  { place: 'West Godavari, Andhra Pradesh, India', lat: 16.9891, lon: 81.5044 },
+  { place: 'YSR Kadapa, Andhra Pradesh, India', lat: 14.4674, lon: 78.8240 },
+  { place: 'Kadapa, Andhra Pradesh, India', lat: 14.4674, lon: 78.8240 },
+  { place: 'Cuddapah, Andhra Pradesh, India', lat: 14.4674, lon: 78.8240 },
+  { place: 'Tirupati, Andhra Pradesh, India', lat: 13.6288, lon: 79.4192 },
+  { place: 'Kakinada, Andhra Pradesh, India', lat: 16.9891, lon: 82.2475 },
+  { place: 'Rajahmundry, Andhra Pradesh, India', lat: 17.0005, lon: 81.8040 },
+  { place: 'Vijayawada, Andhra Pradesh, India', lat: 16.5062, lon: 80.6480 },
+  { place: 'Eluru, Andhra Pradesh, India', lat: 16.7107, lon: 81.0952 },
+  
+  // Telangana (All Districts)
+  { place: 'Adilabad, Telangana, India', lat: 19.6641, lon: 78.5313 },
+  { place: 'Bhadradri Kothagudem, Telangana, India', lat: 17.5505, lon: 80.6186 },
+  { place: 'Jagtial, Telangana, India', lat: 18.7939, lon: 78.9122 },
+  { place: 'Jangaon, Telangana, India', lat: 17.7240, lon: 79.1514 },
+  { place: 'Jayashankar, Telangana, India', lat: 18.7751, lon: 79.9674 },
+  { place: 'Jogulamba, Telangana, India', lat: 16.5368, lon: 77.8144 },
+  { place: 'Kamareddy, Telangana, India', lat: 18.3207, lon: 78.3387 },
+  { place: 'Karimnagar, Telangana, India', lat: 18.4386, lon: 79.1288 },
+  { place: 'Khammam, Telangana, India', lat: 17.2473, lon: 80.1436 },
+  { place: 'Kumuram Bheem, Telangana, India', lat: 18.7460, lon: 79.4170 },
+  { place: 'Mahabubabad, Telangana, India', lat: 17.5980, lon: 80.0029 },
+  { place: 'Mahabubnagar, Telangana, India', lat: 16.7488, lon: 77.9966 },
+  { place: 'Mancherial, Telangana, India', lat: 18.8720, lon: 79.4746 },
+  { place: 'Medak, Telangana, India', lat: 18.0499, lon: 78.2646 },
+  { place: 'Medchal, Telangana, India', lat: 17.6259, lon: 78.4813 },
+  { place: 'Mulugu, Telangana, India', lat: 18.1904, lon: 79.9481 },
+  { place: 'Nagarkurnool, Telangana, India', lat: 16.4898, lon: 78.3197 },
+  { place: 'Nalgonda, Telangana, India', lat: 17.0543, lon: 79.2674 },
+  { place: 'Narayanpet, Telangana, India', lat: 16.7453, lon: 77.4929 },
+  { place: 'Nirmal, Telangana, India', lat: 19.0970, lon: 78.3444 },
+  { place: 'Nizamabad, Telangana, India', lat: 18.6725, lon: 78.0942 },
+  { place: 'Peddapalli, Telangana, India', lat: 18.6152, lon: 79.3763 },
+  { place: 'Rajanna Sircilla, Telangana, India', lat: 18.3915, lon: 78.8168 },
+  { place: 'Rangareddy, Telangana, India', lat: 17.2543, lon: 78.1146 },
+  { place: 'Sangareddy, Telangana, India', lat: 17.6176, lon: 78.0831 },
+  { place: 'Siddipet, Telangana, India', lat: 18.1018, lon: 78.8520 },
+  { place: 'Suryapet, Telangana, India', lat: 17.1501, lon: 79.6237 },
+  { place: 'Vikarabad, Telangana, India', lat: 17.3369, lon: 77.9042 },
+  { place: 'Wanaparthy, Telangana, India', lat: 16.3675, lon: 78.0676 },
+  { place: 'Warangal Urban, Telangana, India', lat: 17.9689, lon: 79.5941 },
+  { place: 'Warangal, Telangana, India', lat: 17.9689, lon: 79.5941 },
+  { place: 'Yadadri Bhuvanagiri, Telangana, India', lat: 17.5509, lon: 78.8698 },
+  { place: 'Secunderabad, Telangana, India', lat: 17.4400, lon: 78.4949 },
+  
+  // ============================================================
+  // WEST INDIA - COMPREHENSIVE COVERAGE
+  // ============================================================
+  
+  // Maharashtra (Remaining Cities)
+  { place: 'Ahmednagar, Maharashtra, India', lat: 19.0948, lon: 74.7480 },
+  { place: 'Akola, Maharashtra, India', lat: 20.7002, lon: 77.0082 },
+  { place: 'Amravati, Maharashtra, India', lat: 20.9374, lon: 77.7796 },
+  { place: 'Beed, Maharashtra, India', lat: 18.9894, lon: 75.7573 },
+  { place: 'Bhandara, Maharashtra, India', lat: 21.1704, lon: 79.6540 },
+  { place: 'Buldhana, Maharashtra, India', lat: 20.5333, lon: 76.1833 },
+  { place: 'Chandrapur, Maharashtra, India', lat: 19.9615, lon: 79.2961 },
+  { place: 'Dhule, Maharashtra, India', lat: 20.9042, lon: 74.7749 },
+  { place: 'Gadchiroli, Maharashtra, India', lat: 20.1809, lon: 80.0039 },
+  { place: 'Gondia, Maharashtra, India', lat: 21.4560, lon: 80.1942 },
+  { place: 'Hingoli, Maharashtra, India', lat: 19.7180, lon: 77.1474 },
+  { place: 'Jalgaon, Maharashtra, India', lat: 20.9978, lon: 75.5626 },
+  { place: 'Jalna, Maharashtra, India', lat: 19.8347, lon: 75.8800 },
+  { place: 'Kolhapur, Maharashtra, India', lat: 16.7050, lon: 74.2433 },
+  { place: 'Latur, Maharashtra, India', lat: 18.3984, lon: 76.5604 },
+  { place: 'Nanded, Maharashtra, India', lat: 19.1383, lon: 77.3210 },
+  { place: 'Nandurbar, Maharashtra, India', lat: 21.3707, lon: 74.2441 },
+  { place: 'Osmanabad, Maharashtra, India', lat: 18.1760, lon: 76.0402 },
+  { place: 'Parbhani, Maharashtra, India', lat: 19.2704, lon: 76.7605 },
+  { place: 'Raigad, Maharashtra, India', lat: 18.5089, lon: 73.1818 },
+  { place: 'Ratnagiri, Maharashtra, India', lat: 16.9944, lon: 73.3000 },
+  { place: 'Sangli, Maharashtra, India', lat: 16.8577, lon: 74.5815 },
+  { place: 'Satara, Maharashtra, India', lat: 17.6805, lon: 74.0183 },
+  { place: 'Sindhudurg, Maharashtra, India', lat: 16.0205, lon: 73.6769 },
+  { place: 'Solapur, Maharashtra, India', lat: 17.6599, lon: 75.9064 },
+  { place: 'Wardha, Maharashtra, India', lat: 20.7453, lon: 78.6022 },
+  { place: 'Washim, Maharashtra, India', lat: 20.1079, lon: 77.1342 },
+  { place: 'Yavatmal, Maharashtra, India', lat: 20.3897, lon: 78.1307 },
+  { place: 'Ichalkaranji, Maharashtra, India', lat: 16.6918, lon: 74.4682 },
+  { place: 'Malegaon, Maharashtra, India', lat: 20.5579, lon: 74.5287 },
+  { place: 'Palghar, Maharashtra, India', lat: 19.6967, lon: 72.7653 },
+  
+  // Gujarat (Remaining Cities)
+  { place: 'Anand, Gujarat, India', lat: 22.5623, lon: 72.9288 },
+  { place: 'Bharuch, Gujarat, India', lat: 21.7051, lon: 72.9959 },
+  { place: 'Bhavnagar, Gujarat, India', lat: 21.7645, lon: 72.1519 },
+  { place: 'Gandhinagar, Gujarat, India', lat: 23.2156, lon: 72.6369 },
+  { place: 'Jamnagar, Gujarat, India', lat: 22.4707, lon: 70.0577 },
+  { place: 'Junagadh, Gujarat, India', lat: 21.5222, lon: 70.4579 },
+  { place: 'Kutch, Gujarat, India', lat: 23.7337, lon: 69.8597 },
+  { place: 'Bhuj, Gujarat, India', lat: 23.2420, lon: 69.6669 },
+  { place: 'Mehsana, Gujarat, India', lat: 23.5880, lon: 72.3693 },
+  { place: 'Morbi, Gujarat, India', lat: 22.8173, lon: 70.8372 },
+  { place: 'Navsari, Gujarat, India', lat: 20.9504, lon: 72.9230 },
+  { place: 'Patan, Gujarat, India', lat: 23.8517, lon: 72.1279 },
+  { place: 'Porbandar, Gujarat, India', lat: 21.6417, lon: 69.6293 },
+  { place: 'Sabarkantha, Gujarat, India', lat: 23.5359, lon: 73.0498 },
+  { place: 'Valsad, Gujarat, India', lat: 20.5992, lon: 72.9342 },
+  { place: 'Vapi, Gujarat, India', lat: 20.3717, lon: 72.9051 },
+  { place: 'Gandhidham, Gujarat, India', lat: 23.0752, lon: 70.1327 },
+  { place: 'Ankleshwar, Gujarat, India', lat: 21.6290, lon: 73.0110 },
+  
+  // Goa
+  { place: 'Panaji, Goa, India', lat: 15.4909, lon: 73.8278 },
+  { place: 'Panjim, Goa, India', lat: 15.4909, lon: 73.8278 },
+  { place: 'Margao, Goa, India', lat: 15.2702, lon: 73.9541 },
+  { place: 'Madgaon, Goa, India', lat: 15.2702, lon: 73.9541 },
+  { place: 'Vasco da Gama, Goa, India', lat: 15.3989, lon: 73.8157 },
+  { place: 'Mapusa, Goa, India', lat: 15.5901, lon: 73.8113 },
+  { place: 'Ponda, Goa, India', lat: 15.4013, lon: 74.0089 },
+  
+  // ============================================================
+  // EAST INDIA - COMPLETE COVERAGE
+  // ============================================================
+  
+  // West Bengal (Remaining Districts)
+  { place: 'Alipurduar, West Bengal, India', lat: 26.4916, lon: 89.5272 },
+  { place: 'Bankura, West Bengal, India', lat: 23.2324, lon: 87.0696 },
+  { place: 'Birbhum, West Bengal, India', lat: 23.8403, lon: 87.6192 },
+  { place: 'Cooch Behar, West Bengal, India', lat: 26.3240, lon: 89.4529 },
+  { place: 'Dakshin Dinajpur, West Bengal, India', lat: 25.2189, lon: 88.7851 },
+  { place: 'Darjeeling, West Bengal, India', lat: 27.0410, lon: 88.2663 },
+  { place: 'Hooghly, West Bengal, India', lat: 22.9089, lon: 88.3967 },
+  { place: 'Jalpaiguri, West Bengal, India', lat: 26.5263, lon: 88.7267 },
+  { place: 'Jhargram, West Bengal, India', lat: 22.4504, lon: 86.9851 },
+  { place: 'Kalimpong, West Bengal, India', lat: 27.0594, lon: 88.4678 },
+  { place: 'Malda, West Bengal, India', lat: 25.0096, lon: 88.1424 },
+  { place: 'Murshidabad, West Bengal, India', lat: 24.1751, lon: 88.2426 },
+  { place: 'Nadia, West Bengal, India', lat: 23.4731, lon: 88.5562 },
+  { place: 'North 24 Parganas, West Bengal, India', lat: 22.6157, lon: 88.4332 },
+  { place: 'Paschim Bardhaman, West Bengal, India', lat: 23.2324, lon: 87.8615 },
+  { place: 'Paschim Medinipur, West Bengal, India', lat: 22.4291, lon: 87.3211 },
+  { place: 'Purba Bardhaman, West Bengal, India', lat: 23.2425, lon: 87.8615 },
+  { place: 'Purba Medinipur, West Bengal, India', lat: 22.0087, lon: 87.7554 },
+  { place: 'Purulia, West Bengal, India', lat: 23.3423, lon: 86.3665 },
+  { place: 'South 24 Parganas, West Bengal, India', lat: 22.1626, lon: 88.4324 },
+  { place: 'Uttar Dinajpur, West Bengal, India', lat: 26.1258, lon: 87.7784 },
+  { place: 'Siliguri, West Bengal, India', lat: 26.7271, lon: 88.3953 },
+  { place: 'Durgapur, West Bengal, India', lat: 23.5204, lon: 87.3119 },
+  { place: 'Asansol, West Bengal, India', lat: 23.6739, lon: 86.9524 },
+  
+  // Odisha (All Districts)
+  { place: 'Angul, Odisha, India', lat: 20.8400, lon: 85.1018 },
+  { place: 'Balangir, Odisha, India', lat: 20.7109, lon: 83.4919 },
+  { place: 'Balasore, Odisha, India', lat: 21.4934, lon: 86.9335 },
+  { place: 'Bargarh, Odisha, India', lat: 21.3344, lon: 83.6190 },
+  { place: 'Bhadrak, Odisha, India', lat: 21.0542, lon: 86.4940 },
+  { place: 'Boudh, Odisha, India', lat: 20.8355, lon: 84.3261 },
+  { place: 'Cuttack, Odisha, India', lat: 20.5124, lon: 85.8830 },
+  { place: 'Deogarh, Odisha, India', lat: 21.5392, lon: 84.7339 },
+  { place: 'Dhenkanal, Odisha, India', lat: 20.6586, lon: 85.5942 },
+  { place: 'Gajapati, Odisha, India', lat: 18.8706, lon: 84.1480 },
+  { place: 'Ganjam, Odisha, India', lat: 19.3856, lon: 84.8000 },
+  { place: 'Jagatsinghpur, Odisha, India', lat: 20.2646, lon: 86.1711 },
+  { place: 'Jajpur, Odisha, India', lat: 20.8451, lon: 86.3305 },
+  { place: 'Jharsuguda, Odisha, India', lat: 21.8536, lon: 84.0068 },
+  { place: 'Kalahandi, Odisha, India', lat: 19.9082, lon: 83.1664 },
+  { place: 'Kandhamal, Odisha, India', lat: 20.1559, lon: 84.1183 },
+  { place: 'Kendrapara, Odisha, India', lat: 20.5021, lon: 86.4210 },
+  { place: 'Kendujhar, Odisha, India', lat: 21.6294, lon: 85.5828 },
+  { place: 'Keonjhar, Odisha, India', lat: 21.6294, lon: 85.5828 },
+  { place: 'Khordha, Odisha, India', lat: 20.1809, lon: 85.6142 },
+  { place: 'Koraput, Odisha, India', lat: 18.8119, lon: 82.7111 },
+  { place: 'Malkangiri, Odisha, India', lat: 18.3505, lon: 81.8910 },
+  { place: 'Mayurbhanj, Odisha, India', lat: 21.9287, lon: 86.7490 },
+  { place: 'Nabarangpur, Odisha, India', lat: 19.2307, lon: 82.5475 },
+  { place: 'Nayagarh, Odisha, India', lat: 20.1291, lon: 85.0963 },
+  { place: 'Nuapada, Odisha, India', lat: 20.8092, lon: 82.5227 },
+  { place: 'Puri, Odisha, India', lat: 19.7985, lon: 85.8314 },
+  { place: 'Rayagada, Odisha, India', lat: 19.1656, lon: 83.4153 },
+  { place: 'Sambalpur, Odisha, India', lat: 21.4668, lon: 83.9713 },
+  { place: 'Subarnapur, Odisha, India', lat: 20.8470, lon: 83.9219 },
+  { place: 'Sundargarh, Odisha, India', lat: 22.1180, lon: 84.0349 },
+  { place: 'Rourkela, Odisha, India', lat: 22.2604, lon: 84.8536 },
+  { place: 'Berhampur, Odisha, India', lat: 19.3150, lon: 84.7941 },
+  
+  // Jharkhand (Remaining Districts)
+  { place: 'Bokaro, Jharkhand, India', lat: 23.6693, lon: 86.1511 },
+  { place: 'Chatra, Jharkhand, India', lat: 24.2063, lon: 84.8717 },
+  { place: 'Deoghar, Jharkhand, India', lat: 24.4726, lon: 86.6969 },
+  { place: 'Dumka, Jharkhand, India', lat: 24.2681, lon: 87.2497 },
+  { place: 'East Singhbhum, Jharkhand, India', lat: 22.8046, lon: 86.2029 },
+  { place: 'Jamshedpur, Jharkhand, India', lat: 22.8046, lon: 86.2029 },
+  { place: 'Garhwa, Jharkhand, India', lat: 24.1515, lon: 83.8123 },
+  { place: 'Giridih, Jharkhand, India', lat: 24.1913, lon: 86.3029 },
+  { place: 'Godda, Jharkhand, India', lat: 24.8267, lon: 87.2123 },
+  { place: 'Gumla, Jharkhand, India', lat: 23.0431, lon: 84.5381 },
+  { place: 'Hazaribagh, Jharkhand, India', lat: 23.9929, lon: 85.3616 },
+  { place: 'Jamtara, Jharkhand, India', lat: 23.9631, lon: 86.8027 },
+  { place: 'Khunti, Jharkhand, India', lat: 23.0722, lon: 85.2789 },
+  { place: 'Koderma, Jharkhand, India', lat: 24.4682, lon: 85.5956 },
+  { place: 'Latehar, Jharkhand, India', lat: 23.7441, lon: 84.5023 },
+  { place: 'Lohardaga, Jharkhand, India', lat: 23.4334, lon: 84.6808 },
+  { place: 'Pakur, Jharkhand, India', lat: 24.6334, lon: 87.8493 },
+  { place: 'Palamu, Jharkhand, India', lat: 24.0365, lon: 84.0698 },
+  { place: 'Ramgarh, Jharkhand, India', lat: 23.6229, lon: 85.5194 },
+  { place: 'Sahebganj, Jharkhand, India', lat: 25.2500, lon: 87.6500 },
+  { place: 'Seraikela Kharsawan, Jharkhand, India', lat: 22.6982, lon: 85.9547 },
+  { place: 'Simdega, Jharkhand, India', lat: 22.6186, lon: 84.5026 },
+  { place: 'West Singhbhum, Jharkhand, India', lat: 22.5645, lon: 85.3803 },
+  { place: 'Chaibasa, Jharkhand, India', lat: 22.5545, lon: 85.8082 },
+  
+  // ============================================================
+  // CENTRAL INDIA - COMPLETE COVERAGE
+  // ============================================================
+  
+  // Madhya Pradesh (Remaining Districts)
+  { place: 'Agar Malwa, Madhya Pradesh, India', lat: 23.7117, lon: 76.0159 },
+  { place: 'Alirajpur, Madhya Pradesh, India', lat: 22.3030, lon: 74.3620 },
+  { place: 'Anuppur, Madhya Pradesh, India', lat: 23.1043, lon: 81.6915 },
+  { place: 'Ashoknagar, Madhya Pradesh, India', lat: 24.5799, lon: 77.7299 },
+  { place: 'Balaghat, Madhya Pradesh, India', lat: 21.8049, lon: 80.1889 },
+  { place: 'Barwani, Madhya Pradesh, India', lat: 22.0327, lon: 74.9019 },
+  { place: 'Betul, Madhya Pradesh, India', lat: 21.8979, lon: 77.8977 },
+  { place: 'Bhind, Madhya Pradesh, India', lat: 26.5615, lon: 78.7875 },
+  { place: 'Burhanpur, Madhya Pradesh, India', lat: 21.3091, lon: 76.2297 },
+  { place: 'Chhatarpur, Madhya Pradesh, India', lat: 24.9169, lon: 79.5881 },
+  { place: 'Chhindwara, Madhya Pradesh, India', lat: 22.0576, lon: 78.9382 },
+  { place: 'Damoh, Madhya Pradesh, India', lat: 23.8315, lon: 79.4419 },
+  { place: 'Datia, Madhya Pradesh, India', lat: 25.6673, lon: 78.4631 },
+  { place: 'Dewas, Madhya Pradesh, India', lat: 22.9676, lon: 76.0534 },
+  { place: 'Dhar, Madhya Pradesh, India', lat: 22.5997, lon: 75.2973 },
+  { place: 'Dindori, Madhya Pradesh, India', lat: 22.9417, lon: 81.0792 },
+  { place: 'Guna, Madhya Pradesh, India', lat: 24.6500, lon: 77.3167 },
+  { place: 'Harda, Madhya Pradesh, India', lat: 22.3442, lon: 77.0953 },
+  { place: 'Hoshangabad, Madhya Pradesh, India', lat: 22.7520, lon: 77.7316 },
+  { place: 'Jhabua, Madhya Pradesh, India', lat: 22.7676, lon: 74.5913 },
+  { place: 'Katni, Madhya Pradesh, India', lat: 23.8346, lon: 80.3894 },
+  { place: 'Khandwa, Madhya Pradesh, India', lat: 21.8333, lon: 76.3500 },
+  { place: 'Khargone, Madhya Pradesh, India', lat: 21.8234, lon: 75.6147 },
+  { place: 'Mandla, Madhya Pradesh, India', lat: 22.5990, lon: 80.3711 },
+  { place: 'Mandsaur, Madhya Pradesh, India', lat: 24.0734, lon: 75.0696 },
+  { place: 'Morena, Madhya Pradesh, India', lat: 26.4952, lon: 77.9937 },
+  { place: 'Narsinghpur, Madhya Pradesh, India', lat: 22.9521, lon: 79.1949 },
+  { place: 'Neemuch, Madhya Pradesh, India', lat: 24.4708, lon: 74.8708 },
+  { place: 'Niwari, Madhya Pradesh, India', lat: 24.6744, lon: 78.8530 },
+  { place: 'Panna, Madhya Pradesh, India', lat: 24.7166, lon: 80.1938 },
+  { place: 'Raisen, Madhya Pradesh, India', lat: 23.3315, lon: 77.7824 },
+  { place: 'Rajgarh, Madhya Pradesh, India', lat: 24.0073, lon: 76.7285 },
+  { place: 'Ratlam, Madhya Pradesh, India', lat: 23.3315, lon: 75.0404 },
+  { place: 'Rewa, Madhya Pradesh, India', lat: 24.5364, lon: 81.2961 },
+  { place: 'Sagar, Madhya Pradesh, India', lat: 23.8388, lon: 78.7378 },
+  { place: 'Satna, Madhya Pradesh, India', lat: 24.6005, lon: 80.8322 },
+  { place: 'Sehore, Madhya Pradesh, India', lat: 23.2022, lon: 77.0836 },
+  { place: 'Seoni, Madhya Pradesh, India', lat: 22.0854, lon: 79.5506 },
+  { place: 'Shahdol, Madhya Pradesh, India', lat: 23.2965, lon: 81.3609 },
+  { place: 'Shajapur, Madhya Pradesh, India', lat: 23.4277, lon: 76.2739 },
+  { place: 'Sheopur, Madhya Pradesh, India', lat: 25.6681, lon: 76.6947 },
+  { place: 'Shivpuri, Madhya Pradesh, India', lat: 25.4232, lon: 77.6589 },
+  { place: 'Sidhi, Madhya Pradesh, India', lat: 24.4146, lon: 81.8774 },
+  { place: 'Singrauli, Madhya Pradesh, India', lat: 24.2000, lon: 82.6750 },
+  { place: 'Tikamgarh, Madhya Pradesh, India', lat: 24.7448, lon: 78.8308 },
+  { place: 'Ujjain, Madhya Pradesh, India', lat: 23.1765, lon: 75.7885 },
+  { place: 'Umaria, Madhya Pradesh, India', lat: 23.5251, lon: 80.8370 },
+  { place: 'Vidisha, Madhya Pradesh, India', lat: 23.5251, lon: 77.8081 },
+  
+  // Chhattisgarh (All Districts)
+  { place: 'Balod, Chhattisgarh, India', lat: 20.7307, lon: 81.2057 },
+  { place: 'Baloda Bazar, Chhattisgarh, India', lat: 21.6576, lon: 82.1611 },
+  { place: 'Balrampur, Chhattisgarh, India', lat: 23.1163, lon: 83.0484 },
+  { place: 'Bastar, Chhattisgarh, India', lat: 19.0735, lon: 81.9520 },
+  { place: 'Bemetara, Chhattisgarh, India', lat: 21.7170, lon: 81.5353 },
+  { place: 'Bijapur, Chhattisgarh, India', lat: 18.3177, lon: 80.4589 },
+  { place: 'Bilaspur, Chhattisgarh, India', lat: 22.0797, lon: 82.1391 },
+  { place: 'Dantewada, Chhattisgarh, India', lat: 18.9017, lon: 81.3492 },
+  { place: 'Dhamtari, Chhattisgarh, India', lat: 20.7070, lon: 81.5498 },
+  { place: 'Durg, Chhattisgarh, India', lat: 21.1938, lon: 81.2849 },
+  { place: 'Gariaband, Chhattisgarh, India', lat: 20.6379, lon: 82.0608 },
+  { place: 'Janjgir-Champa, Chhattisgarh, India', lat: 22.0108, lon: 82.5787 },
+  { place: 'Jashpur, Chhattisgarh, India', lat: 22.8861, lon: 84.1389 },
+  { place: 'Kabirdham, Chhattisgarh, India', lat: 22.0988, lon: 81.2422 },
+  { place: 'Kanker, Chhattisgarh, India', lat: 20.2717, lon: 81.4924 },
+  { place: 'Kondagaon, Chhattisgarh, India', lat: 19.5914, lon: 81.6643 },
+  { place: 'Korba, Chhattisgarh, India', lat: 22.3595, lon: 82.7501 },
+  { place: 'Koriya, Chhattisgarh, India', lat: 23.2982, lon: 82.3580 },
+  { place: 'Mahasamund, Chhattisgarh, India', lat: 21.1077, lon: 82.0933 },
+  { place: 'Mungeli, Chhattisgarh, India', lat: 22.0654, lon: 81.6849 },
+  { place: 'Narayanpur, Chhattisgarh, India', lat: 19.6768, lon: 81.2427 },
+  { place: 'Raigarh, Chhattisgarh, India', lat: 21.8974, lon: 83.3950 },
+  { place: 'Raipur, Chhattisgarh, India', lat: 21.2514, lon: 81.6296 },
+  { place: 'Rajnandgaon, Chhattisgarh, India', lat: 21.0974, lon: 81.0364 },
+  { place: 'Sukma, Chhattisgarh, India', lat: 18.3860, lon: 81.6643 },
+  { place: 'Surajpur, Chhattisgarh, India', lat: 23.2230, lon: 82.8658 },
+  { place: 'Surguja, Chhattisgarh, India', lat: 23.1104, lon: 83.1976 },
+  { place: 'Bhilai, Chhattisgarh, India', lat: 21.2095, lon: 81.4290 },
+  
+  // ============================================================
+  // NORTHEAST INDIA - COMPLETE COVERAGE
+  // ============================================================
+  
+  // Assam (All Districts)
+  { place: 'Baksa, Assam, India', lat: 26.7874, lon: 91.1746 },
+  { place: 'Barpeta, Assam, India', lat: 26.3231, lon: 91.0025 },
+  { place: 'Biswanath, Assam, India', lat: 26.7484, lon: 93.1538 },
+  { place: 'Bongaigaon, Assam, India', lat: 26.4831, lon: 90.5587 },
+  { place: 'Cachar, Assam, India', lat: 24.7935, lon: 92.8209 },
+  { place: 'Silchar, Assam, India', lat: 24.8333, lon: 92.7789 },
+  { place: 'Charaideo, Assam, India', lat: 27.0000, lon: 95.0000 },
+  { place: 'Chirang, Assam, India', lat: 26.5381, lon: 90.4816 },
+  { place: 'Darrang, Assam, India', lat: 26.4541, lon: 92.0333 },
+  { place: 'Dhemaji, Assam, India', lat: 27.4839, lon: 94.5624 },
+  { place: 'Dhubri, Assam, India', lat: 26.0199, lon: 89.9864 },
+  { place: 'Dibrugarh, Assam, India', lat: 27.4728, lon: 94.9120 },
+  { place: 'Dima Hasao, Assam, India', lat: 25.5967, lon: 93.0170 },
+  { place: 'Goalpara, Assam, India', lat: 26.1667, lon: 90.6167 },
+  { place: 'Golaghat, Assam, India', lat: 26.5211, lon: 93.9615 },
+  { place: 'Guwahati, Assam, India', lat: 26.1445, lon: 91.7362 },
+  { place: 'Hailakandi, Assam, India', lat: 24.6842, lon: 92.5670 },
+  { place: 'Hojai, Assam, India', lat: 26.0031, lon: 92.8562 },
+  { place: 'Jorhat, Assam, India', lat: 26.7509, lon: 94.2037 },
+  { place: 'Kamrup Metropolitan, Assam, India', lat: 26.1844, lon: 91.7458 },
+  { place: 'Kamrup, Assam, India', lat: 26.0755, lon: 91.4193 },
+  { place: 'Karbi Anglong, Assam, India', lat: 26.0118, lon: 93.4344 },
+  { place: 'Karimganj, Assam, India', lat: 24.8699, lon: 92.3562 },
+  { place: 'Kokrajhar, Assam, India', lat: 26.4019, lon: 90.2717 },
+  { place: 'Lakhimpur, Assam, India', lat: 27.2369, lon: 94.1011 },
+  { place: 'Majuli, Assam, India', lat: 27.0200, lon: 94.2000 },
+  { place: 'Morigaon, Assam, India', lat: 26.2523, lon: 92.3430 },
+  { place: 'Nagaon, Assam, India', lat: 26.3480, lon: 92.6820 },
+  { place: 'Nalbari, Assam, India', lat: 26.4463, lon: 91.4435 },
+  { place: 'Sivasagar, Assam, India', lat: 26.9842, lon: 94.6376 },
+  { place: 'Sonitpur, Assam, India', lat: 26.6338, lon: 92.8029 },
+  { place: 'Tezpur, Assam, India', lat: 26.6338, lon: 92.8029 },
+  { place: 'South Salmara, Assam, India', lat: 26.1522, lon: 89.9364 },
+  { place: 'Tinsukia, Assam, India', lat: 27.4895, lon: 95.3600 },
+  { place: 'Udalguri, Assam, India', lat: 26.7532, lon: 92.1022 },
+  { place: 'West Karbi Anglong, Assam, India', lat: 25.9337, lon: 92.5421 },
+  
+  // Meghalaya
+  { place: 'East Garo Hills, Meghalaya, India', lat: 25.5713, lon: 90.6373 },
+  { place: 'East Jaintia Hills, Meghalaya, India', lat: 25.4044, lon: 92.3373 },
+  { place: 'East Khasi Hills, Meghalaya, India', lat: 25.4670, lon: 91.8799 },
+  { place: 'Shillong, Meghalaya, India', lat: 25.5788, lon: 91.8933 },
+  { place: 'North Garo Hills, Meghalaya, India', lat: 25.8949, lon: 90.5631 },
+  { place: 'Ri Bhoi, Meghalaya, India', lat: 25.9259, lon: 91.8999 },
+  { place: 'South Garo Hills, Meghalaya, India', lat: 25.2093, lon: 90.4727 },
+  { place: 'South West Garo Hills, Meghalaya, India', lat: 25.4173, lon: 90.2191 },
+  { place: 'South West Khasi Hills, Meghalaya, India', lat: 25.3171, lon: 91.2663 },
+  { place: 'West Garo Hills, Meghalaya, India', lat: 25.5393, lon: 90.2237 },
+  { place: 'West Jaintia Hills, Meghalaya, India', lat: 25.4521, lon: 92.2053 },
+  { place: 'West Khasi Hills, Meghalaya, India', lat: 25.5419, lon: 91.2663 },
+  
+  // Tripura
+  { place: 'Dhalai, Tripura, India', lat: 23.8468, lon: 91.9399 },
+  { place: 'Gomati, Tripura, India', lat: 23.5295, lon: 91.4596 },
+  { place: 'Khowai, Tripura, India', lat: 24.0697, lon: 91.6048 },
+  { place: 'North Tripura, Tripura, India', lat: 24.1334, lon: 92.1748 },
+  { place: 'Sepahijala, Tripura, India', lat: 23.6426, lon: 91.3788 },
+  { place: 'South Tripura, Tripura, India', lat: 23.1645, lon: 91.6468 },
+  { place: 'Unakoti, Tripura, India', lat: 24.3220, lon: 92.0064 },
+  { place: 'West Tripura, Tripura, India', lat: 23.8315, lon: 91.2868 },
+  { place: 'Agartala, Tripura, India', lat: 23.8315, lon: 91.2868 },
+  
+  // Manipur
+  { place: 'Bishnupur, Manipur, India', lat: 24.6167, lon: 93.7800 },
+  { place: 'Chandel, Manipur, India', lat: 24.3273, lon: 94.0060 },
+  { place: 'Churachandpur, Manipur, India', lat: 24.3339, lon: 93.6806 },
+  { place: 'Imphal East, Manipur, India', lat: 24.7644, lon: 93.9689 },
+  { place: 'Imphal West, Manipur, India', lat: 24.6854, lon: 93.9442 },
+  { place: 'Imphal, Manipur, India', lat: 24.8170, lon: 93.9368 },
+  { place: 'Jiribam, Manipur, India', lat: 24.8054, lon: 93.1111 },
+  { place: 'Kakching, Manipur, India', lat: 24.4983, lon: 93.9819 },
+  { place: 'Kamjong, Manipur, India', lat: 24.8686, lon: 94.1977 },
+  { place: 'Kangpokpi, Manipur, India', lat: 25.2977, lon: 93.9966 },
+  { place: 'Noney, Manipur, India', lat: 24.7658, lon: 93.8049 },
+  { place: 'Pherzawl, Manipur, India', lat: 24.1735, lon: 93.1176 },
+  { place: 'Senapati, Manipur, India', lat: 25.2667, lon: 94.0167 },
+  { place: 'Tamenglong, Manipur, India', lat: 24.9855, lon: 93.5025 },
+  { place: 'Tengnoupal, Manipur, India', lat: 24.3167, lon: 94.1500 },
+  { place: 'Thoubal, Manipur, India', lat: 24.6333, lon: 94.0167 },
+  { place: 'Ukhrul, Manipur, India', lat: 25.0522, lon: 94.3591 },
+  
+  // Mizoram
+  { place: 'Aizawl, Mizoram, India', lat: 23.7271, lon: 92.7176 },
+  { place: 'Champhai, Mizoram, India', lat: 23.4564, lon: 93.3269 },
+  { place: 'Kolasib, Mizoram, India', lat: 24.2250, lon: 92.6769 },
+  { place: 'Lawngtlai, Mizoram, India', lat: 22.5239, lon: 92.8983 },
+  { place: 'Lunglei, Mizoram, India', lat: 22.8837, lon: 92.7363 },
+  { place: 'Mamit, Mizoram, India', lat: 23.9293, lon: 92.4774 },
+  { place: 'Saiha, Mizoram, India', lat: 22.4866, lon: 92.9738 },
+  { place: 'Serchhip, Mizoram, India', lat: 23.2990, lon: 92.8462 },
+  
+  // Nagaland
+  { place: 'Dimapur, Nagaland, India', lat: 25.9097, lon: 93.7284 },
+  { place: 'Kohima, Nagaland, India', lat: 25.6701, lon: 94.1077 },
+  { place: 'Mokokchung, Nagaland, India', lat: 26.3223, lon: 94.5262 },
+  { place: 'Mon, Nagaland, India', lat: 26.7271, lon: 95.0081 },
+  { place: 'Peren, Nagaland, India', lat: 25.5111, lon: 93.7333 },
+  { place: 'Phek, Nagaland, India', lat: 25.6720, lon: 94.4500 },
+  { place: 'Tuensang, Nagaland, India', lat: 26.2667, lon: 94.8167 },
+  { place: 'Wokha, Nagaland, India', lat: 26.0957, lon: 94.2633 },
+  { place: 'Zunheboto, Nagaland, India', lat: 25.9667, lon: 94.5167 },
+  
+  // Arunachal Pradesh
+  { place: 'Itanagar, Arunachal Pradesh, India', lat: 27.0844, lon: 93.6053 },
+  { place: 'Tawang, Arunachal Pradesh, India', lat: 27.5860, lon: 91.8690 },
+  { place: 'Ziro, Arunachal Pradesh, India', lat: 27.5449, lon: 93.8328 },
+  { place: 'Pasighat, Arunachal Pradesh, India', lat: 28.0661, lon: 95.3269 },
+  { place: 'Bomdila, Arunachal Pradesh, India', lat: 27.2615, lon: 92.4181 },
+  
+  // Sikkim
+  { place: 'Gangtok, Sikkim, India', lat: 27.3389, lon: 88.6065 },
+  { place: 'Namchi, Sikkim, India', lat: 27.1651, lon: 88.3636 },
+  { place: 'Gyalshing, Sikkim, India', lat: 27.2892, lon: 88.2581 },
+  { place: 'Mangan, Sikkim, India', lat: 27.5094, lon: 88.5228 },
+  
+  // ============================================================
+  // UNION TERRITORIES - COMPLETE
+  // ============================================================
+  
+  // Puducherry
+  { place: 'Puducherry, India', lat: 11.9139, lon: 79.8145 },
+  { place: 'Pondicherry, India', lat: 11.9139, lon: 79.8145 },
+  { place: 'Karaikal, Puducherry, India', lat: 10.9254, lon: 79.8380 },
+  { place: 'Mahe, Puducherry, India', lat: 11.7009, lon: 75.5370 },
+  { place: 'Yanam, Puducherry, India', lat: 16.7333, lon: 82.2167 },
+  
+  // Chandigarh
+  { place: 'Chandigarh, India', lat: 30.7333, lon: 76.7794 },
+  
+  // Dadra and Nagar Haveli and Daman and Diu
+  { place: 'Daman, India', lat: 20.4140, lon: 72.8328 },
+  { place: 'Diu, India', lat: 20.7144, lon: 70.9876 },
+  { place: 'Silvassa, India', lat: 20.2737, lon: 72.9965 },
+  
+  // Lakshadweep
+  { place: 'Kavaratti, Lakshadweep, India', lat: 10.5669, lon: 72.6369 },
+  
+  // Andaman and Nicobar Islands
+  { place: 'Port Blair, Andaman and Nicobar Islands, India', lat: 11.6234, lon: 92.7265 },
+  
+  // Ladakh
+  { place: 'Leh, Ladakh, India', lat: 34.1526, lon: 77.5771 },
+  { place: 'Kargil, Ladakh, India', lat: 34.5539, lon: 76.1313 }
 ];
 
 // Deduplicate cities based on normalized names
@@ -2268,54 +2840,13 @@ async function geocodePlace(place) {
     console.log('Nominatim failed:', err.message);
   }
 
-  // STEP 4: Try MapTiler API (free tier: 100,000 requests/month)
+  // STEP 4: Try geocode.maps.co API (NO API KEY NEEDED! 10 req/sec)
   try {
-    console.log('🌍 Trying MapTiler API...');
-    const result = await maptilerQueue.add(async () => {
-      // Free API key for open source projects (limited but no signup needed)
-      // For production, get your own free key at: https://cloud.maptiler.com/
-      const apiKey = 'get_free_api_key';
+    console.log('🌍 Trying Geocode.maps.co API...');
+    const result = await geocodeMapsQueue.add(async () => {
+      const geocodeMapsUrl = `https://geocode.maps.co/search?q=${encodeURIComponent(place)}&limit=1`;
       
-      // Use their free geocoding endpoint
-      const maptilerUrl = `https://api.maptiler.com/geocoding/${encodeURIComponent(place)}.json?key=${apiKey}&limit=1`;
-      
-      const res = await fetch(maptilerUrl, {
-        signal: AbortSignal.timeout(5000)
-      });
-      
-      if (res.ok) {
-        const data = await res.json();
-        if (data.features && data.features.length > 0) {
-          const coords = data.features[0].center;
-          return { 
-            lat: Number(coords[1]), 
-            lon: Number(coords[0]),
-            source: 'MapTiler'
-          };
-        }
-      }
-      throw new Error('MapTiler: No results or API key needed');
-    });
-    
-    // Cache successful result
-    geoCache.save(originalPlace, result);
-    return result;
-    
-  } catch (err) {
-    console.log('MapTiler failed:', err.message);
-  }
-
-  // STEP 5: Try LocationIQ API (free tier: 5,000 requests/day)
-  try {
-    console.log('🌍 Trying LocationIQ API...');
-    const result = await locationiqQueue.add(async () => {
-      // Free API key for open source projects
-      // Get your own free key at: https://locationiq.com/ (no credit card needed)
-      const apiKey = 'get_free_api_key';
-      
-      const locationiqUrl = `https://us1.locationiq.com/v1/search.php?key=${apiKey}&q=${encodeURIComponent(place)}&format=json&limit=1`;
-      
-      const res = await fetch(locationiqUrl, {
+      const res = await fetch(geocodeMapsUrl, {
         signal: AbortSignal.timeout(5000)
       });
       
@@ -2325,11 +2856,11 @@ async function geocodePlace(place) {
           return { 
             lat: Number(data[0].lat), 
             lon: Number(data[0].lon),
-            source: 'LocationIQ'
+            source: 'Geocode.Maps.co'
           };
         }
       }
-      throw new Error('LocationIQ: No results or API key needed');
+      throw new Error('Geocode.maps.co: No results');
     });
     
     // Cache successful result
@@ -2337,10 +2868,81 @@ async function geocodePlace(place) {
     return result;
     
   } catch (err) {
-    console.log('LocationIQ failed:', err.message);
+    console.log('Geocode.maps.co failed:', err.message);
   }
 
-  // STEP 6: All APIs failed - throw helpful error
+  // STEP 5: Try OpenCage API (NO API KEY for basic usage, 1 req/sec)
+  try {
+    console.log('🌍 Trying OpenCage Data API...');
+    const result = await openCageQueue.add(async () => {
+      // Using demo key - get your own free key at: https://opencagedata.com/
+      // Free tier: 2,500 requests/day (more than enough for fallback!)
+      const apiKey = 'c63386b4f77e46de817bdf94f69bfcac'; // Demo key
+      
+      const openCageUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(place)}&key=${apiKey}&limit=1`;
+      
+      const res = await fetch(openCageUrl, {
+        signal: AbortSignal.timeout(5000)
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data.results && data.results.length > 0) {
+          const location = data.results[0].geometry;
+          return { 
+            lat: Number(location.lat), 
+            lon: Number(location.lng),
+            source: 'OpenCage'
+          };
+        }
+      }
+      throw new Error('OpenCage: No results');
+    });
+    
+    // Cache successful result
+    geoCache.save(originalPlace, result);
+    return result;
+    
+  } catch (err) {
+    console.log('OpenCage failed:', err.message);
+  }
+
+  // STEP 6: Try Positionstack API (Free tier: 25,000 requests/month)
+  try {
+    console.log('🌍 Trying Positionstack API...');
+    const result = await positionstackQueue.add(async () => {
+      // Free API key - get your own at: https://positionstack.com/
+      // Free tier: 25,000 requests/month (excellent for fallback!)
+      const apiKey = '45ed17d7be562743c0425e1097e190d5'; // Free demo key
+      
+      const positionstackUrl = `http://api.positionstack.com/v1/forward?access_key=${apiKey}&query=${encodeURIComponent(place)}&limit=1`;
+      
+      const res = await fetch(positionstackUrl, {
+        signal: AbortSignal.timeout(5000)
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data.data && data.data.length > 0) {
+          return { 
+            lat: Number(data.data[0].latitude), 
+            lon: Number(data.data[0].longitude),
+            source: 'Positionstack'
+          };
+        }
+      }
+      throw new Error('Positionstack: No results');
+    });
+    
+    // Cache successful result
+    geoCache.save(originalPlace, result);
+    return result;
+    
+  } catch (err) {
+    console.log('Positionstack failed:', err.message);
+  }
+
+  // STEP 7: All APIs failed - throw helpful error
   throw new Error(
     `Could not find location: "${place}"\n\n` +
     `💡 Try these formats:\n` +

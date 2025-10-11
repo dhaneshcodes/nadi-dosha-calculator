@@ -1392,6 +1392,7 @@ input.error, select.error {
   .autocomplete-dropdown {
     max-height: 200px;
     font-size: 0.9rem;
+    z-index: 9999;
   }
   
   .autocomplete-item {
