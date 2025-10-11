@@ -60,6 +60,213 @@
  */
 
 // ============================================================
+// MULTILINGUAL SUPPORT SYSTEM
+// ============================================================
+
+const translations = {
+  en: {
+    header: {
+      title: 'Nadi Dosha Calculator',
+      subtitle: 'Check your Nadi or compare two persons for Nadi compatibility.'
+    },
+    mode: {
+      single: 'Check My Nadi',
+      compare: 'Compare for Nadi Dosha'
+    },
+    form: {
+      yourDetails: 'Your Details',
+      person1: 'Person 1',
+      person2: 'Person 2',
+      name: 'Name',
+      namePlaceholder: 'Enter name',
+      dob: 'Date of Birth',
+      dobHint: 'Format: 1998-12-20 or 20-12-1998 or 20/12/1998',
+      tob: 'Time of Birth',
+      tobHint: '24-hour format: 14:30 for 2:30 PM',
+      pob: 'Place of Birth',
+      pobPlaceholder: 'Start typing city name...',
+      pobHint: '💡 Select from suggestions or enter any city worldwide',
+      buttonSingle: 'Check My Nadi',
+      buttonCompare: 'Check Nadi Dosha'
+    },
+    results: {
+      nadiAnalysis: 'Nadi Analysis for',
+      compatibilityAnalysis: 'Compatibility Analysis',
+      nakshatra: 'Nakshatra',
+      nadiType: 'Nadi Type',
+      doshaPresent: 'Nadi Dosha Present',
+      noDosha: 'No Nadi Dosha',
+      calculating: 'Analyzing Birth Details',
+      analyzing: 'Analyzing',
+      birthDetails: "'s birth details...",
+      computing: 'Computing',
+      nadiAnalysisText: "'s Nadi analysis...",
+      generatingReport: 'Generating compatibility report...',
+      backButton: 'Calculate Another'
+    },
+    autocomplete: {
+      noResults: 'No suggestions found',
+      canEnter: 'You can still enter any city/location name.<br>We\'ll search for it automatically!',
+      footer: 'Can\'t find your city? Just type it and press Calculate!'
+    },
+    nadi: {
+      aadi: 'Aadi',
+      madhya: 'Madhya',
+      antya: 'Antya',
+      aadiDesc: 'Aadi Nadi represents the Vata (air) constitution in Ayurveda.',
+      madhyaDesc: 'Madhya Nadi represents the Pitta (bile) constitution.',
+      antyaDesc: 'Antya Nadi represents the Kapha (phlegm) constitution.'
+    }
+  },
+  hi: {
+    header: {
+      title: 'नाड़ी दोष कैलकुलेटर',
+      subtitle: 'अपनी नाड़ी जांचें या दो व्यक्तियों की नाड़ी संगतता की तुलना करें।'
+    },
+    mode: {
+      single: 'मेरी नाड़ी जांचें',
+      compare: 'नाड़ी दोष की तुलना करें'
+    },
+    form: {
+      yourDetails: 'आपका विवरण',
+      person1: 'व्यक्ति 1',
+      person2: 'व्यक्ति 2',
+      name: 'नाम',
+      namePlaceholder: 'नाम दर्ज करें',
+      dob: 'जन्म तिथि',
+      dobHint: 'प्रारूप: 1998-12-20 या 20-12-1998 या 20/12/1998',
+      tob: 'जन्म समय',
+      tobHint: '24-घंटे प्रारूप: दोपहर 2:30 बजे के लिए 14:30',
+      pob: 'जन्म स्थान',
+      pobPlaceholder: 'शहर का नाम टाइप करना शुरू करें...',
+      pobHint: '💡 सुझाव से चुनें या विश्व भर का कोई भी शहर दर्ज करें',
+      buttonSingle: 'मेरी नाड़ी जांचें',
+      buttonCompare: 'नाड़ी दोष जांचें'
+    },
+    results: {
+      nadiAnalysis: 'नाड़ी विश्लेषण',
+      compatibilityAnalysis: 'संगतता विश्लेषण',
+      nakshatra: 'नक्षत्र',
+      nadiType: 'नाड़ी प्रकार',
+      doshaPresent: 'नाड़ी दोष मौजूद है',
+      noDosha: 'कोई नाड़ी दोष नहीं',
+      calculating: 'जन्म विवरण का विश्लेषण',
+      analyzing: 'विश्लेषण कर रहे हैं',
+      birthDetails: ' का जन्म विवरण...',
+      computing: 'गणना कर रहे हैं',
+      nadiAnalysisText: ' का नाड़ी विश्लेषण...',
+      generatingReport: 'संगतता रिपोर्ट तैयार कर रहे हैं...',
+      backButton: 'फिर से गणना करें'
+    },
+    autocomplete: {
+      noResults: 'कोई सुझाव नहीं मिला',
+      canEnter: 'आप अभी भी कोई भी शहर/स्थान का नाम दर्ज कर सकते हैं।<br>हम इसे स्वचालित रूप से खोजेंगे!',
+      footer: 'अपना शहर नहीं मिल रहा? बस इसे टाइप करें और गणना करें दबाएं!'
+    },
+    nadi: {
+      aadi: 'आदि',
+      madhya: 'मध्य',
+      antya: 'अंत्य',
+      aadiDesc: 'आदि नाड़ी आयुर्वेद में वात (वायु) संरचना का प्रतिनिधित्व करती है।',
+      madhyaDesc: 'मध्य नाड़ी पित्त (bile) संरचना का प्रतिनिधित्व करती है।',
+      antyaDesc: 'अंत्य नाड़ी कफ (phlegm) संरचना का प्रतिनिधित्व करती है।'
+    }
+  },
+  pa: {
+    header: {
+      title: 'ਨਾੜੀ ਦੋਸ਼ ਕੈਲਕੁਲੇਟਰ',
+      subtitle: 'ਆਪਣੀ ਨਾੜੀ ਜਾਂਚੋ ਜਾਂ ਦੋ ਵਿਅਕਤੀਆਂ ਦੀ ਨਾੜੀ ਅਨੁਕੂਲਤਾ ਦੀ ਤੁਲਨਾ ਕਰੋ।'
+    },
+    mode: {
+      single: 'ਮੇਰੀ ਨਾੜੀ ਜਾਂਚੋ',
+      compare: 'ਨਾੜੀ ਦੋਸ਼ ਦੀ ਤੁਲਨਾ ਕਰੋ'
+    },
+    form: {
+      yourDetails: 'ਤੁਹਾਡਾ ਵੇਰਵਾ',
+      person1: 'ਵਿਅਕਤੀ 1',
+      person2: 'ਵਿਅਕਤੀ 2',
+      name: 'ਨਾਮ',
+      namePlaceholder: 'ਨਾਮ ਦਰਜ ਕਰੋ',
+      dob: 'ਜਨਮ ਤਾਰੀਖ',
+      dobHint: 'ਫਾਰਮੈਟ: 1998-12-20 ਜਾਂ 20-12-1998 ਜਾਂ 20/12/1998',
+      tob: 'ਜਨਮ ਸਮਾਂ',
+      tobHint: '24-ਘੰਟੇ ਫਾਰਮੈਟ: ਦੁਪਹਿਰ 2:30 ਲਈ 14:30',
+      pob: 'ਜਨਮ ਸਥਾਨ',
+      pobPlaceholder: 'ਸ਼ਹਿਰ ਦਾ ਨਾਮ ਟਾਈਪ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ...',
+      pobHint: '💡 ਸੁਝਾਵਾਂ ਵਿੱਚੋਂ ਚੁਣੋ ਜਾਂ ਦੁਨੀਆ ਭਰ ਦਾ ਕੋਈ ਵੀ ਸ਼ਹਿਰ ਦਰਜ ਕਰੋ',
+      buttonSingle: 'ਮੇਰੀ ਨਾੜੀ ਜਾਂਚੋ',
+      buttonCompare: 'ਨਾੜੀ ਦੋਸ਼ ਜਾਂਚੋ'
+    },
+    results: {
+      nadiAnalysis: 'ਨਾੜੀ ਵਿਸ਼ਲੇਸ਼ਣ',
+      compatibilityAnalysis: 'ਅਨੁਕੂਲਤਾ ਵਿਸ਼ਲੇਸ਼ਣ',
+      nakshatra: 'ਨਕਸ਼ਤਰ',
+      nadiType: 'ਨਾੜੀ ਕਿਸਮ',
+      doshaPresent: 'ਨਾੜੀ ਦੋਸ਼ ਮੌਜੂਦ ਹੈ',
+      noDosha: 'ਕੋਈ ਨਾੜੀ ਦੋਸ਼ ਨਹੀਂ',
+      calculating: 'ਜਨਮ ਵੇਰਵੇ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ',
+      analyzing: 'ਵਿਸ਼ਲੇਸ਼ਣ ਕਰ ਰਹੇ ਹਾਂ',
+      birthDetails: ' ਦਾ ਜਨਮ ਵੇਰਵਾ...',
+      computing: 'ਗਣਨਾ ਕਰ ਰਹੇ ਹਾਂ',
+      nadiAnalysisText: ' ਦਾ ਨਾੜੀ ਵਿਸ਼ਲੇਸ਼ਣ...',
+      generatingReport: 'ਅਨੁਕੂਲਤਾ ਰਿਪੋਰਟ ਤਿਆਰ ਕਰ ਰਹੇ ਹਾਂ...',
+      backButton: 'ਦੁਬਾਰਾ ਗਣਨਾ ਕਰੋ'
+    },
+    autocomplete: {
+      noResults: 'ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ ਮਿਲਿਆ',
+      canEnter: 'ਤੁਸੀਂ ਅਜੇ ਵੀ ਕੋਈ ਵੀ ਸ਼ਹਿਰ/ਸਥਾਨ ਦਾ ਨਾਮ ਦਰਜ ਕਰ ਸਕਦੇ ਹੋ।<br>ਅਸੀਂ ਇਸਨੂੰ ਆਟੋਮੈਟਿਕ ਖੋਜਾਂਗੇ!',
+      footer: 'ਆਪਣਾ ਸ਼ਹਿਰ ਨਹੀਂ ਮਿਲ ਰਿਹਾ? ਬੱਸ ਇਸਨੂੰ ਟਾਈਪ ਕਰੋ ਅਤੇ ਗਣਨਾ ਕਰੋ ਦਬਾਓ!'
+    },
+    nadi: {
+      aadi: 'ਆਦਿ',
+      madhya: 'ਮੱਧ',
+      antya: 'ਅੰਤਯ',
+      aadiDesc: 'ਆਦਿ ਨਾੜੀ ਆਯੁਰਵੇਦ ਵਿੱਚ ਵਾਤ (ਹਵਾ) ਸੰਰਚਨਾ ਦਾ ਪ੍ਰਤੀਨਿਧਤਵ ਕਰਦੀ ਹੈ।',
+      madhyaDesc: 'ਮੱਧ ਨਾੜੀ ਪਿੱਤ (bile) ਸੰਰਚਨਾ ਦਾ ਪ੍ਰਤੀਨਿਧਤਵ ਕਰਦੀ ਹੈ।',
+      antyaDesc: 'ਅੰਤਯ ਨਾੜੀ ਕਫ (phlegm) ਸੰਰਚਨਾ ਦਾ ਪ੍ਰਤੀਨਿਧਤਵ ਕਰਦੀ ਹੈ।'
+    }
+  }
+};
+
+let currentLang = 'en';
+
+// Get translation for a key
+function t(key) {
+  const keys = key.split('.');
+  let value = translations[currentLang];
+  
+  for (const k of keys) {
+    value = value?.[k];
+  }
+  
+  return value || translations.en[key] || key;
+}
+
+// Update all UI text based on current language
+function updateLanguage(lang) {
+  currentLang = lang;
+  
+  // Update all elements with data-i18n attribute
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    el.textContent = t(key);
+  });
+  
+  // Update mode labels
+  document.querySelector('[for="modeSingle"] .mode-label').childNodes[2].textContent = ' ' + t('mode.single');
+  document.querySelector('[for="modeCompare"] .mode-label').childNodes[2].textContent = ' ' + t('mode.compare');
+  
+  // Save preference
+  localStorage.setItem('nadi_lang', lang);
+  
+  console.log(`✅ Language switched to: ${lang}`);
+}
+
+// ============================================================
+// END MULTILINGUAL SUPPORT
+// ============================================================
+
+// ============================================================
 // GEOCODING CACHE SYSTEM - For High Traffic Scalability
 // ============================================================
 
@@ -2087,6 +2294,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // Hide results initially
   resultSection.style.display = 'none';
 
+  // Initialize language system
+  const savedLang = localStorage.getItem('nadi_lang') || 'en';
+  currentLang = savedLang;
+  
+  // Add language button click handlers
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.lang;
+      
+      // Update active state
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // Update language
+      updateLanguage(lang);
+      
+      // Update form based on current mode
+      updateFormMode();
+    });
+    
+    // Set initial active state
+    if (btn.dataset.lang === savedLang) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
   // Handle mode change
   function updateFormMode() {
     const isSingleMode = modeSingle.checked;
@@ -2099,18 +2334,18 @@ document.addEventListener('DOMContentLoaded', () => {
       // Add single-mode class for styling
       personsContainer.classList.add('single-mode');
       // Update form title
-      document.getElementById('person1Title').textContent = 'Your Details';
+      document.getElementById('person1Title').textContent = t('form.yourDetails');
       // Update button text
-      if (btnText) btnText.textContent = 'Check My Nadi';
+      if (btnText) btnText.textContent = t('form.buttonSingle');
     } else {
       // Show Person 2 card
       person2Card.style.display = 'block';
       // Remove single-mode class
       personsContainer.classList.remove('single-mode');
       // Restore default titles
-      document.getElementById('person1Title').textContent = 'Person 1';
+      document.getElementById('person1Title').textContent = t('form.person1');
       // Update button text
-      if (btnText) btnText.textContent = 'Check Nadi Dosha';
+      if (btnText) btnText.textContent = t('form.buttonCompare');
     }
   }
 

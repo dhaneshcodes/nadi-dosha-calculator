@@ -99,6 +99,57 @@ body {
   background: transparent;
   padding: 3rem 1rem 2rem 1rem;
   text-align: center;
+  position: relative;
+}
+
+.language-selector {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.4rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+}
+
+.lang-btn:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  transform: translateY(-1px);
+}
+
+.lang-btn.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+.lang-flag {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.lang-text {
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .header h1 {
@@ -1130,6 +1181,24 @@ main {
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
+  .language-selector {
+    position: static;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .lang-text {
+    display: none;
+  }
+  
+  .lang-btn {
+    padding: 0.6rem;
+  }
+  
+  .lang-flag {
+    font-size: 1.4rem;
+  }
+
   .autocomplete-dropdown {
     max-height: 200px;
     font-size: 0.9rem;
