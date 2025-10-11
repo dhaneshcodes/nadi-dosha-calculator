@@ -432,10 +432,24 @@ function t(key) {
 function updateLanguage(lang) {
   currentLang = lang;
   
+  console.log(`🔄 Updating language to: ${lang}`);
+  
   // Update all text elements with data-i18n attribute
-  document.querySelectorAll('[data-i18n]').forEach(el => {
+  const textElements = document.querySelectorAll('[data-i18n]');
+  console.log(`📝 Found ${textElements.length} elements with data-i18n`);
+  
+  textElements.forEach(el => {
     const key = el.getAttribute('data-i18n');
-    el.textContent = t(key);
+    const translatedText = t(key);
+    
+    // Check if translation contains newlines (like shlokas)
+    if (translatedText && translatedText.includes('\n')) {
+      // Preserve line breaks by using innerHTML with <br>
+      el.innerHTML = translatedText.replace(/\n/g, '<br>');
+    } else {
+      // Simple text update
+      el.textContent = translatedText;
+    }
   });
   
   // Update all placeholders with data-i18n-placeholder attribute
@@ -461,10 +475,16 @@ function updateLanguage(lang) {
     person2Title.textContent = t('form.person2');
   }
   
+  // Update active language button
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  
   // Save preference
   localStorage.setItem('nadi_lang', lang);
   
   console.log(`✅ Language switched to: ${lang}`);
+  console.log(`📊 Updated ${textElements.length} text elements`);
 }
 
 // ============================================================
@@ -3224,9 +3244,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedLang = localStorage.getItem('nadi_lang') || 'en';
   
   // Set current language and update UI
+  currentLang = savedLang;
+  
+  // Update active language button
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === savedLang);
+  });
+  
+  // Apply translations immediately
   if (savedLang !== 'en') {
     updateLanguage(savedLang);
   }
+  
+  // Re-apply after a short delay to ensure all DOM elements are ready
+  // This helps on slower mobile connections
+  setTimeout(() => {
+    if (currentLang !== 'en') {
+      console.log('🔄 Re-applying translations for mobile compatibility');
+      updateLanguage(currentLang);
+    }
+  }, 100);
   
   // Add language button click handlers
   document.querySelectorAll('.lang-btn').forEach(btn => {
