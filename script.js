@@ -122,6 +122,21 @@ const translations = {
       incompatible: '{name1} and {name2} have the same Nadi type, which may indicate potential physiological and genetic incompatibility according to Vedic astrology. This aspect should be considered along with other compatibility factors.',
       compatible: '{name1} and {name2} have different Nadi types, indicating good physiological compatibility. This is considered favorable for a harmonious relationship according to Vedic astrology.'
     },
+    validation: {
+      nameRequired: 'Please enter a name',
+      dateRequired: 'Please enter date of birth',
+      dateInvalid: 'Enter a valid date in DD-MM-YYYY format',
+      dateFormat: 'Example: 20-12-1998 or 20/12/1998',
+      timeRequired: 'Please enter time of birth',
+      timeInvalid: 'Enter a valid time',
+      hourRange: 'Hour must be between 1 and 12',
+      minuteRange: 'Minutes must be between 00 and 59',
+      periodRequired: 'Please select AM or PM',
+      timeFormat: 'Example: 2:30 PM or 10:15 AM',
+      placeRequired: 'Please enter place of birth',
+      placeInvalid: 'Enter a valid city name',
+      placeFormat: 'Example: Mumbai, India or New York, USA'
+    },
     explanation: {
       title: 'Understanding Nadi Dosha - The Critical Marriage Compatibility Factor',
       crisis: {
@@ -223,6 +238,21 @@ const translations = {
       incompatible: '{name1} और {name2} की नाड़ी एक समान है, जो वैदिक ज्योतिष के अनुसार संभावित शारीरिक और आनुवंशिक असंगतता का संकेत हो सकता है। इस पहलू को अन्य संगतता कारकों के साथ विचार किया जाना चाहिए।',
       compatible: '{name1} और {name2} की नाड़ी अलग-अलग है, जो अच्छी शारीरिक संगतता को दर्शाती है। वैदिक ज्योतिष के अनुसार यह सामंजस्यपूर्ण संबंध के लिए अनुकूल माना जाता है।'
     },
+    validation: {
+      nameRequired: 'कृपया नाम दर्ज करें',
+      dateRequired: 'कृपया जन्म तिथि दर्ज करें',
+      dateInvalid: 'दिन-महीना-वर्ष प्रारूप में मान्य तिथि दर्ज करें',
+      dateFormat: 'उदाहरण: 20-12-1998 या 20/12/1998',
+      timeRequired: 'कृपया जन्म समय दर्ज करें',
+      timeInvalid: 'मान्य समय दर्ज करें',
+      hourRange: 'घंटा 1 से 12 के बीच होना चाहिए',
+      minuteRange: 'मिनट 00 से 59 के बीच होना चाहिए',
+      periodRequired: 'कृपया AM या PM चुनें',
+      timeFormat: 'उदाहरण: दोपहर 2:30 या सुबह 10:15',
+      placeRequired: 'कृपया जन्म स्थान दर्ज करें',
+      placeInvalid: 'मान्य शहर का नाम दर्ज करें',
+      placeFormat: 'उदाहरण: मुंबई, भारत या न्यूयॉर्क, USA'
+    },
     explanation: {
       title: 'नाड़ी दोष को समझें - विवाह संगतता का महत्वपूर्ण कारक',
       crisis: {
@@ -323,6 +353,21 @@ const translations = {
     judgement: {
       incompatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਇੱਕੋ ਜਿਹੀ ਹੈ, ਜੋ ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਸੰਭਾਵਿਤ ਸਰੀਰਕ ਅਤੇ ਜੈਨੇਟਿਕ ਅਸੰਗਤਤਾ ਦਾ ਸੰਕੇਤ ਹੋ ਸਕਦਾ ਹੈ। ਇਸ ਪਹਿਲੂ ਨੂੰ ਹੋਰ ਅਨੁਕੂਲਤਾ ਕਾਰਕਾਂ ਦੇ ਨਾਲ ਵਿਚਾਰਿਆ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।',
       compatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਵੱਖਰੀ ਹੈ, ਜੋ ਚੰਗੀ ਸਰੀਰਕ ਅਨੁਕੂਲਤਾ ਨੂੰ ਦਰਸਾਉਂਦੀ ਹੈ। ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਇਹ ਸਮਰੱਸ ਸਬੰਧ ਲਈ ਅਨੁਕੂਲ ਮੰਨਿਆ ਜਾਂਦਾ ਹੈ।'
+    },
+    validation: {
+      nameRequired: 'ਕਿਰਪਾ ਕਰਕੇ ਨਾਮ ਦਰਜ ਕਰੋ',
+      dateRequired: 'ਕਿਰਪਾ ਕਰਕੇ ਜਨਮ ਤਾਰੀਖ ਦਰਜ ਕਰੋ',
+      dateInvalid: 'ਦਿਨ-ਮਹੀਨਾ-ਸਾਲ ਫਾਰਮੈਟ ਵਿੱਚ ਮਾਨਯ ਤਾਰੀਖ ਦਰਜ ਕਰੋ',
+      dateFormat: 'ਉਦਾਹਰਣ: 20-12-1998 ਜਾਂ 20/12/1998',
+      timeRequired: 'ਕਿਰਪਾ ਕਰਕੇ ਜਨਮ ਸਮਾਂ ਦਰਜ ਕਰੋ',
+      timeInvalid: 'ਮਾਨਯ ਸਮਾਂ ਦਰਜ ਕਰੋ',
+      hourRange: 'ਘੰਟਾ 1 ਤੋਂ 12 ਦੇ ਵਿਚਕਾਰ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ',
+      minuteRange: 'ਮਿੰਟ 00 ਤੋਂ 59 ਦੇ ਵਿਚਕਾਰ ਹੋਣੇ ਚਾਹੀਦੇ ਹਨ',
+      periodRequired: 'ਕਿਰਪਾ ਕਰਕੇ AM ਜਾਂ PM ਚੁਣੋ',
+      timeFormat: 'ਉਦਾਹਰਣ: ਦੁਪਹਿਰ 2:30 ਜਾਂ ਸਵੇਰੇ 10:15',
+      placeRequired: 'ਕਿਰਪਾ ਕਰਕੇ ਜਨਮ ਸਥਾਨ ਦਰਜ ਕਰੋ',
+      placeInvalid: 'ਮਾਨਯ ਸ਼ਹਿਰ ਦਾ ਨਾਮ ਦਰਜ ਕਰੋ',
+      placeFormat: 'ਉਦਾਹਰਣ: ਮੁੰਬਈ, ਭਾਰਤ ਜਾਂ ਨਿਊਯਾਰਕ, USA'
     },
     explanation: {
       title: 'ਨਾੜੀ ਦੋਸ਼ ਨੂੰ ਸਮਝੋ - ਵਿਆਹ ਅਨੁਕੂਲਤਾ ਦਾ ਮਹੱਤਵਪੂਰਨ ਕਾਰਕ',
@@ -2738,30 +2783,240 @@ function convert12To24Hour(hour, minute, period) {
  * @param {boolean} isSingleMode
  * @returns {boolean}
  */
-function validateFormValues(d, isSingleMode) {
-  const timeRegex = /^\d{2}:\d{2}$/;
+/**
+ * Production-ready form validation with comprehensive checks
+ * @param {Object} values - Form values object
+ * @param {boolean} isSingleMode - Single or compare mode
+ * @returns {boolean} True if valid, false otherwise
+ */
+function validateFormValues(values, isSingleMode) {
   const maxPerson = isSingleMode ? 1 : 2;
+  const personLabel = isSingleMode ? t('form.yourDetails') : '';
   
-  for (let i=1; i<=maxPerson; i++) {
-    // Validate and normalize date
-    const normalizedDate = normalizeDateFormat(d[`dob${i}`]);
-    if (!normalizedDate) {
-      alert(`Person ${i}: Enter a valid date.\n\nAccepted formats:\n• YYYY-MM-DD (e.g., 1998-12-20)\n• DD-MM-YYYY (e.g., 20-12-1998)\n• DD/MM/YYYY (e.g., 20/12/1998)`);
-      return false;
-    }
-    // Update the value with normalized format
-    d[`dob${i}`] = normalizedDate;
+  for (let i = 1; i <= maxPerson; i++) {
+    const label = isSingleMode ? personLabel : `${t('form.person1').replace('1', i)}`;
     
-    if (!timeRegex.test(d[`tob${i}`]) || d[`tob${i}`] === null) {
-      alert(`Person ${i}: Please enter a valid time.\n\n• Hour: 1-12\n• Minute: 00-59\n• Select AM or PM\n\nExample: 2:30 PM or 10:15 AM`);
+    // ============================================
+    // 1. NAME VALIDATION
+    // ============================================
+    const name = values[`name${i}`];
+    if (!name || name.trim().length === 0) {
+      showValidationError(
+        `name${i}`,
+        `${label}: ${t('validation.nameRequired')}`,
+        t('validation.nameRequired')
+      );
       return false;
     }
-    if (!d[`pob${i}`] || d[`pob${i}`].trim().length < 2) {
-      alert(`Person ${i}: Enter a valid place of birth.\n\nExample: Mumbai, India or New York, USA`);
+    
+    if (name.trim().length < 2) {
+      showValidationError(
+        `name${i}`,
+        `${label}: ${t('validation.nameRequired')}`,
+        'Name must be at least 2 characters'
+      );
+      return false;
+    }
+    
+    // ============================================
+    // 2. DATE OF BIRTH VALIDATION
+    // ============================================
+    const dob = values[`dob${i}`];
+    
+    // Check if empty
+    if (!dob || dob.trim().length === 0) {
+      showValidationError(
+        `dob${i}`,
+        `${label}: ${t('validation.dateRequired')}`,
+        t('validation.dateFormat')
+      );
+      return false;
+    }
+    
+    // Normalize and validate date format
+    const normalizedDate = normalizeDateFormat(dob);
+    if (!normalizedDate) {
+      showValidationError(
+        `dob${i}`,
+        `${label}: ${t('validation.dateInvalid')}`,
+        t('validation.dateFormat')
+      );
+      return false;
+    }
+    
+    // Check if date is actually valid (e.g., not 32-13-1998)
+    if (!isValidDate(normalizedDate.split('-')[0], normalizedDate.split('-')[1], normalizedDate.split('-')[2])) {
+      showValidationError(
+        `dob${i}`,
+        `${label}: ${t('validation.dateInvalid')}`,
+        'Please check the day and month values'
+      );
+      return false;
+    }
+    
+    // Check reasonable year range (1900-2100)
+    const year = parseInt(normalizedDate.split('-')[0]);
+    if (year < 1900 || year > 2100) {
+      showValidationError(
+        `dob${i}`,
+        `${label}: Year must be between 1900 and 2100`,
+        `You entered: ${year}`
+      );
+      return false;
+    }
+    
+    // Update with normalized format
+    values[`dob${i}`] = normalizedDate;
+    
+    // ============================================
+    // 3. TIME OF BIRTH VALIDATION
+    // ============================================
+    const hourField = `tobHour${i}`;
+    const minField = `tobMin${i}`;
+    const periodField = `tobPeriod${i}`;
+    
+    const hour = values[hourField];
+    const minute = values[minField];
+    const period = values[periodField];
+    
+    // Check if all time fields are filled
+    if (!hour || !minute || !period) {
+      const missingField = !hour ? hourField : !minute ? minField : periodField;
+      showValidationError(
+        missingField,
+        `${label}: ${t('validation.timeRequired')}`,
+        t('validation.timeFormat')
+      );
+      return false;
+    }
+    
+    // Validate hour
+    const hourNum = parseInt(hour, 10);
+    if (isNaN(hourNum) || hourNum < 1 || hourNum > 12) {
+      showValidationError(
+        hourField,
+        `${label}: ${t('validation.hourRange')}`,
+        `You entered: ${hour}`
+      );
+      return false;
+    }
+    
+    // Validate minute
+    const minNum = parseInt(minute, 10);
+    if (isNaN(minNum) || minNum < 0 || minNum > 59) {
+      showValidationError(
+        minField,
+        `${label}: ${t('validation.minuteRange')}`,
+        `You entered: ${minute}`
+      );
+      return false;
+    }
+    
+    // Validate period
+    if (period !== 'AM' && period !== 'PM') {
+      showValidationError(
+        periodField,
+        `${label}: ${t('validation.periodRequired')}`,
+        ''
+      );
+      return false;
+    }
+    
+    // ============================================
+    // 4. PLACE OF BIRTH VALIDATION
+    // ============================================
+    const pob = values[`pob${i}`];
+    
+    // Check if empty
+    if (!pob || pob.trim().length === 0) {
+      showValidationError(
+        `pob${i}`,
+        `${label}: ${t('validation.placeRequired')}`,
+        t('validation.placeFormat')
+      );
+      return false;
+    }
+    
+    // Check minimum length (at least 2 characters)
+    if (pob.trim().length < 2) {
+      showValidationError(
+        `pob${i}`,
+        `${label}: ${t('validation.placeInvalid')}`,
+        'Place name must be at least 2 characters'
+      );
+      return false;
+    }
+    
+    // Check for valid characters (allow letters, spaces, commas, hyphens)
+    if (!/^[a-zA-Z\s,.-]+$/.test(pob)) {
+      showValidationError(
+        `pob${i}`,
+        `${label}: ${t('validation.placeInvalid')}`,
+        'Use only letters, spaces, and commas'
+      );
       return false;
     }
   }
+  
+  console.log('✅ All validations passed');
   return true;
+}
+
+/**
+ * Show validation error with proper UI feedback
+ * @param {string} fieldId - ID of the field with error
+ * @param {string} title - Error title
+ * @param {string} hint - Helpful hint
+ */
+function showValidationError(fieldId, title, hint) {
+  // Focus the problematic field
+  const field = document.getElementById(fieldId);
+  if (field) {
+    field.focus();
+    field.classList.add('error');
+    
+    // Add visual shake animation
+    field.style.animation = 'shake 0.5s';
+    setTimeout(() => {
+      field.style.animation = '';
+      field.classList.remove('error');
+    }, 500);
+  }
+  
+  // Show error message in a card (not alert)
+  showErrorCard(title, hint);
+}
+
+/**
+ * Show error card instead of alert
+ * @param {string} title - Error title
+ * @param {string} message - Error message/hint
+ */
+function showErrorCard(title, message) {
+  const errorHTML = `
+    <div class="validation-error-overlay" onclick="this.remove()">
+      <div class="validation-error-card" onclick="event.stopPropagation()">
+        <div class="error-header">
+          <i class="fas fa-exclamation-circle"></i>
+          <h3>Validation Error</h3>
+        </div>
+        <div class="error-body">
+          <p class="error-title">${title}</p>
+          ${message ? `<p class="error-hint">${message}</p>` : ''}
+        </div>
+        <button class="error-close-btn" onclick="this.closest('.validation-error-overlay').remove()">
+          <i class="fas fa-times"></i> Close
+        </button>
+      </div>
+    </div>
+  `;
+  
+  // Remove existing error if any
+  const existing = document.querySelector('.validation-error-overlay');
+  if (existing) existing.remove();
+  
+  // Add to body
+  document.body.insertAdjacentHTML('beforeend', errorHTML);
 }
 
 /**
