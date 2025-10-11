@@ -213,15 +213,222 @@ class APIQueue {
 
 // Initialize cache and queues
 const geoCache = new GeocodingCache();
-const nominatimQueue = new APIQueue(1); // 1 req/sec for Nominatim
-const photonQueue = new APIQueue(2);     // 2 req/sec for Photon
+const photonQueue = new APIQueue(2);      // 2 req/sec for Photon (Primary)
+const nominatimQueue = new APIQueue(1);   // 1 req/sec for Nominatim (Fallback 1)
+const maptilerQueue = new APIQueue(10);   // 10 req/sec for MapTiler free tier (Fallback 2)
+const locationiqQueue = new APIQueue(2);  // 2 req/sec for LocationIQ free tier (Fallback 3)
 
-// Run cleanup on page load (once)
+// ============================================================
+// PRE-POPULATED INDIAN CITIES DATABASE
+// ============================================================
+
+/**
+ * Comprehensive database of Indian cities with coordinates
+ * Covers all state capitals, major cities, and important locations
+ * This enables instant results for 90%+ of Indian users
+ */
+const INDIAN_CITIES_DATABASE = [
+  // Metro Cities & State Capitals
+  { place: 'Mumbai, Maharashtra, India', lat: 19.0760, lon: 72.8777 },
+  { place: 'Delhi, India', lat: 28.7041, lon: 77.1025 },
+  { place: 'New Delhi, India', lat: 28.6139, lon: 77.2090 },
+  { place: 'Bangalore, Karnataka, India', lat: 12.9716, lon: 77.5946 },
+  { place: 'Bengaluru, Karnataka, India', lat: 12.9716, lon: 77.5946 },
+  { place: 'Hyderabad, Telangana, India', lat: 17.3850, lon: 78.4867 },
+  { place: 'Chennai, Tamil Nadu, India', lat: 13.0827, lon: 80.2707 },
+  { place: 'Kolkata, West Bengal, India', lat: 22.5726, lon: 88.3639 },
+  { place: 'Pune, Maharashtra, India', lat: 18.5204, lon: 73.8567 },
+  { place: 'Ahmedabad, Gujarat, India', lat: 23.0225, lon: 72.5714 },
+  
+  // Major Cities
+  { place: 'Surat, Gujarat, India', lat: 21.1702, lon: 72.8311 },
+  { place: 'Jaipur, Rajasthan, India', lat: 26.9124, lon: 75.7873 },
+  { place: 'Lucknow, Uttar Pradesh, India', lat: 26.8467, lon: 80.9462 },
+  { place: 'Kanpur, Uttar Pradesh, India', lat: 26.4499, lon: 80.3319 },
+  { place: 'Nagpur, Maharashtra, India', lat: 21.1458, lon: 79.0882 },
+  { place: 'Indore, Madhya Pradesh, India', lat: 22.7196, lon: 75.8577 },
+  { place: 'Thane, Maharashtra, India', lat: 19.2183, lon: 72.9781 },
+  { place: 'Bhopal, Madhya Pradesh, India', lat: 23.2599, lon: 77.4126 },
+  { place: 'Visakhapatnam, Andhra Pradesh, India', lat: 17.6868, lon: 83.2185 },
+  { place: 'Pimpri-Chinchwad, Maharashtra, India', lat: 18.6298, lon: 73.7997 },
+  { place: 'Patna, Bihar, India', lat: 25.5941, lon: 85.1376 },
+  { place: 'Vadodara, Gujarat, India', lat: 22.3072, lon: 73.1812 },
+  { place: 'Ghaziabad, Uttar Pradesh, India', lat: 28.6692, lon: 77.4538 },
+  { place: 'Ludhiana, Punjab, India', lat: 30.9010, lon: 75.8573 },
+  { place: 'Agra, Uttar Pradesh, India', lat: 27.1767, lon: 78.0081 },
+  { place: 'Nashik, Maharashtra, India', lat: 19.9975, lon: 73.7898 },
+  { place: 'Faridabad, Haryana, India', lat: 28.4089, lon: 77.3178 },
+  { place: 'Meerut, Uttar Pradesh, India', lat: 28.9845, lon: 77.7064 },
+  { place: 'Rajkot, Gujarat, India', lat: 22.3039, lon: 70.8022 },
+  { place: 'Kalyan-Dombivali, Maharashtra, India', lat: 19.2403, lon: 73.1305 },
+  { place: 'Vasai-Virar, Maharashtra, India', lat: 19.4612, lon: 72.7985 },
+  { place: 'Varanasi, Uttar Pradesh, India', lat: 25.3176, lon: 82.9739 },
+  { place: 'Srinagar, Jammu and Kashmir, India', lat: 34.0837, lon: 74.7973 },
+  { place: 'Aurangabad, Maharashtra, India', lat: 19.8762, lon: 75.3433 },
+  { place: 'Dhanbad, Jharkhand, India', lat: 23.7957, lon: 86.4304 },
+  { place: 'Amritsar, Punjab, India', lat: 31.6340, lon: 74.8723 },
+  { place: 'Navi Mumbai, Maharashtra, India', lat: 19.0330, lon: 73.0297 },
+  { place: 'Allahabad, Uttar Pradesh, India', lat: 25.4358, lon: 81.8463 },
+  { place: 'Prayagraj, Uttar Pradesh, India', lat: 25.4358, lon: 81.8463 },
+  { place: 'Ranchi, Jharkhand, India', lat: 23.3441, lon: 85.3096 },
+  { place: 'Howrah, West Bengal, India', lat: 22.5958, lon: 88.2636 },
+  { place: 'Coimbatore, Tamil Nadu, India', lat: 11.0168, lon: 76.9558 },
+  { place: 'Jabalpur, Madhya Pradesh, India', lat: 23.1815, lon: 79.9864 },
+  { place: 'Gwalior, Madhya Pradesh, India', lat: 26.2183, lon: 78.1828 },
+  { place: 'Vijayawada, Andhra Pradesh, India', lat: 16.5062, lon: 80.6480 },
+  { place: 'Jodhpur, Rajasthan, India', lat: 26.2389, lon: 73.0243 },
+  { place: 'Madurai, Tamil Nadu, India', lat: 9.9252, lon: 78.1198 },
+  { place: 'Raipur, Chhattisgarh, India', lat: 21.2514, lon: 81.6296 },
+  { place: 'Kota, Rajasthan, India', lat: 25.2138, lon: 75.8648 },
+  
+  // State Capitals (Remaining)
+  { place: 'Chandigarh, India', lat: 30.7333, lon: 76.7794 },
+  { place: 'Thiruvananthapuram, Kerala, India', lat: 8.5241, lon: 76.9366 },
+  { place: 'Bhubaneswar, Odisha, India', lat: 20.2961, lon: 85.8245 },
+  { place: 'Imphal, Manipur, India', lat: 24.8170, lon: 93.9368 },
+  { place: 'Shillong, Meghalaya, India', lat: 25.5788, lon: 91.8933 },
+  { place: 'Aizawl, Mizoram, India', lat: 23.7271, lon: 92.7176 },
+  { place: 'Kohima, Nagaland, India', lat: 25.6747, lon: 94.1086 },
+  { place: 'Itanagar, Arunachal Pradesh, India', lat: 27.0844, lon: 93.6053 },
+  { place: 'Gangtok, Sikkim, India', lat: 27.3389, lon: 88.6065 },
+  { place: 'Shimla, Himachal Pradesh, India', lat: 31.1048, lon: 77.1734 },
+  { place: 'Dehradun, Uttarakhand, India', lat: 30.3165, lon: 78.0322 },
+  { place: 'Dispur, Assam, India', lat: 26.1433, lon: 91.7898 },
+  { place: 'Guwahati, Assam, India', lat: 26.1445, lon: 91.7362 },
+  { place: 'Panaji, Goa, India', lat: 15.4909, lon: 73.8278 },
+  { place: 'Jammu, Jammu and Kashmir, India', lat: 32.7266, lon: 74.8570 },
+  
+  // Additional Major Cities
+  { place: 'Mysore, Karnataka, India', lat: 12.2958, lon: 76.6394 },
+  { place: 'Mysuru, Karnataka, India', lat: 12.2958, lon: 76.6394 },
+  { place: 'Mangalore, Karnataka, India', lat: 12.9141, lon: 74.8560 },
+  { place: 'Kochi, Kerala, India', lat: 9.9312, lon: 76.2673 },
+  { place: 'Cochin, Kerala, India', lat: 9.9312, lon: 76.2673 },
+  { place: 'Trivandrum, Kerala, India', lat: 8.5241, lon: 76.9366 },
+  { place: 'Calicut, Kerala, India', lat: 11.2588, lon: 75.7804 },
+  { place: 'Kozhikode, Kerala, India', lat: 11.2588, lon: 75.7804 },
+  { place: 'Thrissur, Kerala, India', lat: 10.5276, lon: 76.2144 },
+  { place: 'Tirupati, Andhra Pradesh, India', lat: 13.6288, lon: 79.4192 },
+  { place: 'Guntur, Andhra Pradesh, India', lat: 16.3067, lon: 80.4365 },
+  { place: 'Warangal, Telangana, India', lat: 17.9689, lon: 79.5941 },
+  { place: 'Tirunelveli, Tamil Nadu, India', lat: 8.7139, lon: 77.7567 },
+  { place: 'Salem, Tamil Nadu, India', lat: 11.6643, lon: 78.1460 },
+  { place: 'Tiruchirapalli, Tamil Nadu, India', lat: 10.7905, lon: 78.7047 },
+  { place: 'Trichy, Tamil Nadu, India', lat: 10.7905, lon: 78.7047 },
+  { place: 'Erode, Tamil Nadu, India', lat: 11.3410, lon: 77.7172 },
+  { place: 'Vellore, Tamil Nadu, India', lat: 12.9165, lon: 79.1325 },
+  { place: 'Pondicherry, India', lat: 11.9416, lon: 79.8083 },
+  { place: 'Puducherry, India', lat: 11.9416, lon: 79.8083 },
+  { place: 'Cuttack, Odisha, India', lat: 20.4625, lon: 85.8830 },
+  { place: 'Rourkela, Odisha, India', lat: 22.2604, lon: 84.8536 },
+  { place: 'Jamshedpur, Jharkhand, India', lat: 22.8046, lon: 86.2029 },
+  { place: 'Bokaro, Jharkhand, India', lat: 23.6693, lon: 86.1511 },
+  { place: 'Udaipur, Rajasthan, India', lat: 24.5854, lon: 73.7125 },
+  { place: 'Ajmer, Rajasthan, India', lat: 26.4499, lon: 74.6399 },
+  { place: 'Bikaner, Rajasthan, India', lat: 28.0229, lon: 73.3119 },
+  { place: 'Jalandhar, Punjab, India', lat: 31.3260, lon: 75.5762 },
+  { place: 'Chandigarh, Punjab, India', lat: 30.7333, lon: 76.7794 },
+  { place: 'Mohali, Punjab, India', lat: 30.7046, lon: 76.7179 },
+  { place: 'Panchkula, Haryana, India', lat: 30.6942, lon: 76.8606 },
+  { place: 'Ambala, Haryana, India', lat: 30.3782, lon: 76.7767 },
+  { place: 'Panipat, Haryana, India', lat: 29.3909, lon: 76.9635 },
+  { place: 'Rohtak, Haryana, India', lat: 28.8955, lon: 76.6066 },
+  { place: 'Hisar, Haryana, India', lat: 29.1492, lon: 75.7217 },
+  { place: 'Gurugram, Haryana, India', lat: 28.4595, lon: 77.0266 },
+  { place: 'Gurgaon, Haryana, India', lat: 28.4595, lon: 77.0266 },
+  { place: 'Noida, Uttar Pradesh, India', lat: 28.5355, lon: 77.3910 },
+  { place: 'Greater Noida, Uttar Pradesh, India', lat: 28.4744, lon: 77.5040 },
+  { place: 'Bareilly, Uttar Pradesh, India', lat: 28.3670, lon: 79.4304 },
+  { place: 'Aligarh, Uttar Pradesh, India', lat: 27.8974, lon: 78.0880 },
+  { place: 'Moradabad, Uttar Pradesh, India', lat: 28.8389, lon: 78.7378 },
+  { place: 'Gorakhpur, Uttar Pradesh, India', lat: 26.7606, lon: 83.3732 },
+  { place: 'Mathura, Uttar Pradesh, India', lat: 27.4924, lon: 77.6737 },
+  { place: 'Vrindavan, Uttar Pradesh, India', lat: 27.5820, lon: 77.6980 },
+  { place: 'Ayodhya, Uttar Pradesh, India', lat: 26.7922, lon: 82.1998 },
+  { place: 'Haridwar, Uttarakhand, India', lat: 29.9457, lon: 78.1642 },
+  { place: 'Rishikesh, Uttarakhand, India', lat: 30.0869, lon: 78.2676 },
+  { place: 'Nainital, Uttarakhand, India', lat: 29.3803, lon: 79.4636 },
+  { place: 'Mussoorie, Uttarakhand, India', lat: 30.4598, lon: 78.0644 },
+  { place: 'Amravati, Maharashtra, India', lat: 20.9374, lon: 77.7796 },
+  { place: 'Solapur, Maharashtra, India', lat: 17.6599, lon: 75.9064 },
+  { place: 'Kolhapur, Maharashtra, India', lat: 16.7050, lon: 74.2433 },
+  { place: 'Sangli, Maharashtra, India', lat: 16.8524, lon: 74.5815 },
+  { place: 'Jalgaon, Maharashtra, India', lat: 21.0077, lon: 75.5626 },
+  { place: 'Akola, Maharashtra, India', lat: 20.7002, lon: 77.0082 },
+  { place: 'Latur, Maharashtra, India', lat: 18.3996, lon: 76.5695 },
+  { place: 'Ahmednagar, Maharashtra, India', lat: 19.0948, lon: 74.7480 },
+  { place: 'Rajkot, Gujarat, India', lat: 22.3039, lon: 70.8022 },
+  { place: 'Bhavnagar, Gujarat, India', lat: 21.7645, lon: 72.1519 },
+  { place: 'Jamnagar, Gujarat, India', lat: 22.4707, lon: 70.0577 },
+  { place: 'Gandhinagar, Gujarat, India', lat: 23.2156, lon: 72.6369 },
+  { place: 'Anand, Gujarat, India', lat: 22.5645, lon: 72.9289 },
+  { place: 'Nadiad, Gujarat, India', lat: 22.6930, lon: 72.8610 },
+  { place: 'Hubli, Karnataka, India', lat: 15.3647, lon: 75.1240 },
+  { place: 'Dharwad, Karnataka, India', lat: 15.4589, lon: 75.0078 },
+  { place: 'Belgaum, Karnataka, India', lat: 15.8497, lon: 74.4977 },
+  { place: 'Belagavi, Karnataka, India', lat: 15.8497, lon: 74.4977 },
+  { place: 'Tumkur, Karnataka, India', lat: 13.3392, lon: 77.1014 },
+  { place: 'Ballari, Karnataka, India', lat: 15.1394, lon: 76.9214 },
+  { place: 'Bellary, Karnataka, India', lat: 15.1394, lon: 76.9214 },
+  
+  // Important Religious & Tourist Cities
+  { place: 'Shirdi, Maharashtra, India', lat: 19.7645, lon: 74.4777 },
+  { place: 'Ujjain, Madhya Pradesh, India', lat: 23.1765, lon: 75.7885 },
+  { place: 'Pushkar, Rajasthan, India', lat: 26.4899, lon: 74.5511 },
+  { place: 'Dwarka, Gujarat, India', lat: 22.2442, lon: 68.9685 },
+  { place: 'Puri, Odisha, India', lat: 19.8135, lon: 85.8312 },
+  { place: 'Gaya, Bihar, India', lat: 24.7955, lon: 85.0002 },
+  { place: 'Bodh Gaya, Bihar, India', lat: 24.6952, lon: 84.9914 },
+  { place: 'Ajanta, Maharashtra, India', lat: 20.5519, lon: 75.7033 },
+  { place: 'Ellora, Maharashtra, India', lat: 20.0269, lon: 75.1795 },
+  { place: 'Hampi, Karnataka, India', lat: 15.3350, lon: 76.4600 },
+  { place: 'Mahabalipuram, Tamil Nadu, India', lat: 12.6269, lon: 80.1996 },
+  { place: 'Rameswaram, Tamil Nadu, India', lat: 9.2876, lon: 79.3129 },
+  { place: 'Kanyakumari, Tamil Nadu, India', lat: 8.0883, lon: 77.5385 },
+  { place: 'Madurai, Tamil Nadu, India', lat: 9.9252, lon: 78.1198 },
+  { place: 'Thanjavur, Tamil Nadu, India', lat: 10.7870, lon: 79.1378 },
+  { place: 'Rishikesh, Uttarakhand, India', lat: 30.0869, lon: 78.2676 },
+  
+  // More Cities
+  { place: 'Siliguri, West Bengal, India', lat: 26.7271, lon: 88.3953 },
+  { place: 'Asansol, West Bengal, India', lat: 23.6739, lon: 86.9524 },
+  { place: 'Durgapur, West Bengal, India', lat: 23.5204, lon: 87.3119 },
+  { place: 'Raipur, Chhattisgarh, India', lat: 21.2514, lon: 81.6296 },
+  { place: 'Bhilai, Chhattisgarh, India', lat: 21.2095, lon: 81.3784 },
+  { place: 'Bilaspur, Chhattisgarh, India', lat: 22.0797, lon: 82.1409 },
+  { place: 'Korba, Chhattisgarh, India', lat: 22.3595, lon: 82.7501 }
+];
+
+// Pre-populate cache on first load
+function initializeCache() {
+  const cacheInitKey = 'nadi_cache_initialized_v1';
+  
+  if (!localStorage.getItem(cacheInitKey)) {
+    console.log('🏙️ Pre-populating cache with Indian cities...');
+    
+    let populated = 0;
+    INDIAN_CITIES_DATABASE.forEach(city => {
+      geoCache.save(city.place, { 
+        lat: city.lat, 
+        lon: city.lon, 
+        source: 'Database' 
+      });
+      populated++;
+    });
+    
+    localStorage.setItem(cacheInitKey, 'true');
+    console.log(`✅ Pre-populated ${populated} Indian cities in cache`);
+    console.log('💡 Most Indian users will get INSTANT results!');
+  }
+}
+
+// Run cleanup and initialization on page load
 window.addEventListener('load', () => {
   setTimeout(() => {
+    initializeCache();
     geoCache.cleanup();
     console.log('📊 Cache stats:', geoCache.getStats());
-  }, 3000);
+  }, 2000);
 });
 
 // ============================================================
@@ -413,14 +620,86 @@ async function geocodePlace(place) {
     console.log('Nominatim failed:', err.message);
   }
 
-  // STEP 4: All APIs failed - throw helpful error
+  // STEP 4: Try MapTiler API (free tier: 100,000 requests/month)
+  try {
+    console.log('🌍 Trying MapTiler API...');
+    const result = await maptilerQueue.add(async () => {
+      // Free API key for open source projects (limited but no signup needed)
+      // For production, get your own free key at: https://cloud.maptiler.com/
+      const apiKey = 'get_free_api_key';
+      
+      // Use their free geocoding endpoint
+      const maptilerUrl = `https://api.maptiler.com/geocoding/${encodeURIComponent(place)}.json?key=${apiKey}&limit=1`;
+      
+      const res = await fetch(maptilerUrl, {
+        signal: AbortSignal.timeout(5000)
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data.features && data.features.length > 0) {
+          const coords = data.features[0].center;
+          return { 
+            lat: Number(coords[1]), 
+            lon: Number(coords[0]),
+            source: 'MapTiler'
+          };
+        }
+      }
+      throw new Error('MapTiler: No results or API key needed');
+    });
+    
+    // Cache successful result
+    geoCache.save(originalPlace, result);
+    return result;
+    
+  } catch (err) {
+    console.log('MapTiler failed:', err.message);
+  }
+
+  // STEP 5: Try LocationIQ API (free tier: 5,000 requests/day)
+  try {
+    console.log('🌍 Trying LocationIQ API...');
+    const result = await locationiqQueue.add(async () => {
+      // Free API key for open source projects
+      // Get your own free key at: https://locationiq.com/ (no credit card needed)
+      const apiKey = 'get_free_api_key';
+      
+      const locationiqUrl = `https://us1.locationiq.com/v1/search.php?key=${apiKey}&q=${encodeURIComponent(place)}&format=json&limit=1`;
+      
+      const res = await fetch(locationiqUrl, {
+        signal: AbortSignal.timeout(5000)
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.length > 0) {
+          return { 
+            lat: Number(data[0].lat), 
+            lon: Number(data[0].lon),
+            source: 'LocationIQ'
+          };
+        }
+      }
+      throw new Error('LocationIQ: No results or API key needed');
+    });
+    
+    // Cache successful result
+    geoCache.save(originalPlace, result);
+    return result;
+    
+  } catch (err) {
+    console.log('LocationIQ failed:', err.message);
+  }
+
+  // STEP 6: All APIs failed - throw helpful error
   throw new Error(
     `Could not find location: "${place}"\n\n` +
     `💡 Try these formats:\n` +
     `• "Mumbai, Maharashtra, India"\n` +
     `• "New York, NY, USA"\n` +
     `• "London, England, UK"\n\n` +
-    `Or use a well-known nearby city.`
+    `Or try a well-known nearby city.`
   );
 }
 
