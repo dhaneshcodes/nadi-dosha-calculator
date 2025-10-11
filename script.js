@@ -80,7 +80,8 @@ const translations = {
       name: 'Name',
       namePlaceholder: 'Enter name',
       dob: 'Date of Birth',
-      dobHint: 'Format: 1998-12-20 or 20-12-1998 or 20/12/1998',
+      dobPlaceholder: 'DD-MM-YYYY',
+      dobHint: 'Example: 20-12-1998 or 20/12/1998',
       tob: 'Time of Birth',
       tobHint: '12-hour format: 2:30 PM or 10:15 AM',
       pob: 'Place of Birth',
@@ -116,6 +117,10 @@ const translations = {
       aadiDesc: 'Aadi Nadi represents the Vata (air) constitution in Ayurveda.',
       madhyaDesc: 'Madhya Nadi represents the Pitta (bile) constitution.',
       antyaDesc: 'Antya Nadi represents the Kapha (phlegm) constitution.'
+    },
+    judgement: {
+      incompatible: '{name1} and {name2} have the same Nadi type, which may indicate potential physiological and genetic incompatibility according to Vedic astrology. This aspect should be considered along with other compatibility factors.',
+      compatible: '{name1} and {name2} have different Nadi types, indicating good physiological compatibility. This is considered favorable for a harmonious relationship according to Vedic astrology.'
     }
   },
   hi: {
@@ -134,7 +139,8 @@ const translations = {
       name: 'नाम',
       namePlaceholder: 'नाम दर्ज करें',
       dob: 'जन्म तिथि',
-      dobHint: 'प्रारूप: 1998-12-20 या 20-12-1998 या 20/12/1998',
+      dobPlaceholder: 'दिन-महीना-वर्ष',
+      dobHint: 'उदाहरण: 20-12-1998 या 20/12/1998',
       tob: 'जन्म समय',
       tobHint: '12-घंटे प्रारूप: दोपहर 2:30 या सुबह 10:15',
       pob: 'जन्म स्थान',
@@ -170,6 +176,10 @@ const translations = {
       aadiDesc: 'आदि नाड़ी आयुर्वेद में वात (वायु) संरचना का प्रतिनिधित्व करती है।',
       madhyaDesc: 'मध्य नाड़ी पित्त (bile) संरचना का प्रतिनिधित्व करती है।',
       antyaDesc: 'अंत्य नाड़ी कफ (phlegm) संरचना का प्रतिनिधित्व करती है।'
+    },
+    judgement: {
+      incompatible: '{name1} और {name2} की नाड़ी एक समान है, जो वैदिक ज्योतिष के अनुसार संभावित शारीरिक और आनुवंशिक असंगतता का संकेत हो सकता है। इस पहलू को अन्य संगतता कारकों के साथ विचार किया जाना चाहिए।',
+      compatible: '{name1} और {name2} की नाड़ी अलग-अलग है, जो अच्छी शारीरिक संगतता को दर्शाती है। वैदिक ज्योतिष के अनुसार यह सामंजस्यपूर्ण संबंध के लिए अनुकूल माना जाता है।'
     }
   },
   pa: {
@@ -188,7 +198,8 @@ const translations = {
       name: 'ਨਾਮ',
       namePlaceholder: 'ਨਾਮ ਦਰਜ ਕਰੋ',
       dob: 'ਜਨਮ ਤਾਰੀਖ',
-      dobHint: 'ਫਾਰਮੈਟ: 1998-12-20 ਜਾਂ 20-12-1998 ਜਾਂ 20/12/1998',
+      dobPlaceholder: 'ਦਿਨ-ਮਹੀਨਾ-ਸਾਲ',
+      dobHint: 'ਉਦਾਹਰਣ: 20-12-1998 ਜਾਂ 20/12/1998',
       tob: 'ਜਨਮ ਸਮਾਂ',
       tobHint: '12-ਘੰਟੇ ਫਾਰਮੈਟ: ਦੁਪਹਿਰ 2:30 ਜਾਂ ਸਵੇਰੇ 10:15',
       pob: 'ਜਨਮ ਸਥਾਨ',
@@ -224,6 +235,10 @@ const translations = {
       aadiDesc: 'ਆਦਿ ਨਾੜੀ ਆਯੁਰਵੇਦ ਵਿੱਚ ਵਾਤ (ਹਵਾ) ਸੰਰਚਨਾ ਦਾ ਪ੍ਰਤੀਨਿਧਤਵ ਕਰਦੀ ਹੈ।',
       madhyaDesc: 'ਮੱਧ ਨਾੜੀ ਪਿੱਤ (bile) ਸੰਰਚਨਾ ਦਾ ਪ੍ਰਤੀਨਿਧਤਵ ਕਰਦੀ ਹੈ।',
       antyaDesc: 'ਅੰਤਯ ਨਾੜੀ ਕਫ (phlegm) ਸੰਰਚਨਾ ਦਾ ਪ੍ਰਤੀਨਿਧਤਵ ਕਰਦੀ ਹੈ।'
+    },
+    judgement: {
+      incompatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਇੱਕੋ ਜਿਹੀ ਹੈ, ਜੋ ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਸੰਭਾਵਿਤ ਸਰੀਰਕ ਅਤੇ ਜੈਨੇਟਿਕ ਅਸੰਗਤਤਾ ਦਾ ਸੰਕੇਤ ਹੋ ਸਕਦਾ ਹੈ। ਇਸ ਪਹਿਲੂ ਨੂੰ ਹੋਰ ਅਨੁਕੂਲਤਾ ਕਾਰਕਾਂ ਦੇ ਨਾਲ ਵਿਚਾਰਿਆ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।',
+      compatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਵੱਖਰੀ ਹੈ, ਜੋ ਚੰਗੀ ਸਰੀਰਕ ਅਨੁਕੂਲਤਾ ਨੂੰ ਦਰਸਾਉਂਦੀ ਹੈ। ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਇਹ ਸਮਰੱਸ ਸਬੰਧ ਲਈ ਅਨੁਕੂਲ ਮੰਨਿਆ ਜਾਂਦਾ ਹੈ।'
     }
   }
 };
@@ -1110,8 +1125,414 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Poona, Maharashtra, India', lat: 18.5204, lon: 73.8567 },
   { place: 'Benares, India', lat: 25.3176, lon: 82.9739 },
   { place: 'Banaras, India', lat: 25.3176, lon: 82.9739 },
-  { place: 'Kashi, India', lat: 25.3176, lon: 82.9739 }
+  { place: 'Kashi, India', lat: 25.3176, lon: 82.9739 },
+  
+  // ============================================================
+  // POPULAR WORLD CITIES (International Users)
+  // ============================================================
+  
+  // North America
+  { place: 'New York, USA', lat: 40.7128, lon: -74.0060 },
+  { place: 'New York, NY, USA', lat: 40.7128, lon: -74.0060 },
+  { place: 'Los Angeles, USA', lat: 34.0522, lon: -118.2437 },
+  { place: 'Los Angeles, CA, USA', lat: 34.0522, lon: -118.2437 },
+  { place: 'Chicago, USA', lat: 41.8781, lon: -87.6298 },
+  { place: 'Chicago, IL, USA', lat: 41.8781, lon: -87.6298 },
+  { place: 'Houston, USA', lat: 29.7604, lon: -95.3698 },
+  { place: 'Houston, TX, USA', lat: 29.7604, lon: -95.3698 },
+  { place: 'San Francisco, USA', lat: 37.7749, lon: -122.4194 },
+  { place: 'San Francisco, CA, USA', lat: 37.7749, lon: -122.4194 },
+  { place: 'Toronto, Canada', lat: 43.6532, lon: -79.3832 },
+  { place: 'Vancouver, Canada', lat: 49.2827, lon: -123.1207 },
+  { place: 'Montreal, Canada', lat: 45.5017, lon: -73.5673 },
+  
+  // Europe
+  { place: 'London, UK', lat: 51.5074, lon: -0.1278 },
+  { place: 'London, England, UK', lat: 51.5074, lon: -0.1278 },
+  { place: 'Paris, France', lat: 48.8566, lon: 2.3522 },
+  { place: 'Berlin, Germany', lat: 52.5200, lon: 13.4050 },
+  { place: 'Madrid, Spain', lat: 40.4168, lon: -3.7038 },
+  { place: 'Rome, Italy', lat: 41.9028, lon: 12.4964 },
+  { place: 'Amsterdam, Netherlands', lat: 52.3676, lon: 4.9041 },
+  { place: 'Brussels, Belgium', lat: 50.8503, lon: 4.3517 },
+  { place: 'Vienna, Austria', lat: 48.2082, lon: 16.3738 },
+  { place: 'Zurich, Switzerland', lat: 47.3769, lon: 8.5417 },
+  { place: 'Stockholm, Sweden', lat: 59.3293, lon: 18.0686 },
+  { place: 'Copenhagen, Denmark', lat: 55.6761, lon: 12.5683 },
+  { place: 'Oslo, Norway', lat: 59.9139, lon: 10.7522 },
+  { place: 'Helsinki, Finland', lat: 60.1699, lon: 24.9384 },
+  { place: 'Dublin, Ireland', lat: 53.3498, lon: -6.2603 },
+  { place: 'Lisbon, Portugal', lat: 38.7223, lon: -9.1393 },
+  { place: 'Athens, Greece', lat: 37.9838, lon: 23.7275 },
+  { place: 'Prague, Czech Republic', lat: 50.0755, lon: 14.4378 },
+  { place: 'Warsaw, Poland', lat: 52.2297, lon: 21.0122 },
+  { place: 'Moscow, Russia', lat: 55.7558, lon: 37.6173 },
+  
+  // Asia (Non-India)
+  { place: 'Dubai, UAE', lat: 25.2048, lon: 55.2708 },
+  { place: 'Dubai, United Arab Emirates', lat: 25.2048, lon: 55.2708 },
+  { place: 'Singapore', lat: 1.3521, lon: 103.8198 },
+  { place: 'Singapore, Singapore', lat: 1.3521, lon: 103.8198 },
+  { place: 'Bangkok, Thailand', lat: 13.7563, lon: 100.5018 },
+  { place: 'Kuala Lumpur, Malaysia', lat: 3.1390, lon: 101.6869 },
+  { place: 'Hong Kong', lat: 22.3193, lon: 114.1694 },
+  { place: 'Tokyo, Japan', lat: 35.6762, lon: 139.6503 },
+  { place: 'Osaka, Japan', lat: 34.6937, lon: 135.5023 },
+  { place: 'Seoul, South Korea', lat: 37.5665, lon: 126.9780 },
+  { place: 'Beijing, China', lat: 39.9042, lon: 116.4074 },
+  { place: 'Shanghai, China', lat: 31.2304, lon: 121.4737 },
+  { place: 'Jakarta, Indonesia', lat: -6.2088, lon: 106.8456 },
+  { place: 'Manila, Philippines', lat: 14.5995, lon: 120.9842 },
+  { place: 'Colombo, Sri Lanka', lat: 6.9271, lon: 79.8612 },
+  { place: 'Dhaka, Bangladesh', lat: 23.8103, lon: 90.4125 },
+  { place: 'Karachi, Pakistan', lat: 24.8607, lon: 67.0011 },
+  { place: 'Lahore, Pakistan', lat: 31.5204, lon: 74.3587 },
+  { place: 'Islamabad, Pakistan', lat: 33.6844, lon: 73.0479 },
+  { place: 'Kathmandu, Nepal', lat: 27.7172, lon: 85.3240 },
+  { place: 'Thimphu, Bhutan', lat: 27.4728, lon: 89.6393 },
+  
+  // Middle East
+  { place: 'Riyadh, Saudi Arabia', lat: 24.7136, lon: 46.6753 },
+  { place: 'Jeddah, Saudi Arabia', lat: 21.5169, lon: 39.2192 },
+  { place: 'Doha, Qatar', lat: 25.2854, lon: 51.5310 },
+  { place: 'Abu Dhabi, UAE', lat: 24.4539, lon: 54.3773 },
+  { place: 'Kuwait City, Kuwait', lat: 29.3759, lon: 47.9774 },
+  { place: 'Muscat, Oman', lat: 23.5880, lon: 58.3829 },
+  { place: 'Manama, Bahrain', lat: 26.2285, lon: 50.5860 },
+  { place: 'Tel Aviv, Israel', lat: 32.0853, lon: 34.7818 },
+  { place: 'Jerusalem, Israel', lat: 31.7683, lon: 35.2137 },
+  { place: 'Istanbul, Turkey', lat: 41.0082, lon: 28.9784 },
+  { place: 'Tehran, Iran', lat: 35.6892, lon: 51.3890 },
+  
+  // Australia & Oceania
+  { place: 'Sydney, Australia', lat: -33.8688, lon: 151.2093 },
+  { place: 'Sydney, NSW, Australia', lat: -33.8688, lon: 151.2093 },
+  { place: 'Melbourne, Australia', lat: -37.8136, lon: 144.9631 },
+  { place: 'Melbourne, VIC, Australia', lat: -37.8136, lon: 144.9631 },
+  { place: 'Brisbane, Australia', lat: -27.4698, lon: 153.0251 },
+  { place: 'Perth, Australia', lat: -31.9505, lon: 115.8605 },
+  { place: 'Adelaide, Australia', lat: -34.9285, lon: 138.6007 },
+  { place: 'Auckland, New Zealand', lat: -36.8485, lon: 174.7633 },
+  { place: 'Wellington, New Zealand', lat: -41.2865, lon: 174.7762 },
+  
+  // Africa
+  { place: 'Cairo, Egypt', lat: 30.0444, lon: 31.2357 },
+  { place: 'Johannesburg, South Africa', lat: -26.2041, lon: 28.0473 },
+  { place: 'Cape Town, South Africa', lat: -33.9249, lon: 18.4241 },
+  { place: 'Lagos, Nigeria', lat: 6.5244, lon: 3.3792 },
+  { place: 'Nairobi, Kenya', lat: -1.2864, lon: 36.8172 },
+  { place: 'Casablanca, Morocco', lat: 33.5731, lon: -7.5898 },
+  
+  // South America
+  { place: 'São Paulo, Brazil', lat: -23.5505, lon: -46.6333 },
+  { place: 'Rio de Janeiro, Brazil', lat: -22.9068, lon: -43.1729 },
+  { place: 'Buenos Aires, Argentina', lat: -34.6037, lon: -58.3816 },
+  { place: 'Lima, Peru', lat: -12.0464, lon: -77.0428 },
+  { place: 'Bogotá, Colombia', lat: 4.7110, lon: -74.0721 },
+  { place: 'Santiago, Chile', lat: -33.4489, lon: -70.6693 },
+  { place: 'Mexico City, Mexico', lat: 19.4326, lon: -99.1332 },
+  
+  // Popular simplified versions
+  { place: 'New York', lat: 40.7128, lon: -74.0060 },
+  { place: 'London', lat: 51.5074, lon: -0.1278 },
+  { place: 'Paris', lat: 48.8566, lon: 2.3522 },
+  { place: 'Tokyo', lat: 35.6762, lon: 139.6503 },
+  { place: 'Dubai', lat: 25.2048, lon: 55.2708 },
+  { place: 'Sydney', lat: -33.8688, lon: 151.2093 },
+  
+  // ============================================================
+  // COMPREHENSIVE NORTH INDIA COVERAGE
+  // ============================================================
+  
+  // Uttar Pradesh (Complete District Coverage)
+  { place: 'Shamli, Uttar Pradesh, India', lat: 29.4503, lon: 77.3104 },
+  { place: 'Hapur, Uttar Pradesh, India', lat: 28.7293, lon: 77.7755 },
+  { place: 'Gautam Buddha Nagar, Uttar Pradesh, India', lat: 28.5355, lon: 77.3910 },
+  { place: 'Bagpat, Uttar Pradesh, India', lat: 28.9477, lon: 77.2134 },
+  { place: 'Baghpat, Uttar Pradesh, India', lat: 28.9477, lon: 77.2134 },
+  { place: 'Mathura, Uttar Pradesh, India', lat: 27.4924, lon: 77.6737 },
+  { place: 'Hathras, Uttar Pradesh, India', lat: 27.5959, lon: 78.0502 },
+  { place: 'Auraiya, Uttar Pradesh, India', lat: 26.4639, lon: 79.5145 },
+  { place: 'Kannauj, Uttar Pradesh, India', lat: 27.0514, lon: 79.9196 },
+  { place: 'Kanshiram Nagar, Uttar Pradesh, India', lat: 28.2046, lon: 78.6443 },
+  { place: 'Akbarpur, Uttar Pradesh, India', lat: 26.4291, lon: 82.5309 },
+  { place: 'Tanda, Uttar Pradesh, India', lat: 26.5519, lon: 82.6519 },
+  { place: 'Shikohabad, Uttar Pradesh, India', lat: 27.1079, lon: 78.5858 },
+  { place: 'Loni, Uttar Pradesh, India', lat: 28.7520, lon: 77.2864 },
+  { place: 'Khurja, Uttar Pradesh, India', lat: 28.2534, lon: 77.8550 },
+  { place: 'Khair, Uttar Pradesh, India', lat: 27.9419, lon: 77.8428 },
+  { place: 'Sikandra Rao, Uttar Pradesh, India', lat: 27.6929, lon: 78.3844 },
+  { place: 'Chandausi, Uttar Pradesh, India', lat: 28.4505, lon: 78.7825 },
+  { place: 'Aliganj, Uttar Pradesh, India', lat: 27.4932, lon: 79.1713 },
+  { place: 'Bisauli, Uttar Pradesh, India', lat: 28.3164, lon: 78.9310 },
+  { place: 'Bijnor, Uttar Pradesh, India', lat: 29.3731, lon: 78.1363 },
+  { place: 'Dhampur, Uttar Pradesh, India', lat: 29.3082, lon: 78.5109 },
+  { place: 'Nagina, Uttar Pradesh, India', lat: 29.4459, lon: 78.4382 },
+  { place: 'Seohara, Uttar Pradesh, India', lat: 29.2076, lon: 78.5897 },
+  { place: 'Najibabad, Uttar Pradesh, India', lat: 29.6119, lon: 78.3428 },
+  { place: 'Kiratpur, Uttar Pradesh, India', lat: 29.5107, lon: 78.2037 },
+  { place: 'Hastinapur, Uttar Pradesh, India', lat: 29.1572, lon: 78.0131 },
+  { place: 'Kairana, Uttar Pradesh, India', lat: 29.3955, lon: 77.2056 },
+  { place: 'Gangoh, Uttar Pradesh, India', lat: 29.7811, lon: 77.2650 },
+  { place: 'Saharanpur City, Uttar Pradesh, India', lat: 29.9680, lon: 77.5460 },
+  { place: 'Nanauta, Uttar Pradesh, India', lat: 29.7131, lon: 77.4242 },
+  { place: 'Ujhani, Uttar Pradesh, India', lat: 28.0013, lon: 79.0019 },
+  { place: 'Jalalabad, Uttar Pradesh, India', lat: 29.6190, lon: 77.4393 },
+  { place: 'Powayan, Uttar Pradesh, India', lat: 27.9034, lon: 79.7789 },
+  { place: 'Bilari, Uttar Pradesh, India', lat: 28.6191, lon: 78.8010 },
+  { place: 'Dataganj, Uttar Pradesh, India', lat: 28.0246, lon: 79.4078 },
+  { place: 'Baheri, Uttar Pradesh, India', lat: 28.7744, lon: 79.4977 },
+  { place: 'Bisalpur, Uttar Pradesh, India', lat: 28.2971, lon: 79.8012 },
+  { place: 'Dhanaura, Uttar Pradesh, India', lat: 28.9530, lon: 78.2565 },
+  { place: 'Tundla, Uttar Pradesh, India', lat: 27.2070, lon: 78.2282 },
+  { place: 'Kosi Kalan, Uttar Pradesh, India', lat: 27.7996, lon: 77.4361 },
+  { place: 'Chhata, Uttar Pradesh, India', lat: 27.7322, lon: 77.5073 },
+  { place: 'Sadabad, Uttar Pradesh, India', lat: 27.4426, lon: 78.0378 },
+  { place: 'Iglas, Uttar Pradesh, India', lat: 27.7099, lon: 77.9390 },
+  { place: 'Kiraoli, Uttar Pradesh, India', lat: 27.1333, lon: 77.7833 },
+  { place: 'Nandgaon, Uttar Pradesh, India', lat: 27.7109, lon: 77.3734 },
+  { place: 'Raya, Uttar Pradesh, India', lat: 27.5643, lon: 77.7891 },
+  
+  // Bihar (Complete District Coverage)
+  { place: 'Khagaria, Bihar, India', lat: 25.5043, lon: 86.4669 },
+  { place: 'Madhubani, Bihar, India', lat: 26.3538, lon: 86.0735 },
+  { place: 'Supaul, Bihar, India', lat: 26.1260, lon: 86.6051 },
+  { place: 'Araria, Bihar, India', lat: 26.1498, lon: 87.5162 },
+  { place: 'Madhepura, Bihar, India', lat: 25.9209, lon: 86.7936 },
+  { place: 'Saharsa, Bihar, India', lat: 25.8804, lon: 86.5960 },
+  { place: 'Sheohar, Bihar, India', lat: 26.5168, lon: 85.2972 },
+  { place: 'Vaishali, Bihar, India', lat: 25.6821, lon: 85.1315 },
+  { place: 'Saran, Bihar, India', lat: 25.7830, lon: 84.7278 },
+  { place: 'Siwan, Bihar, India', lat: 26.2183, lon: 84.3560 },
+  { place: 'Gopalganj, Bihar, India', lat: 26.4677, lon: 84.4361 },
+  { place: 'West Champaran, Bihar, India', lat: 27.0990, lon: 84.0900 },
+  { place: 'East Champaran, Bihar, India', lat: 26.6631, lon: 84.9127 },
+  { place: 'Sheikhpura, Bihar, India', lat: 25.1390, lon: 85.8410 },
+  { place: 'Nalanda, Bihar, India', lat: 25.1976, lon: 85.4484 },
+  { place: 'Lakhisarai, Bihar, India', lat: 25.1669, lon: 86.1704 },
+  { place: 'Jamui, Bihar, India', lat: 24.9177, lon: 86.2231 },
+  { place: 'Banka, Bihar, India', lat: 24.8893, lon: 86.9238 },
+  { place: 'Rohtas, Bihar, India', lat: 24.9520, lon: 84.0323 },
+  { place: 'Bhabua, Bihar, India', lat: 25.0410, lon: 83.6074 },
+  { place: 'Kaimur, Bihar, India', lat: 25.0410, lon: 83.6074 },
+  
+  // Rajasthan (Complete Coverage)
+  { place: 'Nagaur, Rajasthan, India', lat: 27.1991, lon: 73.7347 },
+  { place: 'Chittorgarh, Rajasthan, India', lat: 24.8829, lon: 74.6230 },
+  { place: 'Bundi, Rajasthan, India', lat: 25.4305, lon: 75.6372 },
+  { place: 'Sawai Madhopur, Rajasthan, India', lat: 26.0173, lon: 76.3504 },
+  { place: 'Dholpur, Rajasthan, India', lat: 26.6942, lon: 77.8906 },
+  { place: 'Karauli, Rajasthan, India', lat: 26.4981, lon: 77.0206 },
+  { place: 'Dausa, Rajasthan, India', lat: 26.8904, lon: 76.5629 },
+  { place: 'Jhalawar, Rajasthan, India', lat: 24.5965, lon: 76.1612 },
+  { place: 'Baran, Rajasthan, India', lat: 25.1000, lon: 76.5167 },
+  { place: 'Dungarpur, Rajasthan, India', lat: 23.8420, lon: 73.7147 },
+  { place: 'Banswara, Rajasthan, India', lat: 23.5461, lon: 74.4420 },
+  { place: 'Pratapgarh, Rajasthan, India', lat: 24.0312, lon: 74.7789 },
+  { place: 'Rajsamand, Rajasthan, India', lat: 25.0715, lon: 73.8802 },
+  { place: 'Sirohi, Rajasthan, India', lat: 24.8857, lon: 72.8581 },
+  { place: 'Jalore, Rajasthan, India', lat: 25.3453, lon: 72.6156 },
+  { place: 'Mount Abu, Rajasthan, India', lat: 24.5926, lon: 72.7156 },
+  { place: 'Jaisalmer, Rajasthan, India', lat: 26.9157, lon: 70.9083 },
+  { place: 'Ganganagar, Rajasthan, India', lat: 29.9038, lon: 73.8772 },
+  
+  // Punjab (Complete Coverage)
+  { place: 'Gurdaspur, Punjab, India', lat: 32.0408, lon: 75.4059 },
+  { place: 'Batala, Punjab, India', lat: 31.8089, lon: 75.2041 },
+  { place: 'Qadian, Punjab, India', lat: 31.8210, lon: 75.3772 },
+  { place: 'Dera Baba Nanak, Punjab, India', lat: 32.0337, lon: 75.0274 },
+  { place: 'Tarn Taran, Punjab, India', lat: 31.4519, lon: 74.9278 },
+  { place: 'Tarn Taran Sahib, Punjab, India', lat: 31.4519, lon: 74.9278 },
+  { place: 'Ajnala, Punjab, India', lat: 31.8445, lon: 74.7581 },
+  { place: 'Fatehgarh Sahib, Punjab, India', lat: 30.6460, lon: 76.3953 },
+  { place: 'Sirhind, Punjab, India', lat: 30.6434, lon: 76.3825 },
+  { place: 'Moga District, Punjab, India', lat: 30.8158, lon: 75.1705 },
+  { place: 'Zira, Punjab, India', lat: 30.9685, lon: 74.9910 },
+  { place: 'Bagha Purana, Punjab, India', lat: 30.6881, lon: 75.0973 },
+  { place: 'Nihal Singh Wala, Punjab, India', lat: 30.7499, lon: 75.1378 },
+  { place: 'Kot Kapura, Punjab, India', lat: 30.5821, lon: 74.8333 },
+  { place: 'Talwandi Sabo, Punjab, India', lat: 29.9868, lon: 75.0836 },
+  { place: 'Gidderbaha, Punjab, India', lat: 30.2002, lon: 74.6649 },
+  { place: 'Abohar, Punjab, India', lat: 30.1440, lon: 74.1995 },
+  { place: 'Jalalabad, Punjab, India', lat: 30.6062, lon: 74.2571 },
+  { place: 'Sunam, Punjab, India', lat: 30.1283, lon: 75.7990 },
+  { place: 'Dhuri, Punjab, India', lat: 30.3681, lon: 75.8684 },
+  { place: 'Nabha, Punjab, India', lat: 30.3765, lon: 76.1527 },
+  { place: 'Malout, Punjab, India', lat: 30.1965, lon: 74.4950 },
+  { place: 'Budhlada, Punjab, India', lat: 29.9258, lon: 75.5635 },
+  { place: 'Rampura Phul, Punjab, India', lat: 30.2634, lon: 75.2397 },
+  { place: 'Nawanshahr, Punjab, India', lat: 31.1245, lon: 76.1162 },
+  { place: 'Shahid Bhagat Singh Nagar, Punjab, India', lat: 31.1245, lon: 76.1162 },
+  { place: 'Balachaur, Punjab, India', lat: 31.1412, lon: 76.3012 },
+  { place: 'Garhshankar, Punjab, India', lat: 31.2152, lon: 76.1421 },
+  { place: 'Ropar, Punjab, India', lat: 30.9694, lon: 76.5258 },
+  { place: 'Rupnagar, Punjab, India', lat: 30.9694, lon: 76.5258 },
+  { place: 'Chamkaur Sahib, Punjab, India', lat: 30.8983, lon: 76.4065 },
+  { place: 'Anandpur Sahib, Punjab, India', lat: 31.2391, lon: 76.5024 },
+  { place: 'Morinda, Punjab, India', lat: 30.7911, lon: 76.5000 },
+  { place: 'Nangal, Punjab, India', lat: 31.3895, lon: 76.3762 },
+  { place: 'Kharar, Punjab, India', lat: 30.7439, lon: 76.6469 },
+  { place: 'Kurali, Punjab, India', lat: 30.8783, lon: 76.5350 },
+  { place: 'Dera Bassi, Punjab, India', lat: 30.5872, lon: 76.8438 },
+  { place: 'Zirakpur, Punjab, India', lat: 30.6426, lon: 76.8173 },
+  { place: 'Khamanon, Punjab, India', lat: 30.8278, lon: 76.3652 },
+  { place: 'Samrala, Punjab, India', lat: 30.8353, lon: 76.1922 },
+  { place: 'Raikot, Punjab, India', lat: 30.6500, lon: 75.6000 },
+  { place: 'Doraha, Punjab, India', lat: 30.8004, lon: 76.0214 },
+  { place: 'Machhiwara, Punjab, India', lat: 30.9180, lon: 76.1945 },
+  { place: 'Payal, Punjab, India', lat: 30.5667, lon: 75.5667 },
+  { place: 'Sultanpur Lodhi, Punjab, India', lat: 31.2134, lon: 75.1932 },
+  { place: 'Kapurthala City, Punjab, India', lat: 31.3800, lon: 75.3800 },
+  { place: 'Bholath, Punjab, India', lat: 31.5200, lon: 75.5700 },
+  { place: 'Garhdiwala, Punjab, India', lat: 31.4626, lon: 75.6253 },
+  { place: 'Nurmahal, Punjab, India', lat: 31.0937, lon: 75.5921 },
+  { place: 'Adampur, Punjab, India', lat: 31.4328, lon: 75.7126 },
+  { place: 'Phillaur, Punjab, India', lat: 31.0188, lon: 75.7905 },
+  { place: 'Nakodar, Punjab, India', lat: 31.1258, lon: 75.4755 },
+  { place: 'Shahkot, Punjab, India', lat: 31.0812, lon: 75.3367 },
+  { place: 'Kartarpur, Punjab, India', lat: 31.4413, lon: 75.4967 },
+  { place: 'Mukerian, Punjab, India', lat: 31.9539, lon: 75.6174 },
+  { place: 'Dasuya, Punjab, India', lat: 31.8169, lon: 75.6532 },
+  { place: 'Talwara, Punjab, India', lat: 31.9375, lon: 75.8883 },
+  
+  // Haryana (Complete Coverage)
+  { place: 'Mahendergarh, Haryana, India', lat: 28.2830, lon: 76.1472 },
+  { place: 'Narnaul, Haryana, India', lat: 28.0440, lon: 76.1082 },
+  { place: 'Nuh, Haryana, India', lat: 28.1028, lon: 77.0025 },
+  { place: 'Mewat, Haryana, India', lat: 28.1028, lon: 77.0025 },
+  { place: 'Tauru, Haryana, India', lat: 28.2130, lon: 76.9567 },
+  { place: 'Ferozepur Jhirka, Haryana, India', lat: 27.7896, lon: 76.9439 },
+  { place: 'Hodal, Haryana, India', lat: 27.8933, lon: 77.3682 },
+  { place: 'Kosli, Haryana, India', lat: 28.3105, lon: 76.6449 },
+  { place: 'Jhajjar, Haryana, India', lat: 28.6063, lon: 76.6565 },
+  { place: 'Beri, Haryana, India', lat: 28.7013, lon: 76.5779 },
+  { place: 'Charkhi Dadri, Haryana, India', lat: 28.5918, lon: 76.2717 },
+  { place: 'Dadri, Haryana, India', lat: 28.5918, lon: 76.2717 },
+  { place: 'Tosham, Haryana, India', lat: 28.8731, lon: 75.9165 },
+  { place: 'Hansi, Haryana, India', lat: 29.1024, lon: 75.9620 },
+  { place: 'Barwala, Haryana, India', lat: 29.3676, lon: 75.9078 },
+  { place: 'Fatehabad, Haryana, India', lat: 29.5152, lon: 75.4552 },
+  { place: 'Ratia, Haryana, India', lat: 29.6906, lon: 75.5723 },
+  { place: 'Tohana, Haryana, India', lat: 29.7132, lon: 75.9044 },
+  { place: 'Ellenabad, Haryana, India', lat: 29.4523, lon: 74.6598 },
+  { place: 'Narwana, Haryana, India', lat: 29.5991, lon: 76.1192 },
+  { place: 'Safidon, Haryana, India', lat: 29.4056, lon: 76.6704 },
+  { place: 'Assandh, Haryana, India', lat: 29.5195, lon: 76.5992 },
+  { place: 'Gharaunda, Haryana, India', lat: 29.5375, lon: 76.9711 },
+  { place: 'Nilokheri, Haryana, India', lat: 29.8368, lon: 76.9320 },
+  { place: 'Indri, Haryana, India', lat: 29.8794, lon: 77.0571 },
+  { place: 'Taraori, Haryana, India', lat: 29.7766, lon: 76.9430 },
+  { place: 'Pundri, Haryana, India', lat: 29.7605, lon: 76.5620 },
+  { place: 'Kalayat, Haryana, India', lat: 29.8347, lon: 76.4507 },
+  { place: 'Shahabad, Haryana, India', lat: 30.1678, lon: 76.8697 },
+  { place: 'Pehowa, Haryana, India', lat: 29.9790, lon: 76.5820 },
+  { place: 'Thanesar, Haryana, India', lat: 29.9733, lon: 76.8322 },
+  { place: 'Ladwa, Haryana, India', lat: 29.9937, lon: 77.0456 },
+  { place: 'Radaur, Haryana, India', lat: 30.0270, lon: 77.1527 },
+  { place: 'Sadhaura, Haryana, India', lat: 30.0761, lon: 77.4579 },
+  { place: 'Jagadhri, Haryana, India', lat: 30.1673, lon: 77.3032 },
+  { place: 'Bilaspur, Haryana, India', lat: 30.3045, lon: 77.2997 },
+  { place: 'Chhachhrauli, Haryana, India', lat: 30.2365, lon: 77.3578 },
+  
+  // Himachal Pradesh (Complete)
+  { place: 'Kinnaur, Himachal Pradesh, India', lat: 31.5830, lon: 78.3919 },
+  { place: 'Lahaul-Spiti, Himachal Pradesh, India', lat: 32.5626, lon: 77.4115 },
+  { place: 'Keylong, Himachal Pradesh, India', lat: 32.5732, lon: 77.0367 },
+  { place: 'Sirmaur, Himachal Pradesh, India', lat: 30.5613, lon: 77.2891 },
+  { place: 'Nahan, Himachal Pradesh, India', lat: 30.5595, lon: 77.2947 },
+  { place: 'Paonta Sahib, Himachal Pradesh, India', lat: 30.4385, lon: 77.6249 },
+  { place: 'Sundernagar, Himachal Pradesh, India', lat: 31.5308, lon: 76.8857 },
+  { place: 'Jogindernagar, Himachal Pradesh, India', lat: 31.9858, lon: 76.7915 },
+  { place: 'Nadaun, Himachal Pradesh, India', lat: 31.7830, lon: 76.3436 },
+  { place: 'Kangra Town, Himachal Pradesh, India', lat: 32.0998, lon: 76.2691 },
+  { place: 'Palampur, Himachal Pradesh, India', lat: 32.1110, lon: 76.5367 },
+  { place: 'Nurpur, Himachal Pradesh, India', lat: 32.2949, lon: 75.8926 },
+  { place: 'Dalhousie, Himachal Pradesh, India', lat: 32.5434, lon: 75.9469 },
+  { place: 'Mcleodganj, Himachal Pradesh, India', lat: 32.2361, lon: 76.3209 },
+  { place: 'Baddi, Himachal Pradesh, India', lat: 30.9579, lon: 76.7911 },
+  { place: 'Nalagarh, Himachal Pradesh, India', lat: 31.0433, lon: 76.7234 },
+  { place: 'Arki, Himachal Pradesh, India', lat: 31.1527, lon: 76.9671 },
+  { place: 'Kasauli, Himachal Pradesh, India', lat: 30.8984, lon: 76.9657 },
+  { place: 'Parwanoo, Himachal Pradesh, India', lat: 30.8339, lon: 76.9554 },
+  { place: 'Rampur, Himachal Pradesh, India', lat: 31.4527, lon: 77.6299 },
+  { place: 'Sarahan, Himachal Pradesh, India', lat: 31.5110, lon: 77.7880 },
+  { place: 'Rohru, Himachal Pradesh, India', lat: 31.2043, lon: 77.7500 },
+  { place: 'Theog, Himachal Pradesh, India', lat: 31.1206, lon: 77.3595 },
+  { place: 'Narkanda, Himachal Pradesh, India', lat: 31.2738, lon: 77.4331 },
+  { place: 'Kotkhai, Himachal Pradesh, India', lat: 31.0987, lon: 77.5292 },
+  { place: 'Jubbal, Himachal Pradesh, India', lat: 31.1062, lon: 77.6505 },
+  { place: 'Chopal, Himachal Pradesh, India', lat: 30.9356, lon: 77.5851 },
+  
+  // Jammu & Kashmir / Ladakh (Complete)
+  { place: 'Doda, Jammu and Kashmir, India', lat: 33.1388, lon: 75.5473 },
+  { place: 'Ramban, Jammu and Kashmir, India', lat: 33.2428, lon: 75.1921 },
+  { place: 'Reasi, Jammu and Kashmir, India', lat: 33.0819, lon: 74.8361 },
+  { place: 'Kishtwar, Jammu and Kashmir, India', lat: 33.3119, lon: 75.7684 },
+  { place: 'Pulwama, Jammu and Kashmir, India', lat: 33.8710, lon: 74.8936 },
+  { place: 'Shopian, Jammu and Kashmir, India', lat: 33.7081, lon: 74.8309 },
+  { place: 'Kulgam, Jammu and Kashmir, India', lat: 33.6425, lon: 75.0152 },
+  { place: 'Budgam, Jammu and Kashmir, India', lat: 33.9293, lon: 74.6159 },
+  { place: 'Ganderbal, Jammu and Kashmir, India', lat: 34.2268, lon: 74.7745 },
+  { place: 'Bandipora, Jammu and Kashmir, India', lat: 34.4198, lon: 74.6386 },
+  { place: 'Kupwara, Jammu and Kashmir, India', lat: 34.5268, lon: 74.2553 },
+  { place: 'Handwara, Jammu and Kashmir, India', lat: 34.3998, lon: 74.2785 },
+  { place: 'Uri, Jammu and Kashmir, India', lat: 34.0861, lon: 74.0575 },
+  { place: 'Gulmarg, Jammu and Kashmir, India', lat: 34.0484, lon: 74.3805 },
+  { place: 'Pahalgam, Jammu and Kashmir, India', lat: 34.0161, lon: 75.3150 },
+  { place: 'Sonmarg, Jammu and Kashmir, India', lat: 34.3000, lon: 75.3000 },
+  { place: 'Gurez, Jammu and Kashmir, India', lat: 34.6500, lon: 74.8500 },
+  
+  // Uttarakhand (Complete)
+  { place: 'Vikasnagar, Uttarakhand, India', lat: 30.4700, lon: 77.7734 },
+  { place: 'Herbertpur, Uttarakhand, India', lat: 30.4411, lon: 77.7255 },
+  { place: 'Clement Town, Uttarakhand, India', lat: 30.2656, lon: 78.0078 },
+  { place: 'Doiwala, Uttarakhand, India', lat: 30.1783, lon: 78.1193 },
+  { place: 'Selaqui, Uttarakhand, India', lat: 30.3702, lon: 77.8655 },
+  { place: 'Chakrata, Uttarakhand, India', lat: 30.7039, lon: 77.8681 },
+  { place: 'Barkot, Uttarakhand, India', lat: 30.8133, lon: 78.2050 },
+  { place: 'Uttarkashi, Uttarakhand, India', lat: 30.7268, lon: 78.4354 },
+  { place: 'Gangotri, Uttarakhand, India', lat: 30.9993, lon: 78.9403 },
+  { place: 'Yamunotri, Uttarakhand, India', lat: 31.0117, lon: 78.4272 },
+  { place: 'Kedarnath, Uttarakhand, India', lat: 30.7346, lon: 79.0669 },
+  { place: 'Badrinath, Uttarakhand, India', lat: 30.7433, lon: 79.4938 },
+  { place: 'Joshimath, Uttarakhand, India', lat: 30.5562, lon: 79.5645 },
+  { place: 'Chamoli, Uttarakhand, India', lat: 30.4041, lon: 79.3311 },
+  { place: 'Gopeshwar, Uttarakhand, India', lat: 30.4041, lon: 79.3311 },
+  { place: 'Karnaprayag, Uttarakhand, India', lat: 30.2644, lon: 79.2269 },
+  { place: 'Rudraprayag, Uttarakhand, India', lat: 30.2838, lon: 78.9814 },
+  { place: 'Srinagar Garhwal, Uttarakhand, India', lat: 30.2233, lon: 78.7847 },
+  { place: 'Pauri Garhwal, Uttarakhand, India', lat: 30.1534, lon: 78.7719 },
+  { place: 'Kotdwar, Uttarakhand, India', lat: 29.7465, lon: 78.5228 },
+  { place: 'Lansdowne, Uttarakhand, India', lat: 29.8407, lon: 78.6795 },
+  { place: 'Ramnagar, Uttarakhand, India', lat: 29.3945, lon: 79.1246 },
+  { place: 'Kichha, Uttarakhand, India', lat: 28.9115, lon: 79.5197 },
+  { place: 'Sitarganj, Uttarakhand, India', lat: 28.9290, lon: 79.6985 },
+  { place: 'Tanakpur, Uttarakhand, India', lat: 29.0743, lon: 80.1116 },
+  { place: 'Bazpur, Uttarakhand, India', lat: 29.1520, lon: 79.1126 },
+  { place: 'Jaspur, Uttarakhand, India', lat: 29.2806, lon: 78.8253 },
+  { place: 'Khatima, Uttarakhand, India', lat: 28.9216, lon: 79.9732 },
+  { place: 'Ranikhet, Uttarakhand, India', lat: 29.6436, lon: 79.4329 },
+  { place: 'Bageshwar, Uttarakhand, India', lat: 29.8391, lon: 79.7703 },
+  { place: 'Munsyari, Uttarakhand, India', lat: 30.0668, lon: 80.2376 },
+  { place: 'Champawat, Uttarakhand, India', lat: 29.3360, lon: 80.0921 }
 ];
+
+// Deduplicate cities based on normalized names
+const uniqueCities = [];
+const seenPlaces = new Set();
+
+INDIAN_CITIES_DATABASE.forEach(city => {
+  const normalized = city.place.toLowerCase().trim();
+  if (!seenPlaces.has(normalized)) {
+    seenPlaces.add(normalized);
+    uniqueCities.push(city);
+  }
+});
+
+// Replace with deduplicated version
+const CITIES_DATABASE = uniqueCities;
+
+console.log(`✅ Loaded ${CITIES_DATABASE.length} unique cities (${INDIAN_CITIES_DATABASE.length - CITIES_DATABASE.length} duplicates removed)`);
 
 // Pre-populate cache on first load
 function initializeCache() {
@@ -1121,7 +1542,7 @@ function initializeCache() {
     console.log('🏙️ Pre-populating cache with Indian cities...');
     
     let populated = 0;
-    INDIAN_CITIES_DATABASE.forEach(city => {
+    CITIES_DATABASE.forEach(city => {
       geoCache.save(city.place, { 
         lat: city.lat, 
         lon: city.lon, 
@@ -1381,13 +1802,12 @@ class Autocomplete {
 let autocomplete1, autocomplete2;
 
 function initializeAutocomplete() {
-  const cities = [...new Set(INDIAN_CITIES_DATABASE.map(c => c.place))]
-    .sort((a, b) => a.localeCompare(b));
+  const cities = CITIES_DATABASE.map(c => c.place).sort((a, b) => a.localeCompare(b));
   
   autocomplete1 = new Autocomplete('pob1', 'autocomplete1', cities);
   autocomplete2 = new Autocomplete('pob2', 'autocomplete2', cities);
   
-  console.log(`✅ Initialized autocomplete with ${cities.length} cities`);
+  console.log(`✅ Initialized autocomplete with ${cities.length} unique cities worldwide`);
 }
 
 // Run cleanup and initialization on page load
@@ -2166,15 +2586,27 @@ function getNadiIcon(nadiType) {
 }
 
 /**
+ * Get translated nadi name
+ */
+function getNadiName(nadiType) {
+  const nadiKeys = {
+    'Aadi': 'nadi.aadi',
+    'Madhya': 'nadi.madhya',
+    'Antya': 'nadi.antya'
+  };
+  return nadiKeys[nadiType] ? t(nadiKeys[nadiType]) : nadiType;
+}
+
+/**
  * Get description for nadi type
  */
 function getNadiDescription(nadiType) {
-  const descriptions = {
-    'Aadi': 'Aadi Nadi represents the Vata (air) constitution in Ayurveda. It governs movement, energy flow, and the nervous system.',
-    'Madhya': 'Madhya Nadi represents the Pitta (bile) constitution. It governs metabolism, transformation, and digestive processes.',
-    'Antya': 'Antya Nadi represents the Kapha (phlegm) constitution. It governs structure, stability, and lubrication in the body.'
+  const descKeys = {
+    'Aadi': 'nadi.aadiDesc',
+    'Madhya': 'nadi.madhyaDesc',
+    'Antya': 'nadi.antyaDesc'
   };
-  return descriptions[nadiType] || '';
+  return descKeys[nadiType] ? t(descKeys[nadiType]) : '';
 }
 
 /**
@@ -2187,8 +2619,8 @@ function showLoadingState() {
         <div class="spinner"></div>
       </div>
       <div class="loading-content">
-        <h3 class="loading-title">Analyzing Birth Details</h3>
-        <p class="loading-message" id="loadingMessage">Preparing your Nadi analysis...</p>
+        <h3 class="loading-title" data-i18n="results.calculating">${t('results.calculating')}</h3>
+        <p class="loading-message" id="loadingMessage">${t('results.generatingReport')}</p>
         <div class="loading-progress">
           <div class="progress-bar"></div>
         </div>
@@ -2506,17 +2938,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Compare mode - show compatibility
         judgementCard.style.display = 'flex';
       if (persons[0].nadi === persons[1].nadi) {
-          doshaDiv.textContent = 'Nadi Dosha Present';
+          doshaDiv.textContent = t('results.doshaPresent');
         doshaDiv.classList.add('danger');
           judgementCard.classList.add('incompatible');
           judgementIcon.textContent = '⚠️';
-          judgementExplanation.textContent = `${persons[0].name} and ${persons[1].name} have the same Nadi type, which may indicate potential physiological and genetic incompatibility according to Vedic astrology. This aspect should be considered along with other compatibility factors.`;
+          judgementExplanation.textContent = t('judgement.incompatible')
+            .replace('{name1}', persons[0].name)
+            .replace('{name2}', persons[1].name);
       } else {
-          doshaDiv.textContent = 'No Nadi Dosha - Compatible';
+          doshaDiv.textContent = t('results.noDosha');
         doshaDiv.classList.add('success');
           judgementCard.classList.add('compatible');
           judgementIcon.textContent = '✓';
-          judgementExplanation.textContent = `${persons[0].name} and ${persons[1].name} have different Nadi types, indicating good physiological compatibility. This is considered favorable for a harmonious relationship according to Vedic astrology.`;
+          judgementExplanation.textContent = t('judgement.compatible')
+            .replace('{name1}', persons[0].name)
+            .replace('{name2}', persons[1].name);
         }
       }
       
@@ -2552,7 +2988,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Update nakshatra and nadi text
         document.getElementById(`nakshatra${i}`).textContent = person.nakshatra;
-        document.getElementById(`nadi${i}`).textContent = person.nadi;
+        document.getElementById(`nadi${i}`).textContent = getNadiName(person.nadi);
         
         // Update nadi badge with icon and style
         const nadiBadge = document.getElementById(`nadiBadge${i}`);

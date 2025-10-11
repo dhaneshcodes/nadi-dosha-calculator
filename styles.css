@@ -142,9 +142,11 @@ body {
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
 }
 
-.lang-flag {
-  font-size: 1.2rem;
+.lang-code {
+  font-size: 1rem;
+  font-weight: 700;
   line-height: 1;
+  letter-spacing: 0.5px;
 }
 
 .lang-text {
@@ -1235,7 +1237,10 @@ main {
   .language-selector {
     position: static;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    margin: 0 auto 1.5rem auto;
+    max-width: fit-content;
+    gap: 0.3rem;
+    padding: 0.3rem;
   }
   
   .lang-text {
@@ -1243,11 +1248,13 @@ main {
   }
   
   .lang-btn {
-    padding: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    min-width: 48px;
+    justify-content: center;
   }
   
-  .lang-flag {
-    font-size: 1.4rem;
+  .lang-code {
+    font-size: 1.1rem;
   }
 
   .autocomplete-dropdown {

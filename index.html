@@ -27,15 +27,15 @@
   <header class="header">
     <div class="language-selector">
       <button class="lang-btn active" data-lang="en" title="English">
-        <span class="lang-flag">🇬🇧</span>
+        <span class="lang-code">EN</span>
         <span class="lang-text">English</span>
       </button>
       <button class="lang-btn" data-lang="hi" title="हिंदी">
-        <span class="lang-flag">🇮🇳</span>
+        <span class="lang-code">हिं</span>
         <span class="lang-text">हिंदी</span>
       </button>
       <button class="lang-btn" data-lang="pa" title="ਪੰਜਾਬੀ">
-        <span class="lang-flag">🇮🇳</span>
+        <span class="lang-code">ਪੰ</span>
         <span class="lang-text">ਪੰਜਾਬੀ</span>
       </button>
     </div>
@@ -74,8 +74,8 @@
             </div>
             <div class="field-group">
               <label for="dob1" data-i18n="form.dob">Date of Birth</label>
-              <input type="date" id="dob1" name="dob1" placeholder="YYYY-MM-DD or DD-MM-YYYY" required>
-              <small class="input-hint" data-i18n="form.dobHint">Format: 1998-12-20 or 20-12-1998 or 20/12/1998</small>
+              <input type="text" id="dob1" name="dob1" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" required>
+              <small class="input-hint" data-i18n="form.dobHint">Example: 20-12-1998 or 20/12/1998</small>
             </div>
             <div class="field-group">
               <label for="tob1" data-i18n="form.tob">Time of Birth</label>
@@ -114,8 +114,8 @@
             </div>
             <div class="field-group">
               <label for="dob2" data-i18n="form.dob">Date of Birth</label>
-              <input type="date" id="dob2" name="dob2" placeholder="YYYY-MM-DD or DD-MM-YYYY">
-              <small class="input-hint" data-i18n="form.dobHint">Format: 1998-12-20 or 20-12-1998 or 20/12/1998</small>
+              <input type="text" id="dob2" name="dob2" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" maxlength="10" pattern="\d{2}-\d{2}-\d{4}">
+              <small class="input-hint" data-i18n="form.dobHint">Example: 20-12-1998 or 20/12/1998</small>
             </div>
             <div class="field-group">
               <label for="tob2" data-i18n="form.tob">Time of Birth</label>
