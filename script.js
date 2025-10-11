@@ -1010,15 +1010,19 @@ class Autocomplete {
     if (this.filteredCities.length === 0) {
       this.dropdown.innerHTML = `
         <div class="autocomplete-no-results">
-          <i class="fas fa-search"></i>
-          <div>No cities found. Try a different spelling or use a nearby major city.</div>
+          <i class="fas fa-info-circle"></i>
+          <div><strong>No suggestions found</strong></div>
+          <div style="font-size: 0.85rem; margin-top: 0.5rem; color: #667eea;">
+            💡 You can still enter any city/location name.<br>
+            We'll search for it automatically!
+          </div>
         </div>
       `;
       this.dropdown.classList.add('active');
       return;
     }
 
-    this.dropdown.innerHTML = this.filteredCities.map((city, index) => {
+    const suggestions = this.filteredCities.map((city, index) => {
       const parts = city.split(',').map(p => p.trim());
       const cityName = parts[0];
       const location = parts.slice(1).join(', ');
@@ -1040,6 +1044,16 @@ class Autocomplete {
         </div>
       `;
     }).join('');
+    
+    // Add footer message for custom locations
+    const footer = !isPopular ? `
+      <div class="autocomplete-footer">
+        <i class="fas fa-globe"></i>
+        Can't find your city? Just type it and press Calculate!
+      </div>
+    ` : '';
+    
+    this.dropdown.innerHTML = suggestions + footer;
 
     // Add click handlers
     this.dropdown.querySelectorAll('.autocomplete-item').forEach(item => {
