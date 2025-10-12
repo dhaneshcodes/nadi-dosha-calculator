@@ -63,11 +63,14 @@
 .air-datepicker-nav--action svg {
   width: 12px;
   height: 12px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
 }
 
 .air-datepicker-nav--action path {
   stroke: #ffffff !important;
-  stroke-width: 2.5;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* Calendar body - Compact */
@@ -209,11 +212,23 @@
   .air-datepicker-nav--action {
     width: 38px;
     height: 38px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+  }
+  
+  .air-datepicker-nav--action:hover {
+    background: rgba(255, 255, 255, 0.25);
   }
   
   .air-datepicker-nav--action svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+  }
+  
+  .air-datepicker-nav--action path {
+    stroke: #ffffff !important;
+    stroke-width: 3.5;
   }
   
   .air-datepicker-body {
