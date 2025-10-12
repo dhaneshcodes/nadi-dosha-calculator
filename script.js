@@ -121,6 +121,35 @@ const translations = {
       madhyaDesc: 'Madhya Nadi represents the Pitta (bile) constitution.',
       antyaDesc: 'Antya Nadi represents the Kapha (phlegm) constitution.'
     },
+    nakshatras: {
+      'Ashwini': 'Ashwini',
+      'Bharani': 'Bharani',
+      'Krittika': 'Krittika',
+      'Rohini': 'Rohini',
+      'Mrigashira': 'Mrigashira',
+      'Ardra': 'Ardra',
+      'Punarvasu': 'Punarvasu',
+      'Pushya': 'Pushya',
+      'Ashlesha': 'Ashlesha',
+      'Magha': 'Magha',
+      'Purva Phalguni': 'Purva Phalguni',
+      'Uttara Phalguni': 'Uttara Phalguni',
+      'Hasta': 'Hasta',
+      'Chitra': 'Chitra',
+      'Swati': 'Swati',
+      'Vishakha': 'Vishakha',
+      'Anuradha': 'Anuradha',
+      'Jyeshtha': 'Jyeshtha',
+      'Moola': 'Moola',
+      'Purva Ashadha': 'Purva Ashadha',
+      'Uttara Ashadha': 'Uttara Ashadha',
+      'Shravana': 'Shravana',
+      'Dhanishta': 'Dhanishta',
+      'Shatabhisha': 'Shatabhisha',
+      'Purva Bhadrapada': 'Purva Bhadrapada',
+      'Uttara Bhadrapada': 'Uttara Bhadrapada',
+      'Revati': 'Revati'
+    },
     judgement: {
       incompatible: '{name1} and {name2} have the same Nadi type, which may indicate potential physiological and genetic incompatibility according to Vedic astrology. This aspect should be considered along with other compatibility factors.',
       compatible: '{name1} and {name2} have different Nadi types, indicating good physiological compatibility. This is considered favorable for a harmonious relationship according to Vedic astrology.'
@@ -251,6 +280,35 @@ const translations = {
       madhyaDesc: 'मध्य नाड़ी पित्त (bile) संरचना का प्रतिनिधित्व करती है।',
       antyaDesc: 'अंत्य नाड़ी कफ (phlegm) संरचना का प्रतिनिधित्व करती है।'
     },
+    nakshatras: {
+      'Ashwini': 'अश्विनी',
+      'Bharani': 'भरणी',
+      'Krittika': 'कृत्तिका',
+      'Rohini': 'रोहिणी',
+      'Mrigashira': 'मृगशिरा',
+      'Ardra': 'आर्द्रा',
+      'Punarvasu': 'पुनर्वसु',
+      'Pushya': 'पुष्य',
+      'Ashlesha': 'अश्लेषा',
+      'Magha': 'माघ',
+      'Purva Phalguni': 'पूर्व फाल्गुनी',
+      'Uttara Phalguni': 'उत्तर फाल्गुनी',
+      'Hasta': 'हस्त',
+      'Chitra': 'चित्रा',
+      'Swati': 'स्वाति',
+      'Vishakha': 'विशाखा',
+      'Anuradha': 'अनुराधा',
+      'Jyeshtha': 'ज्येष्ठा',
+      'Moola': 'मूल',
+      'Purva Ashadha': 'पूर्व आषाढ़ा',
+      'Uttara Ashadha': 'उत्तर आषाढ़ा',
+      'Shravana': 'श्रवण',
+      'Dhanishta': 'धनिष्ठा',
+      'Shatabhisha': 'शतभिषा',
+      'Purva Bhadrapada': 'पूर्व भाद्रपद',
+      'Uttara Bhadrapada': 'उत्तर भाद्रपद',
+      'Revati': 'रेवती'
+    },
     judgement: {
       incompatible: '{name1} और {name2} की नाड़ी एक समान है, जो वैदिक ज्योतिष के अनुसार संभावित शारीरिक और आनुवंशिक असंगतता का संकेत हो सकता है। इस पहलू को अन्य संगतता कारकों के साथ विचार किया जाना चाहिए।',
       compatible: '{name1} और {name2} की नाड़ी अलग-अलग है, जो अच्छी शारीरिक संगतता को दर्शाती है। वैदिक ज्योतिष के अनुसार यह सामंजस्यपूर्ण संबंध के लिए अनुकूल माना जाता है।'
@@ -380,6 +438,35 @@ const translations = {
       aadiDesc: 'ਆਦਿ ਨਾੜੀ ਆਯੁਰਵੇਦ ਵਿੱਚ ਵਾਤ (ਹਵਾ) ਸੰਰਚਨਾ ਦਾ ਪ੍ਰਤੀਨਿਧਤਵ ਕਰਦੀ ਹੈ।',
       madhyaDesc: 'ਮੱਧ ਨਾੜੀ ਪਿੱਤ (bile) ਸੰਰਚਨਾ ਦਾ ਪ੍ਰਤੀਨਿਧਤਵ ਕਰਦੀ ਹੈ।',
       antyaDesc: 'ਅੰਤਯ ਨਾੜੀ ਕਫ (phlegm) ਸੰਰਚਨਾ ਦਾ ਪ੍ਰਤੀਨਿਧਤਵ ਕਰਦੀ ਹੈ।'
+    },
+    nakshatras: {
+      'Ashwini': 'ਅਸ਼ਵਿਨੀ',
+      'Bharani': 'ਭਰਣੀ',
+      'Krittika': 'ਕ੍ਰਿਤਿਕਾ',
+      'Rohini': 'ਰੋਹਿਣੀ',
+      'Mrigashira': 'ਮ੍ਰਿਗਸ਼ਿਰਾ',
+      'Ardra': 'ਆਰਦਰਾ',
+      'Punarvasu': 'ਪੁਨਰਵਸੁ',
+      'Pushya': 'ਪੁਸ਼ਯ',
+      'Ashlesha': 'ਅਸ਼ਲੇਸ਼ਾ',
+      'Magha': 'ਮਾਘ',
+      'Purva Phalguni': 'ਪੂਰਵ ਫਾਲਗੁਨੀ',
+      'Uttara Phalguni': 'ਉੱਤਰ ਫਾਲਗੁਨੀ',
+      'Hasta': 'ਹਸਤ',
+      'Chitra': 'ਚਿੱਤਰਾ',
+      'Swati': 'ਸਵਾਤੀ',
+      'Vishakha': 'ਵਿਸ਼ਾਖਾ',
+      'Anuradha': 'ਅਨੁਰਾਧਾ',
+      'Jyeshtha': 'ਜੇਸ਼ਠਾ',
+      'Moola': 'ਮੂਲ',
+      'Purva Ashadha': 'ਪੂਰਵ ਆਸ਼ਾਢਾ',
+      'Uttara Ashadha': 'ਉੱਤਰ ਆਸ਼ਾਢਾ',
+      'Shravana': 'ਸ਼ਰਵਣ',
+      'Dhanishta': 'ਧਨਿਸ਼ਠਾ',
+      'Shatabhisha': 'ਸ਼ਤਭਿਸ਼ਾ',
+      'Purva Bhadrapada': 'ਪੂਰਵ ਭਾਦਰਪਦ',
+      'Uttara Bhadrapada': 'ਉੱਤਰ ਭਾਦਰਪਦ',
+      'Revati': 'ਰੇਵਤੀ'
     },
     judgement: {
       incompatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਇੱਕੋ ਜਿਹੀ ਹੈ, ਜੋ ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਸੰਭਾਵਿਤ ਸਰੀਰਕ ਅਤੇ ਜੈਨੇਟਿਕ ਅਸੰਗਤਤਾ ਦਾ ਸੰਕੇਤ ਹੋ ਸਕਦਾ ਹੈ। ਇਸ ਪਹਿਲੂ ਨੂੰ ਹੋਰ ਅਨੁਕੂਲਤਾ ਕਾਰਕਾਂ ਦੇ ਨਾਲ ਵਿਚਾਰਿਆ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।',
@@ -2616,6 +2703,110 @@ function initializeAutocomplete() {
 }
 
 /**
+ * Show year palette for quick year selection
+ */
+function showYearPalette(fpInstance, currentYear) {
+  // Remove existing palette if any
+  const existingPalette = document.querySelector('.year-palette-overlay');
+  if (existingPalette) {
+    existingPalette.remove();
+    return;
+  }
+  
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'year-palette-overlay';
+  
+  // Create palette container
+  const palette = document.createElement('div');
+  palette.className = 'year-palette';
+  
+  // Add title
+  const title = document.createElement('div');
+  title.className = 'year-palette-title';
+  title.textContent = 'Select Year';
+  palette.appendChild(title);
+  
+  // Add years grid (show decades)
+  const grid = document.createElement('div');
+  grid.className = 'year-palette-grid';
+  
+  // Generate year buttons (100 years in decades)
+  for (let year = currentYear; year >= currentYear - 100; year -= 10) {
+    const decadeBtn = document.createElement('button');
+    decadeBtn.className = 'year-decade-btn';
+    decadeBtn.textContent = `${year - 9} - ${year}`;
+    decadeBtn.type = 'button';
+    
+    decadeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showYearRange(fpInstance, year - 9, year, palette);
+    });
+    
+    grid.appendChild(decadeBtn);
+  }
+  
+  palette.appendChild(grid);
+  
+  // Add close button
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'year-palette-close';
+  closeBtn.textContent = '✕';
+  closeBtn.type = 'button';
+  closeBtn.addEventListener('click', () => overlay.remove());
+  palette.appendChild(closeBtn);
+  
+  overlay.appendChild(palette);
+  document.body.appendChild(overlay);
+  
+  // Close on overlay click
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.remove();
+  });
+}
+
+/**
+ * Show specific year range for selection
+ */
+function showYearRange(fpInstance, startYear, endYear, paletteEl) {
+  const grid = paletteEl.querySelector('.year-palette-grid');
+  grid.innerHTML = '';
+  
+  // Add back button
+  const backBtn = document.createElement('button');
+  backBtn.className = 'year-back-btn';
+  backBtn.textContent = '← Back';
+  backBtn.type = 'button';
+  backBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.querySelector('.year-palette-overlay').remove();
+    showYearPalette(fpInstance, new Date().getFullYear());
+  });
+  grid.appendChild(backBtn);
+  
+  // Add individual years
+  for (let year = endYear; year >= startYear; year--) {
+    const yearBtn = document.createElement('button');
+    yearBtn.className = 'year-btn';
+    yearBtn.textContent = year;
+    yearBtn.type = 'button';
+    
+    // Highlight current year
+    if (year === new Date().getFullYear()) {
+      yearBtn.classList.add('current-year');
+    }
+    
+    yearBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      fpInstance.changeYear(year);
+      document.querySelector('.year-palette-overlay').remove();
+    });
+    
+    grid.appendChild(yearBtn);
+  }
+}
+
+/**
  * Initialize date pickers with DD-MM-YYYY format
  */
 function initializeDatePickers() {
@@ -2628,24 +2819,26 @@ function initializeDatePickers() {
   // Detect if mobile device
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
   
-  // Enhanced Flatpickr configuration with improved UX
+  // Enhanced Flatpickr configuration with minimalistic, modern UX
   const flatpickrConfig = {
     dateFormat: 'd-m-Y', // DD-MM-YYYY format
     altInput: false,
     allowInput: true, // Allow manual typing
     maxDate: 'today', // Can't select future dates
     minDate: '01-01-1900', // Reasonable min date
-    disableMobile: true, // Force custom picker on mobile (native can be inconsistent)
+    disableMobile: true, // Force custom picker (consistent UX)
     monthSelectorType: 'dropdown', // Dropdown for month selection
-    static: isMobile, // Use static positioning on mobile for better stability
-    position: isMobile ? 'below center' : 'auto center', // Better mobile positioning
-    animate: true, // Enable animations
+    static: isMobile, // Better positioning on mobile
+    position: isMobile ? 'below center' : 'auto center',
+    animate: true,
     clickOpens: true,
     defaultDate: null,
+    showMonths: 1, // Single month view for minimalism
+    inline: false,
     locale: {
-      firstDayOfWeek: 0, // Start week on Sunday (more common)
+      firstDayOfWeek: 0,
       weekdays: {
-        shorthand: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        shorthand: ['S', 'M', 'T', 'W', 'T', 'F', 'S'], // Single letter for compact UI
         longhand: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
       },
       months: {
@@ -2686,16 +2879,36 @@ function initializeDatePickers() {
         document.body.appendChild(instance.calendarContainer);
       }
       
-      // Make year range more accessible (100 years back from today)
+      // Create custom year selector with palette view
       const currentYear = new Date().getFullYear();
       const yearSelect = instance.yearElements[0];
+      
       if (yearSelect) {
+        // Populate year dropdown (100 years back)
         yearSelect.innerHTML = '';
         for (let year = currentYear; year >= currentYear - 100; year--) {
           const option = document.createElement('option');
           option.value = year;
           option.textContent = year;
           yearSelect.appendChild(option);
+        }
+        
+        // Add year palette button
+        const yearWrapper = yearSelect.closest('.flatpickr-current-month');
+        if (yearWrapper && !yearWrapper.querySelector('.year-palette-btn')) {
+          const paletteBtn = document.createElement('button');
+          paletteBtn.className = 'year-palette-btn';
+          paletteBtn.innerHTML = '📅';
+          paletteBtn.title = 'Select Year';
+          paletteBtn.type = 'button';
+          
+          paletteBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showYearPalette(instance, currentYear);
+          });
+          
+          yearWrapper.appendChild(paletteBtn);
         }
       }
     },
@@ -3799,6 +4012,15 @@ function getNadiName(nadiType) {
 }
 
 /**
+ * Get translated Nakshatra name
+ */
+function getNakshatraName(nakshatraName) {
+  const translated = t(`nakshatras.${nakshatraName}`);
+  // If translation exists, return it; otherwise return original
+  return translated || nakshatraName;
+}
+
+/**
  * Get description for nadi type
  */
 function getNadiDescription(nadiType) {
@@ -4228,8 +4450,8 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let i = 1; i <= maxPerson; i++) {
         const person = persons[i - 1];
         
-        // Update nakshatra and nadi text
-        document.getElementById(`nakshatra${i}`).textContent = person.nakshatra;
+        // Update nakshatra and nadi text with translations
+        document.getElementById(`nakshatra${i}`).textContent = getNakshatraName(person.nakshatra);
         document.getElementById(`nadi${i}`).textContent = getNadiName(person.nadi);
         
         // Update nadi badge with icon and style
