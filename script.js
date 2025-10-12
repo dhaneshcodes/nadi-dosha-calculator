@@ -2775,6 +2775,87 @@ function initializeAutocomplete() {
 /**
  * Initialize Air Datepicker with beautiful purple theme
  */
+// Function to forcefully fix datepicker arrow visibility
+function fixDatepickerArrows(datepickerElement) {
+  if (!datepickerElement) return;
+  
+  // Find all navigation action buttons
+  const prevButtons = datepickerElement.querySelectorAll('.air-datepicker-nav--action.-prev-');
+  const nextButtons = datepickerElement.querySelectorAll('.air-datepicker-nav--action.-next-');
+  
+  // Fix previous buttons
+  prevButtons.forEach(button => {
+    // Hide SVG completely
+    const svg = button.querySelector('svg');
+    if (svg) {
+      svg.style.display = 'none';
+      svg.style.opacity = '0';
+      svg.style.visibility = 'hidden';
+    }
+    
+    // Add Unicode arrow with strong styling
+    button.style.position = 'relative';
+    button.innerHTML = '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #000000 !important; font-size: 18px; font-weight: 900; text-shadow: 0 0 4px #ffffff, 0 0 8px #ffffff, 0 2px 4px rgba(0,0,0,0.8); z-index: 10; pointer-events: none;">◀</span>';
+  });
+  
+  // Fix next buttons
+  nextButtons.forEach(button => {
+    // Hide SVG completely
+    const svg = button.querySelector('svg');
+    if (svg) {
+      svg.style.display = 'none';
+      svg.style.opacity = '0';
+      svg.style.visibility = 'hidden';
+    }
+    
+    // Add Unicode arrow with strong styling
+    button.style.position = 'relative';
+    button.innerHTML = '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #000000 !important; font-size: 18px; font-weight: 900; text-shadow: 0 0 4px #ffffff, 0 0 8px #ffffff, 0 2px 4px rgba(0,0,0,0.8); z-index: 10; pointer-events: none;">▶</span>';
+  });
+  
+  console.log('🔧 Fixed datepicker arrows visibility');
+}
+
+// Set up MutationObserver to watch for datepicker changes and fix arrows
+function setupDatepickerObserver(inputElement, datepickerInstance) {
+  // Create a MutationObserver to watch for changes in the document
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.type === 'childList') {
+        // Check if any added nodes contain datepicker elements
+        mutation.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) { // Element node
+            // Check if this is a datepicker container
+            if (node.classList && node.classList.contains('air-datepicker')) {
+              setTimeout(() => fixDatepickerArrows(node), 100);
+            }
+            // Also check for datepicker elements within the added node
+            const datepickerContainers = node.querySelectorAll && node.querySelectorAll('.air-datepicker');
+            if (datepickerContainers) {
+              datepickerContainers.forEach(container => {
+                setTimeout(() => fixDatepickerArrows(container), 100);
+              });
+            }
+          }
+        });
+      }
+    });
+  });
+  
+  // Start observing
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+  
+  // Also fix arrows immediately when datepicker is shown
+  if (inputElement) {
+    inputElement.addEventListener('click', () => {
+      setTimeout(() => fixDatepickerArrows(document.querySelector('.air-datepicker')), 200);
+    });
+  }
+}
+
 function initializeDatePickers() {
   // Check if Air Datepicker is loaded
   if (typeof AirDatepicker === 'undefined') {
@@ -2826,21 +2907,39 @@ function initializeDatePickers() {
         input.style.borderColor = '';
         input.style.boxShadow = '';
       }, 800);
+    },
+    onShow: function(dp, animationCompleted) {
+      // Force arrow visibility after datepicker is shown
+      setTimeout(() => {
+        fixDatepickerArrows(dp.$el);
+      }, 100);
+    },
+    onRenderCell: function({date, cellType, datepicker}) {
+      // Force arrow visibility on every render
+      setTimeout(() => {
+        fixDatepickerArrows(datepicker.$el);
+      }, 50);
     }
   };
   
   // Initialize for dob1
   const dob1 = document.getElementById('dob1');
   if (dob1) {
-    new AirDatepicker(dob1, datePickerConfig);
+    const dp1 = new AirDatepicker(dob1, datePickerConfig);
     addDateInputFormatting(dob1);
+    
+    // Set up MutationObserver for dob1
+    setupDatepickerObserver(dob1, dp1);
   }
   
   // Initialize for dob2
   const dob2 = document.getElementById('dob2');
   if (dob2) {
-    new AirDatepicker(dob2, datePickerConfig);
+    const dp2 = new AirDatepicker(dob2, datePickerConfig);
     addDateInputFormatting(dob2);
+    
+    // Set up MutationObserver for dob2
+    setupDatepickerObserver(dob2, dp2);
   }
   
   console.log('✅ Air Datepicker initialized with manual typing support');

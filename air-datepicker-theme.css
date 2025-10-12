@@ -76,35 +76,18 @@
   display: none !important;
 }
 
-/* Use clear, visible Unicode navigation icons with proper positioning */
-.air-datepicker-nav--action.-prev-::before {
-  content: '◀';
-  font-size: 18px;
-  color: #000000 !important; /* Pure black for maximum contrast */
-  font-weight: 900; /* Extra bold */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-shadow: 0 0 3px #ffffff, 0 0 6px #ffffff, 0 1px 2px rgba(0, 0, 0, 0.8);
-  letter-spacing: -1px;
-  line-height: 1;
-  z-index: 10;
+/* Hide default SVG arrows completely - JavaScript will handle custom arrows */
+.air-datepicker-nav--action svg {
+  opacity: 0 !important;
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
-.air-datepicker-nav--action.-next-::before {
-  content: '▶';
-  font-size: 18px;
-  color: #000000 !important; /* Pure black for maximum contrast */
-  font-weight: 900; /* Extra bold */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-shadow: 0 0 3px #ffffff, 0 0 6px #ffffff, 0 1px 2px rgba(0, 0, 0, 0.8);
-  letter-spacing: -1px;
-  line-height: 1;
-  z-index: 10;
+.air-datepicker-nav--action path {
+  display: none !important;
+  opacity: 0 !important;
 }
 
 /* Calendar body - Compact */
@@ -255,13 +238,7 @@
     transform: scale(0.95);
   }
   
-  .air-datepicker-nav--action.-prev-::before,
-  .air-datepicker-nav--action.-next-::before {
-    font-size: 20px; /* Even larger on mobile */
-    color: #000000 !important; /* Pure black */
-    font-weight: 900; /* Extra bold */
-    text-shadow: 0 0 4px #ffffff, 0 0 8px #ffffff, 0 2px 4px rgba(0, 0, 0, 0.8);
-  }
+  /* Mobile arrow styling handled by JavaScript */
   
   .air-datepicker-body {
     padding: 0.8rem;
