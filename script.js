@@ -2625,6 +2625,9 @@ function initializeDatePickers() {
     return;
   }
   
+  // Detect if mobile device
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+  
   // Enhanced Flatpickr configuration with improved UX
   const flatpickrConfig = {
     dateFormat: 'd-m-Y', // DD-MM-YYYY format
@@ -2632,11 +2635,10 @@ function initializeDatePickers() {
     allowInput: true, // Allow manual typing
     maxDate: 'today', // Can't select future dates
     minDate: '01-01-1900', // Reasonable min date
-    disableMobile: false, // Enable mobile-optimized picker
+    disableMobile: true, // Force custom picker on mobile (native can be inconsistent)
     monthSelectorType: 'dropdown', // Dropdown for month selection
-    yearSelectorType: 'dropdown', // Dropdown for year selection
-    static: false,
-    position: 'auto center', // Center alignment
+    static: isMobile, // Use static positioning on mobile for better stability
+    position: isMobile ? 'below center' : 'auto center', // Better mobile positioning
     animate: true, // Enable animations
     clickOpens: true,
     defaultDate: null,
@@ -2657,18 +2659,32 @@ function initializeDatePickers() {
       if (wrapper) {
         const icon = wrapper.querySelector('.date-icon');
         if (icon) {
-          icon.addEventListener('click', (e) => {
+          // Remove any existing listeners
+          const newIcon = icon.cloneNode(true);
+          icon.parentNode.replaceChild(newIcon, icon);
+          
+          // Add click handler for both mouse and touch
+          const openPicker = (e) => {
+            e.preventDefault();
             e.stopPropagation();
             instance.open();
             // Add pulse animation to icon
-            icon.style.animation = 'pulse 0.3s ease';
-            setTimeout(() => { icon.style.animation = ''; }, 300);
-          });
+            newIcon.style.animation = 'pulse 0.3s ease';
+            setTimeout(() => { newIcon.style.animation = ''; }, 300);
+          };
+          
+          newIcon.addEventListener('click', openPicker);
+          newIcon.addEventListener('touchend', openPicker);
         }
       }
       
       // Add custom class for enhanced styling
       instance.calendarContainer.classList.add('flatpickr-enhanced');
+      
+      // On mobile, ensure calendar is appended to body for better positioning
+      if (isMobile) {
+        document.body.appendChild(instance.calendarContainer);
+      }
       
       // Make year range more accessible (100 years back from today)
       const currentYear = new Date().getFullYear();
@@ -2718,6 +2734,18 @@ function initializeDatePickers() {
     const fp1 = flatpickr(dob1, flatpickrConfig);
     // Store instance for later access
     dob1._flatpickrInstance = fp1;
+    
+    // Ensure input opens picker on mobile
+    if (isMobile) {
+      dob1.addEventListener('click', (e) => {
+        e.preventDefault();
+        fp1.open();
+      });
+      dob1.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        fp1.open();
+      }, { passive: false });
+    }
   }
   
   // Initialize for dob2
@@ -2726,9 +2754,21 @@ function initializeDatePickers() {
     const fp2 = flatpickr(dob2, flatpickrConfig);
     // Store instance for later access
     dob2._flatpickrInstance = fp2;
+    
+    // Ensure input opens picker on mobile
+    if (isMobile) {
+      dob2.addEventListener('click', (e) => {
+        e.preventDefault();
+        fp2.open();
+      });
+      dob2.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        fp2.open();
+      }, { passive: false });
+    }
   }
   
-  console.log('✅ Enhanced Flatpickr date pickers initialized with improved UX');
+  console.log(`✅ Enhanced Flatpickr date pickers initialized (${isMobile ? 'Mobile' : 'Desktop'} mode)`);
 }
 
 // Run cleanup and initialization on page load

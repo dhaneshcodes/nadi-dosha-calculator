@@ -929,8 +929,30 @@ input.error, select.error {
   .flatpickr-calendar {
     font-size: 1.05rem;
     width: 95vw !important;
-    max-width: 400px;
+    max-width: 380px;
     margin: 0 auto;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 9999 !important;
+  }
+  
+  .flatpickr-calendar.open {
+    display: block !important;
+  }
+  
+  /* Add overlay for mobile */
+  .flatpickr-calendar:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    backdrop-filter: blur(2px);
   }
   
   .flatpickr-months {
@@ -945,22 +967,30 @@ input.error, select.error {
   .flatpickr-monthDropdown-months {
     padding: 0.5rem 0.8rem;
     font-size: 1rem;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  .numInputWrapper {
+    padding: 0.4rem 0.5rem;
   }
   
   .flatpickr-prev-month,
   .flatpickr-next-month {
     padding: 0.7rem;
+    width: 40px;
+    height: 40px;
   }
   
   .flatpickr-prev-month svg,
   .flatpickr-next-month svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
   
   .flatpickr-weekday {
-    font-size: 0.9rem;
-    padding: 0.6rem 0;
+    font-size: 0.95rem;
+    padding: 0.7rem 0;
   }
   
   .flatpickr-days {
@@ -968,27 +998,46 @@ input.error, select.error {
   }
   
   .flatpickr-day {
-    height: 42px;
-    line-height: 42px;
-    max-width: 42px;
+    height: 44px !important;
+    line-height: 44px !important;
+    max-height: 44px !important;
+    max-width: 44px !important;
     border-radius: 12px;
-    font-size: 1rem;
-    margin: 3px;
+    font-size: 1.05rem;
+    margin: 2px;
+    flex-basis: 14.2% !important;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
   
-  .flatpickr-day:hover:not(.disabled):not(.selected) {
-    transform: scale(1.08);
+  .flatpickr-day:active:not(.disabled):not(.selected) {
+    background: linear-gradient(135deg, #ede9fe 0%, #f3e8ff 100%) !important;
+    transform: scale(0.95) !important;
   }
   
-  .flatpickr-day.selected,
-  .flatpickr-day.today:hover {
-    transform: scale(1.08);
+  .flatpickr-day.selected {
+    transform: scale(1.1) !important;
+  }
+  
+  .flatpickr-day.today {
+    transform: scale(1.05) !important;
   }
   
   /* Better touch targets on mobile */
   .date-icon {
-    padding: 0.5rem;
-    margin-right: -0.5rem;
+    padding: 0.6rem;
+    margin-right: -0.6rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  .date-input-wrapper input[type="text"] {
+    font-size: 1rem;
+    padding: 0.8rem 2.5rem 0.8rem 1rem;
+    -webkit-appearance: none;
+    appearance: none;
   }
 }
 
