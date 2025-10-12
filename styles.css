@@ -676,7 +676,98 @@ input.error, select.error {
   }
 }
 
-/* Minimalistic Flatpickr Styling */
+/* Native Date Picker Custom Styling */
+input[type="date"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #1f2937;
+  background: #ffffff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+input[type="date"]:hover {
+  border-color: #c4b5fd;
+  background: #f9fafb;
+}
+
+input[type="date"]:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background: #ffffff;
+}
+
+/* Custom calendar icon styling */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  color: #667eea;
+  filter: brightness(0) saturate(100%) invert(49%) sepia(36%) saturate(2059%) hue-rotate(216deg) brightness(91%) contrast(91%);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  background: #ede9fe;
+  transform: scale(1.1);
+}
+
+/* Chrome, Edge, Safari date picker popup styling */
+input[type="date"]::-webkit-datetime-edit {
+  padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+input[type="date"]::-webkit-datetime-edit-text {
+  color: #9ca3af;
+  padding: 0 0.2rem;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  padding: 0.2rem 0.3rem;
+  border-radius: 4px;
+  color: #1f2937;
+  font-weight: 500;
+}
+
+input[type="date"]::-webkit-datetime-edit-month-field:focus,
+input[type="date"]::-webkit-datetime-edit-day-field:focus,
+input[type="date"]::-webkit-datetime-edit-year-field:focus {
+  background: #ede9fe;
+  color: #667eea;
+  outline: none;
+}
+
+/* Placeholder state */
+input[type="date"]:invalid {
+  color: #9ca3af;
+}
+
+/* Mobile date input styling */
+@media (max-width: 768px) {
+  input[type="date"] {
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    padding: 0.5rem;
+  }
+}
+
+/* Minimalistic Flatpickr Styling (fallback if needed) */
 .flatpickr-calendar {
   background: #ffffff;
   border: none;

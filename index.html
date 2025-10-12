@@ -8,7 +8,6 @@
   <title>Nadi Dosha Calculator - Vedic Astrology Compatibility</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
   <div id="corsWarning" class="cors-warning" style="display: none;">
@@ -75,11 +74,8 @@
             </div>
             <div class="field-group">
               <label for="dob1" data-i18n="form.dob">Date of Birth</label>
-              <div class="date-input-wrapper">
-                <input type="text" id="dob1" name="dob1" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" required>
-                <i class="fas fa-calendar-alt date-icon"></i>
-              </div>
-              <small class="input-hint" data-i18n="form.dobHint">Example: 20-12-1998 or 20/12/1998</small>
+              <input type="date" id="dob1" name="dob1" required max="">
+              <small class="input-hint" data-i18n="form.dobHint">Select date from calendar</small>
             </div>
             <div class="field-group">
               <label for="tob1" data-i18n="form.tob">Time of Birth</label>
@@ -118,11 +114,8 @@
             </div>
             <div class="field-group">
               <label for="dob2" data-i18n="form.dob">Date of Birth</label>
-              <div class="date-input-wrapper">
-                <input type="text" id="dob2" name="dob2" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder">
-                <i class="fas fa-calendar-alt date-icon"></i>
-              </div>
-              <small class="input-hint" data-i18n="form.dobHint">Example: 20-12-1998 or 20/12/1998</small>
+              <input type="date" id="dob2" name="dob2" max="">
+              <small class="input-hint" data-i18n="form.dobHint">Select date from calendar</small>
             </div>
             <div class="field-group">
               <label for="tob2" data-i18n="form.tob">Time of Birth</label>
@@ -324,7 +317,6 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="script.js"></script>
 </body>
 </html>

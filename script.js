@@ -81,7 +81,7 @@ const translations = {
       namePlaceholder: 'Enter name',
       dob: 'Date of Birth',
       dobPlaceholder: 'DD-MM-YYYY',
-      dobHint: 'Example: 20-12-1998 or 20/12/1998',
+      dobHint: 'Select date from calendar',
       tob: 'Time of Birth',
       tobHint: '12-hour format: 2:30 PM or 10:15 AM',
       pob: 'Place of Birth',
@@ -240,7 +240,7 @@ const translations = {
       namePlaceholder: 'नाम दर्ज करें',
       dob: 'जन्म तिथि',
       dobPlaceholder: 'दिन-महीना-वर्ष',
-      dobHint: 'उदाहरण: 20-12-1998 या 20/12/1998',
+      dobHint: 'कैलेंडर से तारीख चुनें',
       tob: 'जन्म समय',
       tobHint: '12-घंटे प्रारूप: दोपहर 2:30 या सुबह 10:15',
       pob: 'जन्म स्थान',
@@ -399,7 +399,7 @@ const translations = {
       namePlaceholder: 'ਨਾਮ ਦਰਜ ਕਰੋ',
       dob: 'ਜਨਮ ਤਾਰੀਖ',
       dobPlaceholder: 'ਦਿਨ-ਮਹੀਨਾ-ਸਾਲ',
-      dobHint: 'ਉਦਾਹਰਣ: 20-12-1998 ਜਾਂ 20/12/1998',
+      dobHint: 'ਕੈਲੰਡਰ ਤੋਂ ਤਾਰੀਖ ਚੁਣੋ',
       tob: 'ਜਨਮ ਸਮਾਂ',
       tobHint: '12-ਘੰਟੇ ਫਾਰਮੈਟ: ਦੁਪਹਿਰ 2:30 ਜਾਂ ਸਵੇਰੇ 10:15',
       pob: 'ਜਨਮ ਸਥਾਨ',
@@ -2703,285 +2703,31 @@ function initializeAutocomplete() {
 }
 
 /**
- * Show year palette for quick year selection
- */
-function showYearPalette(fpInstance, currentYear) {
-  // Remove existing palette if any
-  const existingPalette = document.querySelector('.year-palette-overlay');
-  if (existingPalette) {
-    existingPalette.remove();
-    return;
-  }
-  
-  // Create overlay
-  const overlay = document.createElement('div');
-  overlay.className = 'year-palette-overlay';
-  
-  // Create palette container
-  const palette = document.createElement('div');
-  palette.className = 'year-palette';
-  
-  // Add title
-  const title = document.createElement('div');
-  title.className = 'year-palette-title';
-  title.textContent = 'Select Year';
-  palette.appendChild(title);
-  
-  // Add years grid (show decades)
-  const grid = document.createElement('div');
-  grid.className = 'year-palette-grid';
-  
-  // Generate year buttons (100 years in decades)
-  for (let year = currentYear; year >= currentYear - 100; year -= 10) {
-    const decadeBtn = document.createElement('button');
-    decadeBtn.className = 'year-decade-btn';
-    decadeBtn.textContent = `${year - 9} - ${year}`;
-    decadeBtn.type = 'button';
-    
-    decadeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      showYearRange(fpInstance, year - 9, year, palette);
-    });
-    
-    grid.appendChild(decadeBtn);
-  }
-  
-  palette.appendChild(grid);
-  
-  // Add close button
-  const closeBtn = document.createElement('button');
-  closeBtn.className = 'year-palette-close';
-  closeBtn.textContent = '✕';
-  closeBtn.type = 'button';
-  closeBtn.addEventListener('click', () => overlay.remove());
-  palette.appendChild(closeBtn);
-  
-  overlay.appendChild(palette);
-  document.body.appendChild(overlay);
-  
-  // Close on overlay click
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) overlay.remove();
-  });
-}
-
-/**
- * Show specific year range for selection
- */
-function showYearRange(fpInstance, startYear, endYear, paletteEl) {
-  const grid = paletteEl.querySelector('.year-palette-grid');
-  grid.innerHTML = '';
-  
-  // Add back button
-  const backBtn = document.createElement('button');
-  backBtn.className = 'year-back-btn';
-  backBtn.textContent = '← Back';
-  backBtn.type = 'button';
-  backBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    document.querySelector('.year-palette-overlay').remove();
-    showYearPalette(fpInstance, new Date().getFullYear());
-  });
-  grid.appendChild(backBtn);
-  
-  // Add individual years
-  for (let year = endYear; year >= startYear; year--) {
-    const yearBtn = document.createElement('button');
-    yearBtn.className = 'year-btn';
-    yearBtn.textContent = year;
-    yearBtn.type = 'button';
-    
-    // Highlight current year
-    if (year === new Date().getFullYear()) {
-      yearBtn.classList.add('current-year');
-    }
-    
-    yearBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      fpInstance.changeYear(year);
-      document.querySelector('.year-palette-overlay').remove();
-    });
-    
-    grid.appendChild(yearBtn);
-  }
-}
-
-/**
- * Initialize date pickers with DD-MM-YYYY format
+ * Initialize native date pickers
  */
 function initializeDatePickers() {
-  // Check if Flatpickr is loaded
-  if (typeof flatpickr === 'undefined') {
-    console.warn('Flatpickr not loaded yet, skipping date picker initialization');
-    return;
-  }
+  // Set max date to today for both date inputs
+  const today = new Date().toISOString().split('T')[0];
   
-  // Detect if mobile device
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
-  
-  // Enhanced Flatpickr configuration with minimalistic, modern UX
-  const flatpickrConfig = {
-    dateFormat: 'd-m-Y', // DD-MM-YYYY format
-    altInput: false,
-    allowInput: true, // Allow manual typing
-    maxDate: 'today', // Can't select future dates
-    minDate: '01-01-1900', // Reasonable min date
-    disableMobile: true, // Force custom picker (consistent UX)
-    monthSelectorType: 'dropdown', // Dropdown for month selection
-    static: isMobile, // Better positioning on mobile
-    position: isMobile ? 'below center' : 'auto center',
-    animate: true,
-    clickOpens: true,
-    defaultDate: null,
-    showMonths: 1, // Single month view for minimalism
-    inline: false,
-    locale: {
-      firstDayOfWeek: 0,
-      weekdays: {
-        shorthand: ['S', 'M', 'T', 'W', 'T', 'F', 'S'], // Single letter for compact UI
-        longhand: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-      },
-      months: {
-        shorthand: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        longhand: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-      }
-    },
-    onReady: function(selectedDates, dateStr, instance) {
-      // Add calendar icon click handler with animation
-      const wrapper = instance.input.closest('.date-input-wrapper');
-      if (wrapper) {
-        const icon = wrapper.querySelector('.date-icon');
-        if (icon) {
-          // Remove any existing listeners
-          const newIcon = icon.cloneNode(true);
-          icon.parentNode.replaceChild(newIcon, icon);
-          
-          // Add click handler for both mouse and touch
-          const openPicker = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            instance.open();
-            // Add pulse animation to icon
-            newIcon.style.animation = 'pulse 0.3s ease';
-            setTimeout(() => { newIcon.style.animation = ''; }, 300);
-          };
-          
-          newIcon.addEventListener('click', openPicker);
-          newIcon.addEventListener('touchend', openPicker);
-        }
-      }
-      
-      // Add custom class for enhanced styling
-      instance.calendarContainer.classList.add('flatpickr-enhanced');
-      
-      // On mobile, ensure calendar is appended to body for better positioning
-      if (isMobile) {
-        document.body.appendChild(instance.calendarContainer);
-      }
-      
-      // Create custom year selector with palette view
-      const currentYear = new Date().getFullYear();
-      const yearSelect = instance.yearElements[0];
-      
-      if (yearSelect) {
-        // Populate year dropdown (100 years back)
-        yearSelect.innerHTML = '';
-        for (let year = currentYear; year >= currentYear - 100; year--) {
-          const option = document.createElement('option');
-          option.value = year;
-          option.textContent = year;
-          yearSelect.appendChild(option);
-        }
-        
-        // Add year palette button
-        const yearWrapper = yearSelect.closest('.flatpickr-current-month');
-        if (yearWrapper && !yearWrapper.querySelector('.year-palette-btn')) {
-          const paletteBtn = document.createElement('button');
-          paletteBtn.className = 'year-palette-btn';
-          paletteBtn.innerHTML = '📅';
-          paletteBtn.title = 'Select Year';
-          paletteBtn.type = 'button';
-          
-          paletteBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            showYearPalette(instance, currentYear);
-          });
-          
-          yearWrapper.appendChild(paletteBtn);
-        }
-      }
-    },
-    onOpen: function(selectedDates, dateStr, instance) {
-      // Add opening animation class
-      instance.calendarContainer.style.opacity = '0';
-      instance.calendarContainer.style.transform = 'translateY(-10px)';
-      setTimeout(() => {
-        instance.calendarContainer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-        instance.calendarContainer.style.opacity = '1';
-        instance.calendarContainer.style.transform = 'translateY(0)';
-      }, 10);
-    },
-    onChange: function(selectedDates, dateStr, instance) {
-      // Ensure the input has the value in DD-MM-YYYY format
-      if (dateStr) {
-        instance.input.value = dateStr;
-        // Add success feedback
-        instance.input.style.borderColor = '#10b981';
-        setTimeout(() => {
-          instance.input.style.borderColor = '';
-        }, 500);
-      }
-    },
-    onClose: function(selectedDates, dateStr, instance) {
-      // Remove transition for next open
-      setTimeout(() => {
-        instance.calendarContainer.style.transition = '';
-      }, 300);
-    }
-  };
-  
-  // Initialize for dob1
   const dob1 = document.getElementById('dob1');
-  if (dob1 && !dob1._flatpickr) {
-    const fp1 = flatpickr(dob1, flatpickrConfig);
-    // Store instance for later access
-    dob1._flatpickrInstance = fp1;
-    
-    // Ensure input opens picker on mobile
-    if (isMobile) {
-      dob1.addEventListener('click', (e) => {
-        e.preventDefault();
-        fp1.open();
-      });
-      dob1.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        fp1.open();
-      }, { passive: false });
-    }
-  }
-  
-  // Initialize for dob2
   const dob2 = document.getElementById('dob2');
-  if (dob2 && !dob2._flatpickr) {
-    const fp2 = flatpickr(dob2, flatpickrConfig);
-    // Store instance for later access
-    dob2._flatpickrInstance = fp2;
-    
-    // Ensure input opens picker on mobile
-    if (isMobile) {
-      dob2.addEventListener('click', (e) => {
-        e.preventDefault();
-        fp2.open();
-      });
-      dob2.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        fp2.open();
-      }, { passive: false });
-    }
+  
+  if (dob1) {
+    dob1.setAttribute('max', today);
+    // Set min date to 100 years ago
+    const minDate = new Date();
+    minDate.setFullYear(minDate.getFullYear() - 100);
+    dob1.setAttribute('min', minDate.toISOString().split('T')[0]);
   }
   
-  console.log(`✅ Enhanced Flatpickr date pickers initialized (${isMobile ? 'Mobile' : 'Desktop'} mode)`);
+  if (dob2) {
+    dob2.setAttribute('max', today);
+    const minDate = new Date();
+    minDate.setFullYear(minDate.getFullYear() - 100);
+    dob2.setAttribute('min', minDate.toISOString().split('T')[0]);
+  }
+  
+  console.log('✅ Native date pickers initialized with custom styling');
 }
 
 // Run cleanup and initialization on page load
