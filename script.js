@@ -810,6 +810,7 @@ class APIQueue {
 
 // Initialize cache and queues
 const geoCache = new GeocodingCache();
+const selfHostedQueue = new APIQueue(100);     // 100 req/sec for Self-Hosted (NO LIMITS!)
 const photonQueue = new APIQueue(2);           // 2 req/sec for Photon (Primary)
 const nominatimQueue = new APIQueue(1);        // 1 req/sec for Nominatim (Fallback 1)
 const geocodeMapsQueue = new APIQueue(10);     // 10 req/sec for geocode.maps.co (Fallback 2)
@@ -3079,11 +3080,68 @@ function isLocalhost() {
 }
 
 /**
- * Geocode Place of Birth using multiple services with fallback.
+ * Analyze query complexity to determine best geocoding strategy
+ * @param {string} place - The place query string
+ * @returns {string} - 'simple' or 'complex'
+ */
+function analyzeQueryComplexity(place) {
+  const parts = place.split(',').map(p => p.trim()).filter(p => p);
+  const lowerPlace = place.toLowerCase();
+  
+  // Complex indicators
+  const complexKeywords = [
+    'near', 'street', 'road', 'rd', 'st', 'lane', 'avenue', 'ave',
+    'village', 'taluka', 'tehsil', 'block', 'sector', 'area', 
+    'colony', 'nagar', 'ganj', 'pura', 'district', 'pin', 'zip'
+  ];
+  
+  const hasComplexKeywords = complexKeywords.some(kw => lowerPlace.includes(kw));
+  const hasThreeOrMoreParts = parts.length >= 3;
+  const hasNumbers = /\d+/.test(place);
+  
+  // Scoring system
+  let complexityScore = 0;
+  if (hasComplexKeywords) complexityScore += 2;
+  if (hasThreeOrMoreParts) complexityScore += 1;
+  if (hasNumbers) complexityScore += 1;
+  
+  // Classification
+  return complexityScore >= 2 ? 'complex' : 'simple';
+}
+
+/**
+ * Extract timezone offset from IANA timezone name for a specific date
+ * Handles DST automatically
+ * @param {string} tzName - IANA timezone (e.g., 'Asia/Kolkata')
+ * @param {string} dateStr - Date string (YYYY-MM-DD)
+ * @returns {number} - Offset in hours
+ */
+function getOffsetFromTimezone(tzName, dateStr = null) {
+  try {
+    // Use provided date or current date
+    const date = dateStr ? new Date(dateStr) : new Date();
+    
+    // Get UTC time
+    const utcDate = new Date(date.toLocaleString('en-US', { timeZone: 'UTC' }));
+    // Get time in target timezone
+    const tzDate = new Date(date.toLocaleString('en-US', { timeZone: tzName }));
+    
+    // Calculate offset in hours
+    const offset = (tzDate - utcDate) / (1000 * 60 * 60);
+    return offset;
+  } catch (err) {
+    console.warn(`Could not get offset for timezone ${tzName}:`, err.message);
+    return 0;
+  }
+}
+
+/**
+ * Geocode Place of Birth using intelligent API selection with fallbacks.
  * Uses cache-first approach for instant results on repeated searches.
+ * Smart routing: Simple queries → Self-Hosted API, Complex queries → Photon/Nominatim
  * Multi-API fallback with rate limiting for high traffic scalability.
  * @param {string} place 
- * @returns {Promise<{lat: number, lon: number, source: string}>}
+ * @returns {Promise<{lat: number, lon: number, source: string, timezone?: string, timezoneExact?: boolean}>}
  */
 async function geocodePlace(place) {
   const originalPlace = place;
@@ -3094,7 +3152,77 @@ async function geocodePlace(place) {
     return { ...cached, source: `${cached.source} (cached)` };
   }
 
-  // STEP 2: Try Photon API with queue (more lenient rate limits)
+  // STEP 2: Analyze query complexity for smart routing
+  const queryType = analyzeQueryComplexity(place);
+  console.log(`🎯 Query "${place}" classified as: ${queryType}`);
+
+  // STEP 3: Route to appropriate strategy
+  if (queryType === 'simple') {
+    // Simple city names → Try Self-Hosted API first
+    return await trySimpleGeocode(place, originalPlace);
+  } else {
+    // Complex addresses → Try Photon/Nominatim first
+    return await tryComplexGeocode(place, originalPlace);
+  }
+}
+
+/**
+ * Geocode simple city names using Self-Hosted API with fallbacks
+ */
+async function trySimpleGeocode(place, originalPlace) {
+  // 1. Try Self-Hosted API (unlimited, fast, includes timezone!)
+  try {
+    console.log('🚀 Simple query → Trying Self-Hosted API...');
+    const result = await selfHostedQueue.add(async () => {
+      // Extract city name from input
+      const cityName = place.split(',')[0].trim();
+      
+      const selfHostedUrl = `https://geocode.prateekanand.com/geocode?city=${encodeURIComponent(cityName)}&limit=5`;
+      
+      const res = await fetch(selfHostedUrl, {
+        signal: AbortSignal.timeout(5000) // 5 second timeout
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.length > 0) {
+          // Smart ranking: Sort by population (larger cities more likely)
+          const sorted = data.sort((a, b) => (b.population || 0) - (a.population || 0));
+          const best = sorted[0];
+          
+          console.log(`✅ Self-Hosted API found: ${best.name} (pop: ${best.population}, tz: ${best.timezone})`);
+          
+          return { 
+            lat: Number(best.latitude), 
+            lon: Number(best.longitude),
+            source: 'Self-Hosted',
+            timezone: best.timezone,        // ← EXACT TIMEZONE! ✅
+            timezoneExact: true,            // ← Flag for exact timezone
+            population: best.population,
+            elevation: best.dem
+          };
+        }
+      }
+      throw new Error('Self-Hosted: No results');
+    });
+    
+    // Cache successful result
+    geoCache.save(originalPlace, result);
+    return result;
+    
+  } catch (err) {
+    console.log('Self-Hosted API failed:', err.message, '→ Falling back to Photon/Nominatim');
+  }
+
+  // 2. Fallback to complex geocoding if self-hosted fails
+  return await tryComplexGeocode(place, originalPlace);
+}
+
+/**
+ * Geocode complex addresses using Photon/Nominatim with full fallback chain
+ */
+async function tryComplexGeocode(place, originalPlace) {
+  // 1. Try Photon API with queue (more lenient rate limits)
   try {
     console.log('🌍 Trying Photon API...');
     const result = await photonQueue.add(async () => {
@@ -3294,14 +3422,31 @@ async function geocodePlace(place) {
 
 /**
  * Get timezone offset for given lat/lon.
- * Uses instant coordinate-based estimation for better UX.
- * Accurate enough for astrological calculations (±30 min is acceptable).
+ * Prefers exact timezone from geocoding API if available, otherwise estimates.
  * @param {number} lat 
  * @param {number} lon 
+ * @param {boolean} timezoneExact - Whether timezone is exact from API
+ * @param {string} timezone - IANA timezone name (e.g., 'Asia/Kolkata')
+ * @param {string} dateStr - Birth date for timezone calculation (YYYY-MM-DD)
  * @returns {Promise<{zoneName: string, rawOffset: number, dstOffset: number}>}
  */
-async function getTimeZone(lat, lon) {
-  // Use instant coordinate-based estimation for better UX
+async function getTimeZone(lat, lon, timezoneExact = false, timezone = null, dateStr = null) {
+  // If we have exact timezone from API, use it! (100% accurate)
+  if (timezoneExact && timezone) {
+    console.log(`✅ Using exact timezone from API: ${timezone}`);
+    try {
+      const offset = getOffsetFromTimezone(timezone, dateStr);
+      return {
+        zoneName: timezone,
+        rawOffset: offset,
+        dstOffset: offset
+      };
+    } catch (err) {
+      console.warn('Failed to use exact timezone, falling back to estimation:', err.message);
+    }
+  }
+  
+  // Otherwise fall back to coordinate-based estimation
   // TimeAPI was removed due to:
   // - Very slow response (20-30 seconds)
   // - Poor user experience
@@ -3313,6 +3458,7 @@ async function getTimeZone(lat, lon) {
   // ✅ No rate limits or API dependencies
   // ✅ For India: accurately returns UTC+5.5 (Asia/Kolkata)
   
+  console.log('⚠️ Using timezone estimation from coordinates');
   return estimateTimezoneFromCoordinates(lat, lon);
 }
 
@@ -4367,8 +4513,14 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           return;
         }
-        // Get timezone (instant - no API call)
-        const tz = await getTimeZone(geo.lat, geo.lon);
+        // Get timezone (uses exact timezone from API if available, otherwise estimates)
+        const tz = await getTimeZone(
+          geo.lat, 
+          geo.lon, 
+          geo.timezoneExact || false,  // Pass exact timezone flag
+          geo.timezone || null,         // Pass IANA timezone name
+          values[`dob${i}`]             // Pass birth date for DST handling
+        );
         
         // Prefer DST offset if applicable and non-zero, else rawOffset
         const offset = (typeof tz.dstOffset === 'number' && tz.dstOffset !== tz.rawOffset) ? tz.dstOffset : tz.rawOffset;
