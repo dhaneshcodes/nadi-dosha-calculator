@@ -672,6 +672,111 @@ input.error, select.error {
   }
 }
 
+/* Flatpickr Custom Styling */
+.flatpickr-calendar {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.flatpickr-months {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px 12px 0 0;
+}
+
+.flatpickr-current-month {
+  color: #ffffff;
+}
+
+.flatpickr-monthDropdown-months,
+.numInputWrapper input {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.flatpickr-monthDropdown-months {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem;
+}
+
+.flatpickr-monthDropdown-months:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.flatpickr-prev-month,
+.flatpickr-next-month {
+  fill: #ffffff !important;
+}
+
+.flatpickr-prev-month:hover,
+.flatpickr-next-month:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+}
+
+.flatpickr-weekday {
+  color: #667eea;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.flatpickr-day {
+  color: #374151;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.flatpickr-day:hover {
+  background: #ede9fe;
+  border-color: #667eea;
+}
+
+.flatpickr-day.selected {
+  background: #667eea;
+  border-color: #667eea;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.flatpickr-day.today {
+  border-color: #667eea;
+  background: #f3f4f6;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.flatpickr-day.today:hover {
+  background: #ede9fe;
+}
+
+.flatpickr-day.disabled {
+  color: #d1d5db;
+}
+
+/* Mobile Flatpickr Optimization */
+@media (max-width: 768px) {
+  .flatpickr-calendar {
+    font-size: 1rem;
+  }
+  
+  .flatpickr-day {
+    height: 38px;
+    line-height: 38px;
+  }
+  
+  .flatpickr-months {
+    padding: 0.8rem 0.5rem;
+  }
+  
+  .flatpickr-current-month {
+    font-size: 1.1rem;
+  }
+}
+
 .time-hour:focus, .time-minute:focus, .time-period:focus {
   border-color: #667eea;
   outline: none;

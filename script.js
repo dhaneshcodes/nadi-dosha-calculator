@@ -103,7 +103,10 @@ const translations = {
       computing: 'Computing',
       nadiAnalysisText: "'s Nadi analysis...",
       generatingReport: 'Generating compatibility report...',
-      backButton: 'Calculate Another'
+      backButton: 'Calculate Another',
+      accuracyLabel: 'Calculation Accuracy:',
+      accuracyValue: 'Enhanced Lunar Theory (±0.5 arc-minutes)',
+      techNote: 'Using IAU 2000B lunar elements with 60 ELP2000 periodic terms and Lahiri Ayanamsa'
     },
     autocomplete: {
       noResults: 'No suggestions found',
@@ -230,7 +233,10 @@ const translations = {
       computing: 'गणना कर रहे हैं',
       nadiAnalysisText: ' का नाड़ी विश्लेषण...',
       generatingReport: 'संगतता रिपोर्ट तैयार कर रहे हैं...',
-      backButton: 'फिर से गणना करें'
+      backButton: 'फिर से गणना करें',
+      accuracyLabel: 'गणना सटीकता:',
+      accuracyValue: 'उन्नत चंद्र सिद्धांत (±0.5 चाप-मिनट)',
+      techNote: 'IAU 2000B चंद्र तत्वों के साथ 60 ELP2000 आवर्ती पदों और लाहिड़ी अयनांश का उपयोग'
     },
     autocomplete: {
       noResults: 'कोई सुझाव नहीं मिला',
@@ -357,7 +363,10 @@ const translations = {
       computing: 'ਗਣਨਾ ਕਰ ਰਹੇ ਹਾਂ',
       nadiAnalysisText: ' ਦਾ ਨਾੜੀ ਵਿਸ਼ਲੇਸ਼ਣ...',
       generatingReport: 'ਅਨੁਕੂਲਤਾ ਰਿਪੋਰਟ ਤਿਆਰ ਕਰ ਰਹੇ ਹਾਂ...',
-      backButton: 'ਦੁਬਾਰਾ ਗਣਨਾ ਕਰੋ'
+      backButton: 'ਦੁਬਾਰਾ ਗਣਨਾ ਕਰੋ',
+      accuracyLabel: 'ਗਣਨਾ ਸਟੀਕਤਾ:',
+      accuracyValue: 'ਉੱਨਤ ਚੰਦਰ ਸਿਧਾਂਤ (±0.5 ਚਾਪ-ਮਿੰਟ)',
+      techNote: 'IAU 2000B ਚੰਦਰ ਤੱਤਾਂ ਦੇ ਨਾਲ 60 ELP2000 ਆਵਰਤੀ ਪਦਾਂ ਅਤੇ ਲਾਹਿੜੀ ਅਯਨਾਂਸ਼ ਦੀ ਵਰਤੋਂ'
     },
     autocomplete: {
       noResults: 'ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ ਮਿਲਿਆ',
@@ -2610,65 +2619,61 @@ function initializeAutocomplete() {
  * Initialize date pickers with DD-MM-YYYY format
  */
 function initializeDatePickers() {
-  // Helper function to convert YYYY-MM-DD to DD-MM-YYYY
-  const formatDateToDDMMYYYY = (dateStr) => {
-    if (!dateStr) return '';
-    const [year, month, day] = dateStr.split('-');
-    return `${day}-${month}-${year}`;
+  // Check if Flatpickr is loaded
+  if (typeof flatpickr === 'undefined') {
+    console.warn('Flatpickr not loaded yet, skipping date picker initialization');
+    return;
+  }
+  
+  // Flatpickr configuration for responsive, mobile-friendly date picker
+  const flatpickrConfig = {
+    dateFormat: 'd-m-Y', // DD-MM-YYYY format
+    altInput: false,
+    allowInput: true, // Allow manual typing
+    maxDate: 'today', // Can't select future dates
+    minDate: '01-01-1900', // Reasonable min date
+    disableMobile: false, // Enable mobile-optimized picker
+    monthSelectorType: 'dropdown', // Dropdown for month selection
+    yearSelectorType: 'dropdown', // Dropdown for year selection (better UX)
+    static: false, // Use absolute positioning
+    position: 'auto', // Auto-position the calendar
+    clickOpens: true, // Open on click
+    locale: {
+      firstDayOfWeek: 1 // Start week on Monday (can be changed)
+    },
+    onReady: function(selectedDates, dateStr, instance) {
+      // Add calendar icon click handler
+      const wrapper = instance.input.closest('.date-input-wrapper');
+      if (wrapper) {
+        const icon = wrapper.querySelector('.date-icon');
+        if (icon) {
+          icon.addEventListener('click', () => {
+            instance.open();
+          });
+        }
+      }
+    },
+    onChange: function(selectedDates, dateStr, instance) {
+      // Ensure the input has the value in DD-MM-YYYY format
+      if (dateStr) {
+        instance.input.value = dateStr;
+      }
+    }
   };
   
-  // Helper function to convert DD-MM-YYYY to YYYY-MM-DD
-  const formatDateToYYYYMMDD = (dateStr) => {
-    if (!dateStr) return '';
-    const parts = dateStr.split(/[-\/]/);
-    if (parts.length !== 3) return '';
-    const [day, month, year] = parts;
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-  };
-  
-  // Setup for dob1
+  // Initialize for dob1
   const dob1 = document.getElementById('dob1');
-  const dob1Helper = document.getElementById('dob1Helper');
+  if (dob1 && !dob1._flatpickr) {
+    flatpickr(dob1, flatpickrConfig);
+  }
   
-  // When hidden date picker changes, update visible input
-  dob1Helper.addEventListener('change', (e) => {
-    if (e.target.value) {
-      dob1.value = formatDateToDDMMYYYY(e.target.value);
-      // Trigger input event for validation
-      dob1.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-  });
-  
-  // When user types in visible input, try to update hidden picker
-  dob1.addEventListener('input', (e) => {
-    const yyyymmdd = formatDateToYYYYMMDD(e.target.value);
-    if (yyyymmdd && /^\d{4}-\d{2}-\d{2}$/.test(yyyymmdd)) {
-      dob1Helper.value = yyyymmdd;
-    }
-  });
-  
-  // Setup for dob2
+  // Initialize for dob2
   const dob2 = document.getElementById('dob2');
-  const dob2Helper = document.getElementById('dob2Helper');
+  if (dob2 && !dob2._flatpickr) {
+    flatpickr(dob2, flatpickrConfig);
+  }
   
-  // When hidden date picker changes, update visible input
-  dob2Helper.addEventListener('change', (e) => {
-    if (e.target.value) {
-      dob2.value = formatDateToDDMMYYYY(e.target.value);
-      // Trigger input event for validation
-      dob2.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-  });
-  
-  // When user types in visible input, try to update hidden picker
-  dob2.addEventListener('input', (e) => {
-    const yyyymmdd = formatDateToYYYYMMDD(e.target.value);
-    if (yyyymmdd && /^\d{4}-\d{2}-\d{2}$/.test(yyyymmdd)) {
-      dob2Helper.value = yyyymmdd;
-    }
-  });
-  
-  console.log('✅ Date pickers initialized with DD-MM-YYYY format');
+  console.log('✅ Flatpickr date pickers initialized with DD-MM-YYYY format');
 }
 
 // Run cleanup and initialization on page load
@@ -3755,13 +3760,13 @@ function hideLoadingState() {
       <div class="person-details">
         <div class="detail-item">
           <i class="fas fa-star detail-icon"></i>
-          <span class="detail-label">Nakshatra:</span>
+          <span class="detail-label" data-i18n="results.nakshatra">Nakshatra:</span>
           <span class="detail-value" id="nakshatra1"></span>
         </div>
         <div class="nadi-badge" id="nadiBadge1">
           <div class="nadi-icon" id="nadiIcon1"></div>
           <div class="nadi-info">
-            <span class="nadi-label">Nadi Type</span>
+            <span class="nadi-label" data-i18n="results.nadiType">Nadi Type</span>
             <span class="nadi-value" id="nadi1"></span>
           </div>
         </div>
@@ -3783,13 +3788,13 @@ function hideLoadingState() {
       <div class="person-details">
         <div class="detail-item">
           <i class="fas fa-star detail-icon"></i>
-          <span class="detail-label">Nakshatra:</span>
+          <span class="detail-label" data-i18n="results.nakshatra">Nakshatra:</span>
           <span class="detail-value" id="nakshatra2"></span>
         </div>
         <div class="nadi-badge" id="nadiBadge2">
           <div class="nadi-icon" id="nadiIcon2"></div>
           <div class="nadi-info">
-            <span class="nadi-label">Nadi Type</span>
+            <span class="nadi-label" data-i18n="results.nadiType">Nadi Type</span>
             <span class="nadi-value" id="nadi2"></span>
           </div>
         </div>
@@ -3800,6 +3805,9 @@ function hideLoadingState() {
   
   const resultsPersons = document.getElementById('resultsPersons');
   resultsPersons.innerHTML = originalResultsHTML;
+  
+  // Re-apply translations to the restored content
+  updateLanguage(currentLang);
   
   // Show judgement card
   document.querySelector('.dosha-judgement-card').style.display = 'flex';

@@ -8,6 +8,7 @@
   <title>Nadi Dosha Calculator - Vedic Astrology Compatibility</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
   <div id="corsWarning" class="cors-warning" style="display: none;">
@@ -75,9 +76,8 @@
             <div class="field-group">
               <label for="dob1" data-i18n="form.dob">Date of Birth</label>
               <div class="date-input-wrapper">
-                <input type="text" id="dob1" name="dob1" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" maxlength="10" pattern="\d{2}-\d{2}-\d{4}" required>
-                <input type="date" id="dob1Helper" class="date-helper">
-                <i class="fas fa-calendar-alt date-icon" onclick="document.getElementById('dob1Helper').showPicker()"></i>
+                <input type="text" id="dob1" name="dob1" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" required>
+                <i class="fas fa-calendar-alt date-icon"></i>
               </div>
               <small class="input-hint" data-i18n="form.dobHint">Example: 20-12-1998 or 20/12/1998</small>
             </div>
@@ -119,9 +119,8 @@
             <div class="field-group">
               <label for="dob2" data-i18n="form.dob">Date of Birth</label>
               <div class="date-input-wrapper">
-                <input type="text" id="dob2" name="dob2" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" maxlength="10" pattern="\d{2}-\d{2}-\d{4}">
-                <input type="date" id="dob2Helper" class="date-helper">
-                <i class="fas fa-calendar-alt date-icon" onclick="document.getElementById('dob2Helper').showPicker()"></i>
+                <input type="text" id="dob2" name="dob2" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder">
+                <i class="fas fa-calendar-alt date-icon"></i>
               </div>
               <small class="input-hint" data-i18n="form.dobHint">Example: 20-12-1998 or 20/12/1998</small>
             </div>
@@ -219,8 +218,8 @@
 
       <div class="calculation-info">
         <i class="fas fa-info-circle"></i>
-        <span>Calculation Accuracy: <strong id="accuracyInfo">Enhanced Lunar Theory (±0.5 arc-minutes)</strong></span>
-        <span class="tech-note">Using IAU 2000B lunar elements with 60 ELP2000 periodic terms and Lahiri Ayanamsa</span>
+        <span><span data-i18n="results.accuracyLabel">Calculation Accuracy:</span> <strong data-i18n="results.accuracyValue">Enhanced Lunar Theory (±0.5 arc-minutes)</strong></span>
+        <span class="tech-note" data-i18n="results.techNote">Using IAU 2000B lunar elements with 60 ELP2000 periodic terms and Lahiri Ayanamsa</span>
       </div>
     </section>
 
@@ -325,6 +324,7 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="script.js"></script>
 </body>
 </html>
