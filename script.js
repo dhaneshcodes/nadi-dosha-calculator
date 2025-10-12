@@ -2488,18 +2488,38 @@ class Autocomplete {
   portalDropdown() {
     // Move dropdown to body to escape any parent overflow/stacking issues
     if (this.dropdown && this.dropdown.parentElement !== document.body) {
+      // Store original parent for reference
+      this.originalParent = this.dropdown.parentElement;
       document.body.appendChild(this.dropdown);
-      // Make it fixed position for mobile
-      this.dropdown.style.position = 'fixed';
+      // Add portal class for special styling
+      this.dropdown.classList.add('autocomplete-portal');
     }
   }
 
   positionDropdown() {
     // Position dropdown relative to input
     const rect = this.input.getBoundingClientRect();
-    this.dropdown.style.top = `${rect.bottom}px`;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    
+    // Use absolute positioning relative to viewport
+    this.dropdown.style.position = 'fixed';
+    this.dropdown.style.top = `${rect.bottom + 2}px`; // 2px gap
     this.dropdown.style.left = `${rect.left}px`;
     this.dropdown.style.width = `${rect.width}px`;
+    this.dropdown.style.maxWidth = `${rect.width}px`;
+    
+    // Ensure it doesn't go off screen
+    const dropdownHeight = 300; // max-height
+    const viewportHeight = window.innerHeight;
+    
+    if (rect.bottom + dropdownHeight > viewportHeight) {
+      // Not enough space below, show above input
+      this.dropdown.style.top = `${rect.top - Math.min(dropdownHeight, 200)}px`;
+      this.dropdown.style.borderRadius = '10px 10px 0 0';
+    } else {
+      this.dropdown.style.borderRadius = '0 0 10px 10px';
+    }
   }
 
   init() {
