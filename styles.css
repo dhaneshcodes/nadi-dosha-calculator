@@ -266,6 +266,7 @@ main {
   padding: 2rem;
   border: 2px solid rgba(102, 126, 234, 0.1);
   transition: all 0.3s ease;
+  overflow: visible;
 }
 
 .nadi-form .persons-container:hover {
@@ -292,6 +293,7 @@ main {
   transition: all 0.3s ease;
   position: relative;
   z-index: 0;
+  overflow: visible;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
