@@ -2715,6 +2715,11 @@ input[type="date"]:invalid {
   z-index: 1;
 }
 
+/* Ensure active autocomplete rises above all siblings */
+.autocomplete-container:has(.autocomplete-dropdown.active) {
+  z-index: 10000;
+}
+
 .autocomplete-icon {
   position: absolute;
   right: 1rem;
@@ -2914,7 +2919,16 @@ input[type="date"]:invalid {
   .autocomplete-dropdown {
     max-height: 200px;
     font-size: 0.9rem;
-    z-index: 9999;
+    z-index: 99999;
+    position: absolute !important;
+  }
+  
+  .autocomplete-container {
+    z-index: 10000;
+  }
+  
+  .autocomplete-wrapper {
+    z-index: 10000;
   }
   
   .autocomplete-item {
