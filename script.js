@@ -2479,7 +2479,27 @@ class Autocomplete {
     
     if (!this.input || !this.dropdown) return;
     
+    // Portal dropdown to body for mobile z-index fix
+    this.portalDropdown();
+    
     this.init();
+  }
+
+  portalDropdown() {
+    // Move dropdown to body to escape any parent overflow/stacking issues
+    if (this.dropdown && this.dropdown.parentElement !== document.body) {
+      document.body.appendChild(this.dropdown);
+      // Make it fixed position for mobile
+      this.dropdown.style.position = 'fixed';
+    }
+  }
+
+  positionDropdown() {
+    // Position dropdown relative to input
+    const rect = this.input.getBoundingClientRect();
+    this.dropdown.style.top = `${rect.bottom}px`;
+    this.dropdown.style.left = `${rect.left}px`;
+    this.dropdown.style.width = `${rect.width}px`;
   }
 
   init() {
@@ -2490,6 +2510,7 @@ class Autocomplete {
 
     // Focus event - show dropdown with popular cities
     this.input.addEventListener('focus', () => {
+      this.positionDropdown();
       if (this.input.value.length === 0) {
         this.showPopularCities();
       } else {
@@ -2511,6 +2532,19 @@ class Autocomplete {
     document.addEventListener('click', (e) => {
       if (!this.input.contains(e.target) && !this.dropdown.contains(e.target)) {
         this.hideDropdown();
+      }
+    });
+
+    // Reposition on scroll/resize
+    window.addEventListener('scroll', () => {
+      if (this.dropdown.classList.contains('active')) {
+        this.positionDropdown();
+      }
+    }, true);
+
+    window.addEventListener('resize', () => {
+      if (this.dropdown.classList.contains('active')) {
+        this.positionDropdown();
       }
     });
   }
@@ -2558,6 +2592,9 @@ class Autocomplete {
   }
 
   renderSuggestions(query = '', isPopular = false) {
+    // Position dropdown before showing
+    this.positionDropdown();
+    
     if (this.filteredCities.length === 0) {
       this.dropdown.innerHTML = `
         <div class="autocomplete-no-results">

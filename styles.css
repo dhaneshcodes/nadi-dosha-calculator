@@ -2739,20 +2739,15 @@ input[type="date"]:invalid {
 }
 
 .autocomplete-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
+  position: fixed;
   background: white;
   border: 2px solid #667eea;
-  border-top: none;
   border-radius: 0 0 10px 10px;
   max-height: 300px;
   overflow-y: auto;
-  z-index: 9999;
+  z-index: 999999;
   box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
   display: none;
-  margin-top: -2px;
 }
 
 .autocomplete-dropdown.active {
