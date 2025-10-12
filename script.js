@@ -2723,8 +2723,8 @@ function initializeDatePickers() {
     autoClose: true,
     maxDate: today,
     minDate: minDate,
-    isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768,
-    mobileModal: true,
+    isMobile: false,           // Allow manual typing on mobile
+    mobileModal: false,        // No blocking modal
     selectedDates: [],
     toggleSelected: false,
     container: '',
@@ -2763,15 +2763,50 @@ function initializeDatePickers() {
   const dob1 = document.getElementById('dob1');
   if (dob1) {
     new AirDatepicker(dob1, datePickerConfig);
+    addDateInputFormatting(dob1);
   }
   
   // Initialize for dob2
   const dob2 = document.getElementById('dob2');
   if (dob2) {
     new AirDatepicker(dob2, datePickerConfig);
+    addDateInputFormatting(dob2);
   }
   
-  console.log('✅ Air Datepicker initialized with purple theme');
+  console.log('✅ Air Datepicker initialized with manual typing support');
+}
+
+/**
+ * Add auto-formatting for date input (DD-MM-YYYY)
+ */
+function addDateInputFormatting(input) {
+  input.addEventListener('input', (e) => {
+    let value = e.target.value.replace(/[^0-9]/g, '');
+    
+    // Auto-add dashes: 25 → 25- → 25-12 → 25-12- → 25-12-1998
+    if (value.length >= 2) {
+      value = value.slice(0, 2) + '-' + value.slice(2);
+    }
+    if (value.length >= 5) {
+      value = value.slice(0, 5) + '-' + value.slice(5);
+    }
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
+    
+    e.target.value = value;
+  });
+  
+  // Allow backspace to work naturally
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace') {
+      const value = e.target.value;
+      if (value.endsWith('-')) {
+        e.preventDefault();
+        e.target.value = value.slice(0, -1);
+      }
+    }
+  });
 }
 
 // Run cleanup and initialization on page load
