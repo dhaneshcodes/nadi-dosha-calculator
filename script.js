@@ -2625,7 +2625,7 @@ function initializeDatePickers() {
     return;
   }
   
-  // Flatpickr configuration for responsive, mobile-friendly date picker
+  // Enhanced Flatpickr configuration with improved UX
   const flatpickrConfig = {
     dateFormat: 'd-m-Y', // DD-MM-YYYY format
     altInput: false,
@@ -2634,46 +2634,101 @@ function initializeDatePickers() {
     minDate: '01-01-1900', // Reasonable min date
     disableMobile: false, // Enable mobile-optimized picker
     monthSelectorType: 'dropdown', // Dropdown for month selection
-    yearSelectorType: 'dropdown', // Dropdown for year selection (better UX)
-    static: false, // Use absolute positioning
-    position: 'auto', // Auto-position the calendar
-    clickOpens: true, // Open on click
+    yearSelectorType: 'dropdown', // Dropdown for year selection
+    static: false,
+    position: 'auto center', // Center alignment
+    animate: true, // Enable animations
+    clickOpens: true,
+    defaultDate: null,
     locale: {
-      firstDayOfWeek: 1 // Start week on Monday (can be changed)
+      firstDayOfWeek: 0, // Start week on Sunday (more common)
+      weekdays: {
+        shorthand: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        longhand: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      },
+      months: {
+        shorthand: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        longhand: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      }
     },
     onReady: function(selectedDates, dateStr, instance) {
-      // Add calendar icon click handler
+      // Add calendar icon click handler with animation
       const wrapper = instance.input.closest('.date-input-wrapper');
       if (wrapper) {
         const icon = wrapper.querySelector('.date-icon');
         if (icon) {
-          icon.addEventListener('click', () => {
+          icon.addEventListener('click', (e) => {
+            e.stopPropagation();
             instance.open();
+            // Add pulse animation to icon
+            icon.style.animation = 'pulse 0.3s ease';
+            setTimeout(() => { icon.style.animation = ''; }, 300);
           });
         }
       }
+      
+      // Add custom class for enhanced styling
+      instance.calendarContainer.classList.add('flatpickr-enhanced');
+      
+      // Make year range more accessible (100 years back from today)
+      const currentYear = new Date().getFullYear();
+      const yearSelect = instance.yearElements[0];
+      if (yearSelect) {
+        yearSelect.innerHTML = '';
+        for (let year = currentYear; year >= currentYear - 100; year--) {
+          const option = document.createElement('option');
+          option.value = year;
+          option.textContent = year;
+          yearSelect.appendChild(option);
+        }
+      }
+    },
+    onOpen: function(selectedDates, dateStr, instance) {
+      // Add opening animation class
+      instance.calendarContainer.style.opacity = '0';
+      instance.calendarContainer.style.transform = 'translateY(-10px)';
+      setTimeout(() => {
+        instance.calendarContainer.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        instance.calendarContainer.style.opacity = '1';
+        instance.calendarContainer.style.transform = 'translateY(0)';
+      }, 10);
     },
     onChange: function(selectedDates, dateStr, instance) {
       // Ensure the input has the value in DD-MM-YYYY format
       if (dateStr) {
         instance.input.value = dateStr;
+        // Add success feedback
+        instance.input.style.borderColor = '#10b981';
+        setTimeout(() => {
+          instance.input.style.borderColor = '';
+        }, 500);
       }
+    },
+    onClose: function(selectedDates, dateStr, instance) {
+      // Remove transition for next open
+      setTimeout(() => {
+        instance.calendarContainer.style.transition = '';
+      }, 300);
     }
   };
   
   // Initialize for dob1
   const dob1 = document.getElementById('dob1');
   if (dob1 && !dob1._flatpickr) {
-    flatpickr(dob1, flatpickrConfig);
+    const fp1 = flatpickr(dob1, flatpickrConfig);
+    // Store instance for later access
+    dob1._flatpickrInstance = fp1;
   }
   
   // Initialize for dob2
   const dob2 = document.getElementById('dob2');
   if (dob2 && !dob2._flatpickr) {
-    flatpickr(dob2, flatpickrConfig);
+    const fp2 = flatpickr(dob2, flatpickrConfig);
+    // Store instance for later access
+    dob2._flatpickrInstance = fp2;
   }
   
-  console.log('✅ Flatpickr date pickers initialized with DD-MM-YYYY format');
+  console.log('✅ Enhanced Flatpickr date pickers initialized with improved UX');
 }
 
 // Run cleanup and initialization on page load
