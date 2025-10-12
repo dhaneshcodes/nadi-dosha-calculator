@@ -880,17 +880,110 @@ input.error, select.error {
   font-size: 1rem;
 }
 
+/* BSLND Branding Section */
+.bslnd-branding {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.bslnd-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #fbbf24 50%, transparent 100%);
+  margin-bottom: 2rem;
+}
+
+.bslnd-logo {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4);
+  margin-bottom: 1rem;
+  animation: omGlow 3s ease infinite;
+}
+
+@keyframes omGlow {
+  0%, 100% { box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4); }
+  50% { box-shadow: 0 4px 24px rgba(251, 191, 36, 0.6), 0 0 32px rgba(251, 191, 36, 0.3); }
+}
+
+.bslnd-logo i {
+  font-size: 2.2rem;
+  color: #ffffff;
+}
+
+.bslnd-org-name {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.3rem;
+  color: #fbbf24;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.bslnd-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.bslnd-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #9ca3af;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.bslnd-links a:hover {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+  transform: translateY(-2px);
+}
+
+.bslnd-links a i {
+  font-size: 0.9rem;
+}
+
+.bslnd-contact {
+  margin: 1rem 0 0 0;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.bslnd-contact i {
+  color: #fbbf24;
+  margin: 0 0.3rem;
+}
+
 .footer-copyright {
   text-align: center;
-  padding-top: 1rem;
+  padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin-top: 1rem;
 }
 
 .footer-copyright p {
-  margin: 0;
+  margin: 0.3rem 0;
   font-size: 0.85rem;
   color: #9ca3af;
+}
+
+.copyright-sub {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-style: italic;
 }
 
 /* Mobile Footer Optimization */
@@ -934,6 +1027,52 @@ input.error, select.error {
   
   .footer-links a {
     justify-content: center;
+  }
+  
+  /* BSLND branding mobile optimization */
+  .bslnd-branding {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+  
+  .bslnd-divider {
+    margin-bottom: 1.5rem;
+  }
+  
+  .bslnd-logo {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .bslnd-logo i {
+    font-size: 2rem;
+  }
+  
+  .bslnd-org-name {
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .bslnd-links {
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+  }
+  
+  .bslnd-links a {
+    justify-content: center;
+  }
+  
+  .bslnd-contact {
+    font-size: 0.8rem;
+  }
+  
+  .footer-copyright p {
+    font-size: 0.8rem;
+  }
+  
+  .copyright-sub {
+    font-size: 0.75rem;
   }
 }
 

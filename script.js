@@ -2862,6 +2862,12 @@ function populateBirthDetailsSummary(values, isSingleMode) {
   
   summaryGrid.innerHTML = html;
   
+  // Show the summary section
+  const summarySection = document.getElementById('birthDetailsSummary');
+  if (summarySection) {
+    summarySection.style.display = 'block';
+  }
+  
   // Re-apply translations to the dynamically added content
   updateLanguage(currentLang);
   
