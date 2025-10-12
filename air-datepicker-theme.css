@@ -53,24 +53,52 @@
   width: 28px;
   height: 28px;
   border-radius: 6px;
+  background: rgba(255, 255, 255, 0.2);
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .air-datepicker-nav--action:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .air-datepicker-nav--action svg {
-  width: 12px;
-  height: 12px;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+  width: 14px;
+  height: 14px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .air-datepicker-nav--action path {
   stroke: #ffffff !important;
-  stroke-width: 3;
+  stroke-width: 4;
   stroke-linecap: round;
   stroke-linejoin: round;
+  fill: none;
+}
+
+/* Alternative: Use Unicode arrows as fallback */
+.air-datepicker-nav--action.-prev-::before {
+  content: '‹';
+  font-size: 24px;
+  color: #ffffff;
+  font-weight: bold;
+  position: absolute;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.air-datepicker-nav--action.-next-::before {
+  content: '›';
+  font-size: 24px;
+  color: #ffffff;
+  font-weight: bold;
+  position: absolute;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.air-datepicker-nav--action svg {
+  opacity: 0;
 }
 
 /* Calendar body - Compact */
@@ -256,10 +284,10 @@
   }
 }
 
-/* Input field styling */
+/* Input field styling - Allow manual typing */
 #dob1, #dob2 {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 3rem 0.75rem 1rem;
   border: 2px solid #e5e7eb;
   border-radius: 8px;
   font-size: 1rem;
@@ -267,7 +295,8 @@
   color: #1f2937;
   background: #ffffff;
   transition: all 0.2s ease;
-  cursor: pointer;
+  cursor: text;
+  position: relative;
 }
 
 #dob1:hover, #dob2:hover {
@@ -281,12 +310,18 @@
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
   background: #ffffff;
+  cursor: text;
+}
+
+/* Custom calendar icon in input */
+.air-datepicker--pointer {
+  display: block !important;
 }
 
 /* Mobile input styling */
 @media (max-width: 768px) {
   #dob1, #dob2 {
-    padding: 0.85rem 1rem;
+    padding: 0.85rem 3rem 0.85rem 1rem;
     font-size: 1rem;
     min-height: 52px;
   }
