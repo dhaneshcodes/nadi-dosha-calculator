@@ -99,14 +99,18 @@ const translations = {
       noDosha: 'No Nadi Dosha',
       calculating: 'Analyzing Birth Details',
       analyzing: 'Analyzing',
-      birthDetails: "'s birth details...",
+      birthDetails: 'Birth Details Entered',
       computing: 'Computing',
       nadiAnalysisText: "'s Nadi analysis...",
       generatingReport: 'Generating compatibility report...',
       backButton: 'Calculate Another',
       accuracyLabel: 'Calculation Accuracy:',
       accuracyValue: 'Enhanced Lunar Theory (±0.5 arc-minutes)',
-      techNote: 'Using IAU 2000B lunar elements with 60 ELP2000 periodic terms and Lahiri Ayanamsa'
+      techNote: 'Using IAU 2000B lunar elements with 60 ELP2000 periodic terms and Lahiri Ayanamsa',
+      summaryName: 'Name',
+      summaryDOB: 'Date of Birth',
+      summaryTOB: 'Time of Birth',
+      summaryPOB: 'Place of Birth'
     },
     autocomplete: {
       noResults: 'No suggestions found',
@@ -258,14 +262,18 @@ const translations = {
       noDosha: 'कोई नाड़ी दोष नहीं',
       calculating: 'जन्म विवरण का विश्लेषण',
       analyzing: 'विश्लेषण कर रहे हैं',
-      birthDetails: ' का जन्म विवरण...',
+      birthDetails: 'दर्ज किए गए जन्म विवरण',
       computing: 'गणना कर रहे हैं',
       nadiAnalysisText: ' का नाड़ी विश्लेषण...',
       generatingReport: 'संगतता रिपोर्ट तैयार कर रहे हैं...',
       backButton: 'फिर से गणना करें',
       accuracyLabel: 'गणना सटीकता:',
       accuracyValue: 'उन्नत चंद्र सिद्धांत (±0.5 चाप-मिनट)',
-      techNote: 'IAU 2000B चंद्र तत्वों के साथ 60 ELP2000 आवर्ती पदों और लाहिड़ी अयनांश का उपयोग'
+      techNote: 'IAU 2000B चंद्र तत्वों के साथ 60 ELP2000 आवर्ती पदों और लाहिड़ी अयनांश का उपयोग',
+      summaryName: 'नाम',
+      summaryDOB: 'जन्म तिथि',
+      summaryTOB: 'जन्म समय',
+      summaryPOB: 'जन्म स्थान'
     },
     autocomplete: {
       noResults: 'कोई सुझाव नहीं मिला',
@@ -417,14 +425,18 @@ const translations = {
       noDosha: 'ਕੋਈ ਨਾੜੀ ਦੋਸ਼ ਨਹੀਂ',
       calculating: 'ਜਨਮ ਵੇਰਵੇ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ',
       analyzing: 'ਵਿਸ਼ਲੇਸ਼ਣ ਕਰ ਰਹੇ ਹਾਂ',
-      birthDetails: ' ਦਾ ਜਨਮ ਵੇਰਵਾ...',
+      birthDetails: 'ਦਰਜ ਕੀਤੇ ਜਨਮ ਵੇਰਵੇ',
       computing: 'ਗਣਨਾ ਕਰ ਰਹੇ ਹਾਂ',
       nadiAnalysisText: ' ਦਾ ਨਾੜੀ ਵਿਸ਼ਲੇਸ਼ਣ...',
       generatingReport: 'ਅਨੁਕੂਲਤਾ ਰਿਪੋਰਟ ਤਿਆਰ ਕਰ ਰਹੇ ਹਾਂ...',
       backButton: 'ਦੁਬਾਰਾ ਗਣਨਾ ਕਰੋ',
       accuracyLabel: 'ਗਣਨਾ ਸਟੀਕਤਾ:',
       accuracyValue: 'ਉੱਨਤ ਚੰਦਰ ਸਿਧਾਂਤ (±0.5 ਚਾਪ-ਮਿੰਟ)',
-      techNote: 'IAU 2000B ਚੰਦਰ ਤੱਤਾਂ ਦੇ ਨਾਲ 60 ELP2000 ਆਵਰਤੀ ਪਦਾਂ ਅਤੇ ਲਾਹਿੜੀ ਅਯਨਾਂਸ਼ ਦੀ ਵਰਤੋਂ'
+      techNote: 'IAU 2000B ਚੰਦਰ ਤੱਤਾਂ ਦੇ ਨਾਲ 60 ELP2000 ਆਵਰਤੀ ਪਦਾਂ ਅਤੇ ਲਾਹਿੜੀ ਅਯਨਾਂਸ਼ ਦੀ ਵਰਤੋਂ',
+      summaryName: 'ਨਾਮ',
+      summaryDOB: 'ਜਨਮ ਤਾਰੀਖ',
+      summaryTOB: 'ਜਨਮ ਸਮਾਂ',
+      summaryPOB: 'ਜਨਮ ਸਥਾਨ'
     },
     autocomplete: {
       noResults: 'ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ ਮਿਲਿਆ',
@@ -2777,6 +2789,52 @@ function initializeDatePickers() {
 }
 
 /**
+ * Populate birth details summary for verification
+ */
+function populateBirthDetailsSummary(values, isSingleMode) {
+  const summaryGrid = document.getElementById('summaryGrid');
+  if (!summaryGrid) return;
+  
+  const maxPerson = isSingleMode ? 1 : 2;
+  let html = '';
+  
+  for (let i = 1; i <= maxPerson; i++) {
+    const name = values[`name${i}`] || `Person ${i}`;
+    const dob = values[`dob${i}`] || '-';
+    const tob = values[`tob${i}`] || '-';
+    const pob = values[`pob${i}`] || '-';
+    
+    html += `
+      <div class="summary-person">
+        <div class="summary-person-name">
+          <i class="fas fa-user"></i>
+          <strong>${name}</strong>
+        </div>
+        <div class="summary-details">
+          <div class="summary-item">
+            <span class="summary-label" data-i18n="results.summaryDOB">Date of Birth:</span>
+            <span class="summary-value">${dob}</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label" data-i18n="results.summaryTOB">Time of Birth:</span>
+            <span class="summary-value">${tob}</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label" data-i18n="results.summaryPOB">Place of Birth:</span>
+            <span class="summary-value">${pob}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  summaryGrid.innerHTML = html;
+  
+  // Re-apply translations to the dynamically added content
+  updateLanguage(currentLang);
+}
+
+/**
  * Add auto-formatting for date input (DD-MM-YYYY)
  */
 function addDateInputFormatting(input) {
@@ -4270,6 +4328,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isSingleMode) {
         document.getElementById('resultName2').textContent = name2;
       }
+      
+      // Populate birth details summary
+      populateBirthDetailsSummary(values, isSingleMode);
       
       // Update Nakshatra and Nadi information for each person
       for (let i = 1; i <= maxPerson; i++) {
