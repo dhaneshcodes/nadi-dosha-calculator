@@ -2773,176 +2773,298 @@ function initializeAutocomplete() {
 }
 
 /**
- * Initialize Air Datepicker with beautiful purple theme
+ * Custom Datepicker Implementation with Always-Visible Navigation Arrows
  */
-// Function to forcefully fix datepicker arrow visibility
-function fixDatepickerArrows(datepickerElement) {
-  if (!datepickerElement) return;
-  
-  // Find all navigation action buttons
-  const prevButtons = datepickerElement.querySelectorAll('.air-datepicker-nav--action.-prev-');
-  const nextButtons = datepickerElement.querySelectorAll('.air-datepicker-nav--action.-next-');
-  
-  // Fix previous buttons
-  prevButtons.forEach(button => {
-    // Hide SVG completely
-    const svg = button.querySelector('svg');
-    if (svg) {
-      svg.style.display = 'none';
-      svg.style.opacity = '0';
-      svg.style.visibility = 'hidden';
-    }
-    
-    // Add Unicode arrow with strong styling
-    button.style.position = 'relative';
-    button.innerHTML = '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #000000 !important; font-size: 18px; font-weight: 900; text-shadow: 0 0 4px #ffffff, 0 0 8px #ffffff, 0 2px 4px rgba(0,0,0,0.8); z-index: 10; pointer-events: none;">◀</span>';
-  });
-  
-  // Fix next buttons
-  nextButtons.forEach(button => {
-    // Hide SVG completely
-    const svg = button.querySelector('svg');
-    if (svg) {
-      svg.style.display = 'none';
-      svg.style.opacity = '0';
-      svg.style.visibility = 'hidden';
-    }
-    
-    // Add Unicode arrow with strong styling
-    button.style.position = 'relative';
-    button.innerHTML = '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #000000 !important; font-size: 18px; font-weight: 900; text-shadow: 0 0 4px #ffffff, 0 0 8px #ffffff, 0 2px 4px rgba(0,0,0,0.8); z-index: 10; pointer-events: none;">▶</span>';
-  });
-  
-  console.log('🔧 Fixed datepicker arrows visibility');
-}
 
-// Set up MutationObserver to watch for datepicker changes and fix arrows
-function setupDatepickerObserver(inputElement, datepickerInstance) {
-  // Create a MutationObserver to watch for changes in the document
-  const observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      if (mutation.type === 'childList') {
-        // Check if any added nodes contain datepicker elements
-        mutation.addedNodes.forEach(function(node) {
-          if (node.nodeType === 1) { // Element node
-            // Check if this is a datepicker container
-            if (node.classList && node.classList.contains('air-datepicker')) {
-              setTimeout(() => fixDatepickerArrows(node), 100);
-            }
-            // Also check for datepicker elements within the added node
-            const datepickerContainers = node.querySelectorAll && node.querySelectorAll('.air-datepicker');
-            if (datepickerContainers) {
-              datepickerContainers.forEach(container => {
-                setTimeout(() => fixDatepickerArrows(container), 100);
-              });
-            }
-          }
-        });
+class CustomDatepicker {
+  constructor(inputId, options = {}) {
+    this.input = document.getElementById(inputId);
+    this.container = document.getElementById(inputId.replace('dob', 'datepicker'));
+    this.trigger = document.querySelector(`[data-target="${inputId}"]`);
+    this.currentDate = new Date();
+    this.selectedDate = null;
+    this.isVisible = false;
+    
+    // Configuration
+    this.options = {
+      maxDate: new Date(),
+      minDate: new Date(new Date().getFullYear() - 100, 0, 1),
+      format: 'dd-MM-yyyy',
+      ...options
+    };
+    
+    this.init();
+  }
+  
+  init() {
+    this.setupEventListeners();
+    this.renderCalendar();
+  }
+  
+  setupEventListeners() {
+    // Trigger button click
+    this.trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.toggle();
+    });
+    
+    // Input focus - allow manual typing
+    this.input.addEventListener('focus', () => {
+      this.input.removeAttribute('readonly');
+      this.input.addEventListener('input', this.handleManualInput.bind(this));
+    });
+    
+    this.input.addEventListener('blur', () => {
+      this.input.setAttribute('readonly', '');
+      this.validateAndFormatInput();
+    });
+    
+    // Click outside to close
+    document.addEventListener('click', (e) => {
+      if (!this.container.contains(e.target) && !this.trigger.contains(e.target)) {
+        this.hide();
       }
     });
-  });
+  }
   
-  // Start observing
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
+  handleManualInput(e) {
+    let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+    if (value.length >= 2) value = value.substring(0, 2) + '-' + value.substring(2);
+    if (value.length >= 5) value = value.substring(0, 5) + '-' + value.substring(5, 9);
+    if (value.length > 10) value = value.substring(0, 10);
+    e.target.value = value;
+  }
   
-  // Also fix arrows immediately when datepicker is shown
-  if (inputElement) {
-    inputElement.addEventListener('click', () => {
-      setTimeout(() => fixDatepickerArrows(document.querySelector('.air-datepicker')), 200);
+  validateAndFormatInput() {
+    const value = this.input.value;
+    const dateRegex = /^(\d{2})-(\d{2})-(\d{4})$/;
+    const match = value.match(dateRegex);
+    
+    if (match) {
+      const day = parseInt(match[1]);
+      const month = parseInt(match[2]) - 1; // JS months are 0-indexed
+      const year = parseInt(match[3]);
+      const date = new Date(year, month, day);
+      
+      if (date.getDate() === day && date.getMonth() === month && date.getFullYear() === year) {
+        this.selectedDate = date;
+        this.currentDate = date;
+        this.renderCalendar();
+        this.addSuccessAnimation();
+      }
+    }
+  }
+  
+  toggle() {
+    if (this.isVisible) {
+      this.hide();
+    } else {
+      this.show();
+    }
+  }
+  
+  show() {
+    this.isVisible = true;
+    this.container.style.display = 'block';
+    this.container.classList.add('show');
+    this.renderCalendar();
+    
+    // Add overlay for mobile
+    if (window.innerWidth <= 768) {
+      this.addOverlay();
+    }
+  }
+  
+  hide() {
+    this.isVisible = false;
+    this.container.classList.remove('show');
+    setTimeout(() => {
+      this.container.style.display = 'none';
+    }, 200);
+    this.removeOverlay();
+  }
+  
+  addOverlay() {
+    const overlay = document.createElement('div');
+    overlay.className = 'datepicker-overlay';
+    overlay.addEventListener('click', () => this.hide());
+    document.body.appendChild(overlay);
+  }
+  
+  removeOverlay() {
+    const overlay = document.querySelector('.datepicker-overlay');
+    if (overlay) {
+      overlay.remove();
+    }
+  }
+  
+  renderCalendar() {
+    const year = this.currentDate.getFullYear();
+    const month = this.currentDate.getMonth();
+    
+    // Header
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    this.container.innerHTML = `
+      <div class="datepicker-header">
+        <button class="datepicker-nav prev" type="button">◀</button>
+        <div class="datepicker-title">${monthNames[month]} ${year}</div>
+        <button class="datepicker-nav next" type="button">▶</button>
+      </div>
+      <div class="datepicker-body">
+        <div class="datepicker-weekdays">
+          <div class="datepicker-weekday">Su</div>
+          <div class="datepicker-weekday">Mo</div>
+          <div class="datepicker-weekday">Tu</div>
+          <div class="datepicker-weekday">We</div>
+          <div class="datepicker-weekday">Th</div>
+          <div class="datepicker-weekday">Fr</div>
+          <div class="datepicker-weekday">Sa</div>
+        </div>
+        <div class="datepicker-days"></div>
+      </div>
+      <div class="datepicker-footer">
+        <button class="datepicker-btn today" type="button">Today</button>
+        <button class="datepicker-btn clear" type="button">Clear</button>
+      </div>
+    `;
+    
+    this.renderDays(year, month);
+    this.setupCalendarEventListeners();
+  }
+  
+  renderDays(year, month) {
+    const daysContainer = this.container.querySelector('.datepicker-days');
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startDate = new Date(firstDay);
+    startDate.setDate(startDate.getDate() - firstDay.getDay());
+    
+    daysContainer.innerHTML = '';
+    
+    for (let i = 0; i < 42; i++) {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + i);
+      
+      const dayElement = document.createElement('button');
+      dayElement.className = 'datepicker-day';
+      dayElement.textContent = date.getDate();
+      dayElement.type = 'button';
+      
+      // Add classes
+      if (date.getMonth() !== month) {
+        dayElement.classList.add('other-month');
+      }
+      
+      if (this.isToday(date)) {
+        dayElement.classList.add('today');
+      }
+      
+      if (this.selectedDate && this.isSameDate(date, this.selectedDate)) {
+        dayElement.classList.add('selected');
+      }
+      
+      if (date < this.options.minDate || date > this.options.maxDate) {
+        dayElement.classList.add('disabled');
+      }
+      
+      dayElement.addEventListener('click', () => {
+        if (!dayElement.classList.contains('disabled')) {
+          this.selectDate(date);
+        }
+      });
+      
+      daysContainer.appendChild(dayElement);
+    }
+  }
+  
+  setupCalendarEventListeners() {
+    // Navigation buttons - ALWAYS VISIBLE ARROWS
+    const prevBtn = this.container.querySelector('.datepicker-nav.prev');
+    const nextBtn = this.container.querySelector('.datepicker-nav.next');
+    
+    prevBtn.addEventListener('click', () => {
+      this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+      this.renderCalendar();
     });
+    
+    nextBtn.addEventListener('click', () => {
+      this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+      this.renderCalendar();
+    });
+    
+    // Footer buttons
+    const todayBtn = this.container.querySelector('.datepicker-btn.today');
+    const clearBtn = this.container.querySelector('.datepicker-btn.clear');
+    
+    todayBtn.addEventListener('click', () => {
+      const today = new Date();
+      if (today >= this.options.minDate && today <= this.options.maxDate) {
+        this.selectDate(today);
+      }
+    });
+    
+    clearBtn.addEventListener('click', () => {
+      this.clearDate();
+    });
+  }
+  
+  selectDate(date) {
+    this.selectedDate = date;
+    this.input.value = this.formatDate(date);
+    this.hide();
+    this.addSuccessAnimation();
+  }
+  
+  clearDate() {
+    this.selectedDate = null;
+    this.input.value = '';
+    this.hide();
+  }
+  
+  formatDate(date) {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+  
+  isToday(date) {
+    const today = new Date();
+    return this.isSameDate(date, today);
+  }
+  
+  isSameDate(date1, date2) {
+    return date1.getDate() === date2.getDate() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getFullYear() === date2.getFullYear();
+  }
+  
+  addSuccessAnimation() {
+    this.input.style.borderColor = '#10b981';
+    this.input.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.2)';
+    setTimeout(() => {
+      this.input.style.borderColor = '';
+      this.input.style.boxShadow = '';
+    }, 800);
   }
 }
 
 function initializeDatePickers() {
-  // Check if Air Datepicker is loaded
-  if (typeof AirDatepicker === 'undefined') {
-    console.warn('Air Datepicker not loaded yet');
-    return;
-  }
-  
-  const today = new Date();
-  const minDate = new Date();
-  minDate.setFullYear(minDate.getFullYear() - 100);
-  
-  // Air Datepicker configuration
-  const datePickerConfig = {
-    dateFormat: 'dd-MM-yyyy',
-    position: 'bottom center',
-    autoClose: true,
-    maxDate: today,
-    minDate: minDate,
-    isMobile: false,           // Allow manual typing on mobile
-    mobileModal: false,        // No blocking modal
-    selectedDates: [],
-    toggleSelected: false,
-    container: '',
-    classes: 'air-datepicker-purple-theme',
-    locale: {
-      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-      daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-      months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      today: 'Today',
-      clear: 'Clear',
-      dateFormat: 'dd-MM-yyyy',
-      timeFormat: 'hh:mm aa',
-      firstDay: 0
-    },
-    navTitles: {
-      days: 'MMMM yyyy',
-      months: 'yyyy',
-      years: 'yyyy1 - yyyy2'
-    },
-    buttons: ['today', 'clear'],
-    onSelect: function({date, formattedDate, datepicker}) {
-      // Add success animation
-      const input = datepicker.$el;
-      input.style.borderColor = '#10b981';
-      input.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.2)';
-      setTimeout(() => {
-        input.style.borderColor = '';
-        input.style.boxShadow = '';
-      }, 800);
-    },
-    onShow: function(dp, animationCompleted) {
-      // Force arrow visibility after datepicker is shown
-      setTimeout(() => {
-        fixDatepickerArrows(dp.$el);
-      }, 100);
-    },
-    onRenderCell: function({date, cellType, datepicker}) {
-      // Force arrow visibility on every render
-      setTimeout(() => {
-        fixDatepickerArrows(datepicker.$el);
-      }, 50);
-    }
-  };
-  
-  // Initialize for dob1
+  // Initialize custom datepickers
   const dob1 = document.getElementById('dob1');
-  if (dob1) {
-    const dp1 = new AirDatepicker(dob1, datePickerConfig);
-    addDateInputFormatting(dob1);
-    
-    // Set up MutationObserver for dob1
-    setupDatepickerObserver(dob1, dp1);
-  }
-  
-  // Initialize for dob2
   const dob2 = document.getElementById('dob2');
-  if (dob2) {
-    const dp2 = new AirDatepicker(dob2, datePickerConfig);
-    addDateInputFormatting(dob2);
-    
-    // Set up MutationObserver for dob2
-    setupDatepickerObserver(dob2, dp2);
+  
+  if (dob1) {
+    new CustomDatepicker('dob1');
   }
   
-  console.log('✅ Air Datepicker initialized with manual typing support');
+  if (dob2) {
+    new CustomDatepicker('dob2');
+  }
+  
+  console.log('✅ Custom Datepicker initialized with ALWAYS-VISIBLE navigation arrows');
 }
 
 /**
