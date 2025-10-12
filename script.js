@@ -4003,10 +4003,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 100);
   
-  // Add language button click handlers
+  // Add language button click handlers with mobile support
   document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
+    const switchLang = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
       const lang = btn.dataset.lang;
+      
+      console.log(`📱 Language button clicked: ${lang}`);
       
       // Update active state
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
@@ -4017,7 +4022,20 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Update form based on current mode
       updateFormMode();
-    });
+      
+      // Visual feedback on mobile
+      btn.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        btn.style.transform = '';
+      }, 150);
+    };
+    
+    // Add both click and touch events for better mobile support
+    btn.addEventListener('click', switchLang);
+    btn.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      switchLang(e);
+    }, { passive: false });
     
     // Set initial active state
     if (btn.dataset.lang === savedLang) {
