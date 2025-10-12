@@ -1,0 +1,278 @@
+/* ============================================================
+   AIR DATEPICKER - PROFESSIONAL PURPLE THEME
+   Designer-crafted for optimal UX on mobile & desktop
+   ============================================================ */
+
+/* Calendar container - Clean & modern */
+.air-datepicker {
+  --adp-color: #667eea;
+  --adp-color-secondary: #764ba2;
+  --adp-background-color: #ffffff;
+  --adp-background-color-hover: #f3f4f6;
+  --adp-background-color-active: #667eea;
+  --adp-background-color-in-range: #ede9fe;
+  --adp-background-color-selected-other-month: #667eea;
+  --adp-color-other-month: #d1d5db;
+  --adp-color-disabled: #d1d5db;
+  --adp-color-current-date: #92400e;
+  --adp-background-color-current-date: #fef3c7;
+  
+  background: var(--adp-background-color);
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 12px 48px rgba(102, 126, 234, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  padding: 0;
+  width: 320px;
+}
+
+/* Navigation header - Purple gradient */
+.air-datepicker-nav {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px 16px 0 0;
+  padding: 1.2rem 1rem;
+  border-bottom: none;
+  min-height: 52px;
+}
+
+.air-datepicker-nav--title {
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.air-datepicker-nav--title:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.air-datepicker-nav--action {
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.air-datepicker-nav--action:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.air-datepicker-nav--action svg {
+  width: 16px;
+  height: 16px;
+}
+
+.air-datepicker-nav--action path {
+  stroke: #ffffff !important;
+  stroke-width: 2.5;
+}
+
+/* Calendar body */
+.air-datepicker-body {
+  padding: 1rem;
+}
+
+/* Weekdays - Subtle & clean */
+.air-datepicker-body--day-names {
+  margin-bottom: 0.6rem;
+}
+
+.air-datepicker-body--day-name {
+  color: #6b7280;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+/* Day cells - Smooth & responsive */
+.air-datepicker-cell {
+  border-radius: 10px;
+  color: #1f2937;
+  font-weight: 500;
+  height: 38px;
+  transition: all 0.15s ease;
+}
+
+.air-datepicker-cell:hover {
+  background: #f9fafb;
+  color: #1f2937;
+}
+
+.air-datepicker-cell.-focus- {
+  background: #ede9fe;
+  color: #667eea;
+}
+
+.air-datepicker-cell.-current- {
+  background: #fef3c7;
+  color: #92400e;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px #fbbf24 inset;
+}
+
+.air-datepicker-cell.-current-:hover {
+  background: #fde68a;
+}
+
+.air-datepicker-cell.-selected- {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff !important;
+  font-weight: 700;
+  box-shadow: 0 3px 12px rgba(102, 126, 234, 0.4);
+}
+
+.air-datepicker-cell.-selected-.-current- {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff !important;
+  box-shadow: 0 0 0 2px #fbbf24, 0 3px 12px rgba(102, 126, 234, 0.4);
+}
+
+.air-datepicker-cell.-selected-:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6442a0 100%);
+}
+
+.air-datepicker-cell.-disabled- {
+  color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.air-datepicker-cell.-disabled-:hover {
+  background: transparent;
+  color: #d1d5db;
+}
+
+.air-datepicker-cell.-other-month- {
+  color: #d1d5db;
+}
+
+.air-datepicker-cell.-other-month-:hover {
+  color: #9ca3af;
+  background: #f9fafb;
+}
+
+/* Buttons - Clean actions */
+.air-datepicker--buttons {
+  border-top: 1px solid #f3f4f6;
+  padding: 0.8rem 1rem;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.air-datepicker-button {
+  background: #f3f4f6;
+  color: #374151;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  flex: 1;
+  border: none;
+}
+
+.air-datepicker-button:hover {
+  background: #667eea;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+/* Mobile modal overlay */
+.air-datepicker-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .air-datepicker {
+    width: 95vw !important;
+    max-width: 360px;
+    border-radius: 20px;
+  }
+  
+  .air-datepicker-nav {
+    padding: 1.4rem 1rem;
+    border-radius: 20px 20px 0 0;
+  }
+  
+  .air-datepicker-nav--title {
+    font-size: 1.1rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .air-datepicker-nav--action {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .air-datepicker-nav--action svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .air-datepicker-body {
+    padding: 1.2rem;
+  }
+  
+  .air-datepicker-body--day-name {
+    font-size: 0.85rem;
+    padding: 0.7rem 0;
+  }
+  
+  .air-datepicker-cell {
+    height: 46px;
+    font-size: 1.05rem;
+    border-radius: 12px;
+  }
+  
+  .air-datepicker--buttons {
+    padding: 1rem 1.2rem 1.2rem;
+  }
+  
+  .air-datepicker-button {
+    padding: 0.8rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Input field styling */
+#dob1, #dob2 {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #1f2937;
+  background: #ffffff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+#dob1:hover, #dob2:hover {
+  border-color: #c4b5fd;
+  background: #fafafa;
+}
+
+#dob1:focus, #dob2:focus,
+#dob1.-focus-, #dob2.-focus- {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+  background: #ffffff;
+}
+
+/* Mobile input styling */
+@media (max-width: 768px) {
+  #dob1, #dob2 {
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    min-height: 52px;
+  }
+}
+

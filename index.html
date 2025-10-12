@@ -8,6 +8,8 @@
   <title>Nadi Dosha Calculator - Vedic Astrology Compatibility</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.0/air-datepicker.css">
+  <link rel="stylesheet" href="air-datepicker-theme.css">
 </head>
 <body>
   <div id="corsWarning" class="cors-warning" style="display: none;">
@@ -74,11 +76,8 @@
             </div>
             <div class="field-group">
               <label for="dob1" data-i18n="form.dob">Date of Birth</label>
-              <div class="date-input-themed">
-                <input type="date" id="dob1" name="dob1" required max="">
-                <span class="date-icon-themed">📅</span>
-              </div>
-              <small class="input-hint" data-i18n="form.dobHint">Select date from calendar</small>
+              <input type="text" id="dob1" name="dob1" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" required readonly>
+              <small class="input-hint" data-i18n="form.dobHint">Click to select date from calendar</small>
             </div>
             <div class="field-group">
               <label for="tob1" data-i18n="form.tob">Time of Birth</label>
@@ -117,11 +116,8 @@
             </div>
             <div class="field-group">
               <label for="dob2" data-i18n="form.dob">Date of Birth</label>
-              <div class="date-input-themed">
-                <input type="date" id="dob2" name="dob2" max="">
-                <span class="date-icon-themed">📅</span>
-              </div>
-              <small class="input-hint" data-i18n="form.dobHint">Select date from calendar</small>
+              <input type="text" id="dob2" name="dob2" placeholder="DD-MM-YYYY" data-i18n-placeholder="form.dobPlaceholder" readonly>
+              <small class="input-hint" data-i18n="form.dobHint">Click to select date from calendar</small>
             </div>
             <div class="field-group">
               <label for="tob2" data-i18n="form.tob">Time of Birth</label>
@@ -323,6 +319,7 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.0/air-datepicker.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

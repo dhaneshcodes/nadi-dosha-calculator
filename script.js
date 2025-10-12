@@ -81,7 +81,7 @@ const translations = {
       namePlaceholder: 'Enter name',
       dob: 'Date of Birth',
       dobPlaceholder: 'DD-MM-YYYY',
-      dobHint: 'Select date from calendar',
+      dobHint: 'Click to select date from calendar',
       tob: 'Time of Birth',
       tobHint: '12-hour format: 2:30 PM or 10:15 AM',
       pob: 'Place of Birth',
@@ -240,7 +240,7 @@ const translations = {
       namePlaceholder: 'नाम दर्ज करें',
       dob: 'जन्म तिथि',
       dobPlaceholder: 'दिन-महीना-वर्ष',
-      dobHint: 'कैलेंडर से तारीख चुनें',
+      dobHint: 'तारीख चुनने के लिए क्लिक करें',
       tob: 'जन्म समय',
       tobHint: '12-घंटे प्रारूप: दोपहर 2:30 या सुबह 10:15',
       pob: 'जन्म स्थान',
@@ -399,7 +399,7 @@ const translations = {
       namePlaceholder: 'ਨਾਮ ਦਰਜ ਕਰੋ',
       dob: 'ਜਨਮ ਤਾਰੀਖ',
       dobPlaceholder: 'ਦਿਨ-ਮਹੀਨਾ-ਸਾਲ',
-      dobHint: 'ਕੈਲੰਡਰ ਤੋਂ ਤਾਰੀਖ ਚੁਣੋ',
+      dobHint: 'ਤਾਰੀਖ ਚੁਣਨ ਲਈ ਕਲਿੱਕ ਕਰੋ',
       tob: 'ਜਨਮ ਸਮਾਂ',
       tobHint: '12-ਘੰਟੇ ਫਾਰਮੈਟ: ਦੁਪਹਿਰ 2:30 ਜਾਂ ਸਵੇਰੇ 10:15',
       pob: 'ਜਨਮ ਸਥਾਨ',
@@ -2703,31 +2703,75 @@ function initializeAutocomplete() {
 }
 
 /**
- * Initialize native date pickers
+ * Initialize Air Datepicker with beautiful purple theme
  */
 function initializeDatePickers() {
-  // Set max date to today for both date inputs
-  const today = new Date().toISOString().split('T')[0];
+  // Check if Air Datepicker is loaded
+  if (typeof AirDatepicker === 'undefined') {
+    console.warn('Air Datepicker not loaded yet');
+    return;
+  }
   
+  const today = new Date();
+  const minDate = new Date();
+  minDate.setFullYear(minDate.getFullYear() - 100);
+  
+  // Air Datepicker configuration
+  const datePickerConfig = {
+    dateFormat: 'dd-MM-yyyy',
+    position: 'bottom center',
+    autoClose: true,
+    maxDate: today,
+    minDate: minDate,
+    isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768,
+    mobileModal: true,
+    selectedDates: [],
+    toggleSelected: false,
+    container: '',
+    classes: 'air-datepicker-purple-theme',
+    locale: {
+      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+      months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      today: 'Today',
+      clear: 'Clear',
+      dateFormat: 'dd-MM-yyyy',
+      timeFormat: 'hh:mm aa',
+      firstDay: 0
+    },
+    navTitles: {
+      days: 'MMMM yyyy',
+      months: 'yyyy',
+      years: 'yyyy1 - yyyy2'
+    },
+    buttons: ['today', 'clear'],
+    onSelect: function({date, formattedDate, datepicker}) {
+      // Add success animation
+      const input = datepicker.$el;
+      input.style.borderColor = '#10b981';
+      input.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.2)';
+      setTimeout(() => {
+        input.style.borderColor = '';
+        input.style.boxShadow = '';
+      }, 800);
+    }
+  };
+  
+  // Initialize for dob1
   const dob1 = document.getElementById('dob1');
-  const dob2 = document.getElementById('dob2');
-  
   if (dob1) {
-    dob1.setAttribute('max', today);
-    // Set min date to 100 years ago
-    const minDate = new Date();
-    minDate.setFullYear(minDate.getFullYear() - 100);
-    dob1.setAttribute('min', minDate.toISOString().split('T')[0]);
+    new AirDatepicker(dob1, datePickerConfig);
   }
   
+  // Initialize for dob2
+  const dob2 = document.getElementById('dob2');
   if (dob2) {
-    dob2.setAttribute('max', today);
-    const minDate = new Date();
-    minDate.setFullYear(minDate.getFullYear() - 100);
-    dob2.setAttribute('min', minDate.toISOString().split('T')[0]);
+    new AirDatepicker(dob2, datePickerConfig);
   }
   
-  console.log('✅ Native date pickers initialized with custom styling');
+  console.log('✅ Air Datepicker initialized with purple theme');
 }
 
 // Run cleanup and initialization on page load
