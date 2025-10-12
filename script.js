@@ -2790,6 +2790,7 @@ function initializeDatePickers() {
 
 /**
  * Populate birth details summary for verification
+ * Modern, interactive design
  */
 function populateBirthDetailsSummary(values, isSingleMode) {
   const summaryGrid = document.getElementById('summaryGrid');
@@ -2801,27 +2802,58 @@ function populateBirthDetailsSummary(values, isSingleMode) {
   for (let i = 1; i <= maxPerson; i++) {
     const name = values[`name${i}`] || `Person ${i}`;
     const dob = values[`dob${i}`] || '-';
-    const tob = values[`tob${i}`] || '-';
+    
+    // Convert 24-hour to 12-hour format for display
+    const tob24 = values[`tob${i}`] || '-';
+    let tobDisplay = tob24;
+    if (tob24 && tob24 !== '-') {
+      const [hours, mins] = tob24.split(':');
+      const h = parseInt(hours);
+      const period = h >= 12 ? 'PM' : 'AM';
+      const h12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+      tobDisplay = `${h12}:${mins} ${period}`;
+    }
+    
     const pob = values[`pob${i}`] || '-';
     
     html += `
-      <div class="summary-person">
-        <div class="summary-person-name">
-          <i class="fas fa-user"></i>
-          <strong>${name}</strong>
+      <div class="summary-card" data-person="${i}">
+        <div class="summary-card-header">
+          <div class="summary-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="summary-name-wrapper">
+            <span class="summary-person-label">${isSingleMode ? '' : t('form.person' + i)}</span>
+            <strong class="summary-person-name">${name}</strong>
+          </div>
         </div>
-        <div class="summary-details">
-          <div class="summary-item">
-            <span class="summary-label" data-i18n="results.summaryDOB">Date of Birth:</span>
-            <span class="summary-value">${dob}</span>
+        <div class="summary-info-grid">
+          <div class="summary-info-item">
+            <div class="info-icon-wrapper birth-icon">
+              <i class="fas fa-calendar-day"></i>
+            </div>
+            <div class="info-content">
+              <span class="info-label" data-i18n="results.summaryDOB">Date of Birth</span>
+              <span class="info-value">${dob}</span>
+            </div>
           </div>
-          <div class="summary-item">
-            <span class="summary-label" data-i18n="results.summaryTOB">Time of Birth:</span>
-            <span class="summary-value">${tob}</span>
+          <div class="summary-info-item">
+            <div class="info-icon-wrapper time-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="info-content">
+              <span class="info-label" data-i18n="results.summaryTOB">Time of Birth</span>
+              <span class="info-value">${tobDisplay}</span>
+            </div>
           </div>
-          <div class="summary-item">
-            <span class="summary-label" data-i18n="results.summaryPOB">Place of Birth:</span>
-            <span class="summary-value">${pob}</span>
+          <div class="summary-info-item">
+            <div class="info-icon-wrapper location-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="info-content">
+              <span class="info-label" data-i18n="results.summaryPOB">Place of Birth</span>
+              <span class="info-value">${pob}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -2832,6 +2864,21 @@ function populateBirthDetailsSummary(values, isSingleMode) {
   
   // Re-apply translations to the dynamically added content
   updateLanguage(currentLang);
+  
+  // Add entrance animation
+  setTimeout(() => {
+    document.querySelectorAll('.summary-card').forEach((card, index) => {
+      setTimeout(() => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          card.style.transition = 'all 0.4s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 50);
+      }, index * 100);
+    });
+  }, 100);
 }
 
 /**
