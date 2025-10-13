@@ -3365,7 +3365,7 @@ async function tryComplexGeocode(place, originalPlace) {
     const result = await openCageQueue.add(async () => {
       // Using demo key - get your own free key at: https://opencagedata.com/
       // Free tier: 2,500 requests/day (more than enough for fallback!)
-      const apiKey = 'c63386b4f77e46de817bdf94f69bfcac'; // Demo key
+      const apiKey = 'df0020105ec243aeb353f5c6ea440e75'; // Your API key
       
       const openCageUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(place)}&key=${apiKey}&limit=1`;
       
@@ -3401,7 +3401,7 @@ async function tryComplexGeocode(place, originalPlace) {
     const result = await positionstackQueue.add(async () => {
       // Free API key - get your own at: https://positionstack.com/
       // Free tier: 25,000 requests/month (excellent for fallback!)
-      const apiKey = '45ed17d7be562743c0425e1097e190d5'; // Free demo key
+      const apiKey = '4641963610714aa46fe83052b7e13f41'; // Your API key
       
       const positionstackUrl = `http://api.positionstack.com/v1/forward?access_key=${apiKey}&query=${encodeURIComponent(place)}&limit=1`;
       
