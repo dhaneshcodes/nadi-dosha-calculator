@@ -1,19 +1,37 @@
-# System files
-.DS_Store
-Thumbs.db
-desktop.ini
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
 
-# Editor files
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
+# OS
+.DS_Store
+Thumbs.db
+
 # Logs
 *.log
 
-# Temporary files
-*.tmp
-*.temp
+# Environment variables
+.env
+.env.local
 
+# Database
+*.db
+*.sqlite
+
+# Build
+dist/
+build/
+*.egg-info/
