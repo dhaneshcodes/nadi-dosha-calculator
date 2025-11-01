@@ -3157,8 +3157,65 @@ function getOffsetFromTimezone(tzName, dateStr = null) {
 }
 
 /**
+ * Search INDIAN_CITIES_DATABASE for exact or fuzzy matches
+ * @param {string} place 
+ * @returns {{lat: number, lon: number, source: string} | null}
+ */
+function lookupInDatabase(place) {
+  const normalized = place.toLowerCase().trim();
+  const placeParts = normalized.split(',').map(p => p.trim());
+  const cityName = placeParts[0].toLowerCase();
+  
+  // Try exact match first
+  let match = INDIAN_CITIES_DATABASE.find(city => 
+    city.place.toLowerCase() === normalized
+  );
+  
+  if (match) {
+    console.log(`   ✅ Exact match: "${place}" → "${match.place}"`);
+    return {
+      lat: match.lat,
+      lon: match.lon,
+      source: 'Indian Cities Database'
+    };
+  }
+  
+  // Try fuzzy match - check if city name matches (most common case)
+  match = INDIAN_CITIES_DATABASE.find(city => {
+    const dbCityName = city.place.split(',')[0].toLowerCase().trim();
+    return dbCityName === cityName;
+  });
+  
+  if (match) {
+    console.log(`   ✅ Fuzzy match: "${place}" → "${match.place}"`);
+    return {
+      lat: match.lat,
+      lon: match.lon,
+      source: 'Indian Cities Database'
+    };
+  }
+  
+  // Try partial match (e.g., "Adoni" matches "Adoni, Andhra Pradesh, India")
+  match = INDIAN_CITIES_DATABASE.find(city => 
+    city.place.toLowerCase().includes(cityName) || 
+    cityName.includes(city.place.split(',')[0].toLowerCase().trim())
+  );
+  
+  if (match) {
+    console.log(`   ✅ Partial match: "${place}" → "${match.place}"`);
+    return {
+      lat: match.lat,
+      lon: match.lon,
+      source: 'Indian Cities Database'
+    };
+  }
+  
+  return null;
+}
+
+/**
  * Geocode Place of Birth using intelligent API selection with fallbacks.
- * Uses cache-first approach for instant results on repeated searches.
+ * Uses database-first approach, then cache, then APIs.
  * Smart routing: Simple queries → Self-Hosted API, Complex queries → Photon/Nominatim
  * Multi-API fallback with rate limiting for high traffic scalability.
  * @param {string} place 
@@ -3167,17 +3224,35 @@ function getOffsetFromTimezone(tzName, dateStr = null) {
 async function geocodePlace(place) {
   const originalPlace = place;
   
-  // STEP 1: Check cache first (instant results!)
+  console.log(`🔍 Geocoding: "${place}"`);
+  
+  // STEP 1: Check local database FIRST (fastest, no network!)
+  console.log('📍 STEP 1: Checking local database...');
+  const dbResult = lookupInDatabase(place);
+  if (dbResult) {
+    console.log(`✅ Database HIT! Using coordinates from INDIAN_CITIES_DATABASE`);
+    // Cache database result for future use
+    geoCache.save(originalPlace, dbResult);
+    return dbResult;
+  }
+  console.log('❌ Database MISS - not found in INDIAN_CITIES_DATABASE');
+  
+  // STEP 2: Check cache (instant results for repeated searches!)
+  console.log('💾 STEP 2: Checking cache...');
   const cached = geoCache.get(place);
   if (cached) {
+    console.log(`✅ Cache HIT! Using cached coordinates`);
     return { ...cached, source: `${cached.source} (cached)` };
   }
+  console.log('❌ Cache MISS - not found in localStorage');
+  
+  console.log('🌐 STEP 3: Need to fetch from APIs...');
 
-  // STEP 2: Analyze query complexity for smart routing
+  // STEP 3: Analyze query complexity for smart routing
   const queryType = analyzeQueryComplexity(place);
   console.log(`🎯 Query "${place}" classified as: ${queryType}`);
 
-  // STEP 3: Route to appropriate strategy
+  // STEP 4: Route to appropriate strategy
   if (queryType === 'simple') {
     // Simple city names → Try Self-Hosted API first
     return await trySimpleGeocode(place, originalPlace);
@@ -3198,15 +3273,54 @@ async function trySimpleGeocode(place, originalPlace) {
       // Extract city name from input
       const cityName = place.split(',')[0].trim();
       
-      const selfHostedUrl = `https://geocode.prateekanand.com/geocode?city=${encodeURIComponent(cityName)}&limit=5`;
+      // Use proxy on localhost to avoid CORS issues, direct call in production
+      const selfHostedUrl = isLocalhost()
+        ? `/api/geocode?city=${encodeURIComponent(cityName)}&limit=5`
+        : `https://geocode.prateekanand.com/geocode?city=${encodeURIComponent(cityName)}&limit=5`;
+      
+      console.log('📡 Fetching:', selfHostedUrl, isLocalhost() ? '(via proxy)' : '(direct)');
       
       const res = await fetch(selfHostedUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
         signal: AbortSignal.timeout(5000) // 5 second timeout
       });
       
+      console.log('📥 Response status:', res.status, res.statusText);
+      console.log('📥 Response headers:', Object.fromEntries(res.headers.entries()));
+      
       if (res.ok) {
-        const data = await res.json();
-        if (data && data.length > 0) {
+        // Clone response to read both as text (for debugging) and JSON
+        const clonedRes = res.clone();
+        const text = await clonedRes.text();
+        console.log('📥 Response text (first 500 chars):', text.substring(0, 500));
+        
+        let data;
+        try {
+          data = await res.json();
+        } catch (parseError) {
+          console.error('❌ JSON parse error:', parseError);
+          console.error('Raw response (first 500 chars):', text.substring(0, 500));
+          throw new Error(`Invalid JSON response: ${parseError.message}`);
+        }
+        
+        console.log('📥 Parsed data:', data);
+        console.log('📥 Data type:', Array.isArray(data) ? 'Array' : typeof data);
+        console.log('📥 Data length:', Array.isArray(data) ? data.length : 'N/A');
+        
+        // Handle empty response (API returns 200 but empty array)
+        if (!data) {
+          throw new Error('Self-Hosted: Null or undefined response');
+        }
+        
+        if (Array.isArray(data) && data.length === 0) {
+          throw new Error('Self-Hosted: Empty array response');
+        }
+        
+        if (Array.isArray(data) && data.length > 0) {
           // Smart ranking: Sort by population (larger cities more likely)
           const sorted = data.sort((a, b) => (b.population || 0) - (a.population || 0));
           const best = sorted[0];
@@ -3223,8 +3337,16 @@ async function trySimpleGeocode(place, originalPlace) {
             elevation: best.dem
           };
         }
+        
+        // Handle non-array responses (unexpected format)
+        console.warn('⚠️ Unexpected response format:', typeof data, data);
+        throw new Error(`Self-Hosted: Unexpected response format (expected array, got ${typeof data})`);
+      } else {
+        // Non-OK response
+        const errorText = await res.text().catch(() => 'No error details');
+        console.error('❌ API Error:', res.status, res.statusText, errorText);
+        throw new Error(`Self-Hosted API error: ${res.status} ${res.statusText}`);
       }
-      throw new Error('Self-Hosted: No results');
     });
     
     // Cache successful result
@@ -3232,6 +3354,7 @@ async function trySimpleGeocode(place, originalPlace) {
     return result;
     
   } catch (err) {
+    console.error('❌ Self-Hosted API failed:', err);
     console.log('Self-Hosted API failed:', err.message, '→ Falling back to Photon/Nominatim');
   }
 
@@ -3647,10 +3770,70 @@ function calculateJulianDate(utDate) {
 }
 
 /**
- * Calculate the Moon's position and Nakshatra/Nadi with enhanced accuracy.
- * Uses improved lunar theory with additional periodic terms and modern Ayanamsa calculation.
+ * Calculate Nadi via server-side API
+ * @param {string} birthDate - Date in YYYY-MM-DD format
+ * @param {string} birthTime - Time in HH:MM format (24-hour)
+ * @param {number} timezoneOffset - Timezone offset in hours
+ * @param {number} latitude - Latitude in degrees
+ * @param {number} longitude - Longitude in degrees
+ * @returns {Promise<{nakshatra:string, nakshatraIndex:number, pada:number, nadi:string, siderealLongitude:number, tropicalLongitude:number, accuracy:string}>}
+ */
+async function calculateNakshatraAndNadiAPI(birthDate, birthTime, timezoneOffset, latitude, longitude) {
+  try {
+    console.log('Calling API with:', {
+      birth_date: birthDate,
+      birth_time: birthTime,
+      timezone: timezoneOffset,
+      latitude: latitude,
+      longitude: longitude
+    });
+    
+    const response = await fetch('/api/calculate-nadi', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        birth_date: birthDate,
+        birth_time: birthTime,
+        timezone: timezoneOffset.toString(),
+        latitude: latitude,
+        longitude: longitude
+      })
+    });
+    
+    console.log('API Response status:', response.status, response.statusText);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('API Error response:', errorText);
+      let error;
+      try {
+        error = JSON.parse(errorText);
+      } catch {
+        error = { detail: errorText || 'Calculation failed' };
+      }
+      throw new Error(error.detail || 'Calculation failed');
+    }
+    
+    const result = await response.json();
+    console.log('API Success:', result);
+    return result;
+  } catch (error) {
+    console.error('API calculation error:', error);
+    // Fallback to client-side calculation if API fails
+    console.warn('Falling back to client-side calculation');
+    throw error;
+  }
+}
+
+/**
+ * LEGACY: Calculate the Moon's position and Nakshatra/Nadi with enhanced accuracy.
+ * DEPRECATED: Now using server-side API (calculateNakshatraAndNadiAPI)
+ * Kept for reference/fallback only.
  * @param {Date} utDate
  * @returns { {nakshatra:string, nakshatraIndex:number, pada:number, nadi:string, siderealLongitude:number, tropicalLongitude:number, accuracy:string} }
+ * @deprecated Use calculateNakshatraAndNadiAPI instead
  */
 function calculateNakshatraAndNadi(utDate) {
   // Step 1: Julian Date
@@ -4490,106 +4673,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show loading UI with better UX
     showLoadingState();
+    updateLoadingMessage('Processing birth details and calculating Nadi...');
     
     // Hide the form and show results section
     document.querySelector('.nadi-form').style.display = 'none';
     resultSection.style.display = 'block';
     
-    // Store values for later use
-    const name1 = values.name1 || 'Person 1';
-    const name2 = values.name2 || 'Person 2';
-
     // Save scroll position to restore later
     lastScroll = window.scrollY;
 
-    // For both persons (or just one in single mode), fetch tz and do calculation
     try {
-      const persons = [];
-      const maxPerson = isSingleMode ? 1 : 2;
-      for (let i=1; i<=maxPerson; i++) {
-        const personName = values[`name${i}`] || `Person ${i}`;
-        
-        // Geocoding
-        let geo;
-        try {
-          updateLoadingMessage(`Analyzing ${personName}'s birth details...`);
-          geo = await geocodePlace(values[`pob${i}`]);
-        } catch (err) {
-          // Enhanced error message with helpful suggestions
-          // Show user-friendly error
-          showErrorState(`Could not find the location you entered.\n\n💡 Please try:\n• "Mumbai, Maharashtra, India"\n• "Delhi, India"\n• "London, UK"\n\nOr select from the dropdown suggestions.`);
-          
-          // Show form again
-          document.querySelector('.nadi-form').style.display = 'block';
-          resultSection.style.display = 'none';
-          
-          // Highlight the problematic input
-          const pobInput = document.getElementById(`pob${i}`);
-          if (pobInput) {
-            pobInput.focus();
-            pobInput.style.borderColor = '#ef4444';
-            setTimeout(() => {
-              pobInput.style.borderColor = '';
-            }, 3000);
-          }
-          return;
+      // ============================================
+      // SINGLE API CALL - All logic on server side
+      // ============================================
+      console.log('🚀 Making single API call to server...');
+      
+      const requestBody = {
+        person1: {
+          name: values.name1 || 'Person 1',
+          birth_date: values.dob1,
+          birth_time: values.tob1,
+          place_of_birth: values.pob1
         }
-        // Get timezone (uses exact timezone from API if available, otherwise estimates)
-        const tz = await getTimeZone(
-          geo.lat, 
-          geo.lon, 
-          geo.timezoneExact || false,  // Pass exact timezone flag
-          geo.timezone || null,         // Pass IANA timezone name
-          values[`dob${i}`]             // Pass birth date for DST handling
-        );
-        
-        // Prefer DST offset if applicable and non-zero, else rawOffset
-        const offset = (typeof tz.dstOffset === 'number' && tz.dstOffset !== tz.rawOffset) ? tz.dstOffset : tz.rawOffset;
-        
-        // Local -> UT
-        const utDate = convertToUT(values[`dob${i}`], values[`tob${i}`], offset);
-
-        // Moon nakshatra/nadi calculation
-        updateLoadingMessage(`Computing ${personName}'s Nadi analysis...`);
-        const moon = calculateNakshatraAndNadi(utDate);
-
-        // Store the data - we'll update DOM after hideLoadingState()
-        persons.push({...moon, name: values[`name${i}`]});
-      }
-
-      // Final loading message
-      updateLoadingMessage('Generating compatibility report...');
-
-      // Dosha verdict or single nadi result
-      if (isSingleMode) {
-        // Single mode - just show the nadi info
-        judgementCard.style.display = 'none';
-      } else {
-        // Compare mode - show compatibility
-        judgementCard.style.display = 'flex';
-      if (persons[0].nadi === persons[1].nadi) {
-          doshaDiv.textContent = t('results.doshaPresent');
-        doshaDiv.classList.add('danger');
-          judgementCard.classList.add('incompatible');
-          judgementIcon.textContent = '⚠️';
-          judgementExplanation.textContent = t('judgement.incompatible')
-            .replace('{name1}', persons[0].name)
-            .replace('{name2}', persons[1].name);
-      } else {
-          doshaDiv.textContent = t('results.noDosha');
-        doshaDiv.classList.add('success');
-          judgementCard.classList.add('compatible');
-          judgementIcon.textContent = '✓';
-          judgementExplanation.textContent = t('judgement.compatible')
-            .replace('{name1}', persons[0].name)
-            .replace('{name2}', persons[1].name);
-        }
+      };
+      
+      // Add person2 if in comparison mode
+      if (!isSingleMode && values.dob2 && values.tob2 && values.pob2) {
+        requestBody.person2 = {
+          name: values.name2 || 'Person 2',
+          birth_date: values.dob2,
+          birth_time: values.tob2,
+          place_of_birth: values.pob2
+        };
       }
       
+      console.log('📤 Request:', requestBody);
+      
+      const response = await fetch('/api/calculate-nadi-complete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
+        throw new Error(errorData.detail || `API error: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      console.log('📥 Response:', result);
+      
+      // Extract person data for display
+      const persons = [{
+        ...result.person1,
+        name: result.person1.name || values.name1 || 'Person 1'
+      }];
+      
+      if (result.person2) {
+        persons.push({
+          ...result.person2,
+          name: result.person2.name || values.name2 || 'Person 2'
+        });
+      }
+
       // Hide loading and show results
       hideLoadingState();
       
-      // NOW we can safely access the restored DOM elements
+      // Extract names for display
+      const name1 = result.person1.name || values.name1 || 'Person 1';
+      const name2 = result.person2 ? (result.person2.name || values.name2 || 'Person 2') : null;
+      
       // Update title based on mode
       resultsTitle.textContent = isSingleMode 
         ? `Nadi Analysis for ${name1}` 
@@ -4600,15 +4755,36 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsPersons.classList.add('single-mode');
         document.getElementById('resultPerson2').style.display = 'none';
         document.getElementById('comparisonDivider').style.display = 'none';
+        judgementCard.style.display = 'none';
       } else {
         resultsPersons.classList.remove('single-mode');
         document.getElementById('resultPerson2').style.display = 'block';
         document.getElementById('comparisonDivider').style.display = 'flex';
+        judgementCard.style.display = 'flex';
+        
+        // Update dosha judgement from server response
+        if (result.hasDosha) {
+          doshaDiv.textContent = t('results.doshaPresent');
+          doshaDiv.classList.add('danger');
+          judgementCard.classList.add('incompatible');
+          judgementIcon.textContent = '⚠️';
+          judgementExplanation.textContent = result.message || t('judgement.incompatible')
+            .replace('{name1}', name1)
+            .replace('{name2}', name2);
+        } else {
+          doshaDiv.textContent = t('results.noDosha');
+          doshaDiv.classList.add('success');
+          judgementCard.classList.add('compatible');
+          judgementIcon.textContent = '✓';
+          judgementExplanation.textContent = result.message || t('judgement.compatible')
+            .replace('{name1}', name1)
+            .replace('{name2}', name2);
+        }
       }
       
       // Update person names in results
       document.getElementById('resultName1').textContent = name1;
-      if (!isSingleMode) {
+      if (!isSingleMode && name2) {
         document.getElementById('resultName2').textContent = name2;
       }
       
@@ -4616,21 +4792,28 @@ document.addEventListener('DOMContentLoaded', () => {
       populateBirthDetailsSummary(values, isSingleMode);
       
       // Update Nakshatra and Nadi information for each person
-      for (let i = 1; i <= maxPerson; i++) {
-        const person = persons[i - 1];
-        
-        // Update nakshatra and nadi text with translations
-        document.getElementById(`nakshatra${i}`).textContent = getNakshatraName(person.nakshatra);
-        document.getElementById(`nadi${i}`).textContent = getNadiName(person.nadi);
-        
-        // Update nadi badge with icon and style
-        const nadiBadge = document.getElementById(`nadiBadge${i}`);
-        const nadiIcon = document.getElementById(`nadiIcon${i}`);
-        const nadiDesc = document.getElementById(`nadiDesc${i}`);
-        
-        nadiBadge.classList.add(person.nadi.toLowerCase());
-        nadiIcon.textContent = getNadiIcon(person.nadi);
-        nadiDesc.textContent = getNadiDescription(person.nadi);
+      const maxPerson = isSingleMode ? 1 : (result.person2 ? 2 : 1);
+      
+      // Person 1
+      document.getElementById(`nakshatra1`).textContent = getNakshatraName(result.person1.nakshatra);
+      document.getElementById(`nadi1`).textContent = getNadiName(result.person1.nadi);
+      const nadiBadge1 = document.getElementById(`nadiBadge1`);
+      const nadiIcon1 = document.getElementById(`nadiIcon1`);
+      const nadiDesc1 = document.getElementById(`nadiDesc1`);
+      nadiBadge1.classList.add(result.person1.nadi.toLowerCase());
+      nadiIcon1.textContent = getNadiIcon(result.person1.nadi);
+      nadiDesc1.textContent = getNadiDescription(result.person1.nadi);
+      
+      // Person 2 (if exists)
+      if (result.person2) {
+        document.getElementById(`nakshatra2`).textContent = getNakshatraName(result.person2.nakshatra);
+        document.getElementById(`nadi2`).textContent = getNadiName(result.person2.nadi);
+        const nadiBadge2 = document.getElementById(`nadiBadge2`);
+        const nadiIcon2 = document.getElementById(`nadiIcon2`);
+        const nadiDesc2 = document.getElementById(`nadiDesc2`);
+        nadiBadge2.classList.add(result.person2.nadi.toLowerCase());
+        nadiIcon2.textContent = getNadiIcon(result.person2.nadi);
+        nadiDesc2.textContent = getNadiDescription(result.person2.nadi);
       }
       
       // scroll to result
