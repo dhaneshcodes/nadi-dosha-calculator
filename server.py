@@ -205,7 +205,7 @@ async def serve_static(filename: str):
 if __name__ == '__main__':
     import uvicorn
     
-    PORT = int(os.getenv("PORT", "80"))  # Use port 80 for Cloudflare, or set PORT env var for custom port
+    PORT = int(os.getenv("PORT", "8000"))  # Use port 8000 (Nginx proxies from port 80)
     
     print('=' * 70)
     print('Nadi Dosha Calculator - Unified Server')

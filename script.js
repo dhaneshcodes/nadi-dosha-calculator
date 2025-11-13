@@ -3104,8 +3104,8 @@ const API_BASE_URL = (() => {
   // Check if page is HTTPS (GitHub Pages)
   const isHTTPS = window.location.protocol === 'https:';
   
-  // Production API server
-  const PRODUCTION_API_HTTP = 'http://159.89.161.170:8000';
+  // Production API server (via Cloudflare with free SSL)
+  const PRODUCTION_API_HTTP = 'https://api.nadidosh.com';
   
   // SIMPLE SOLUTION: Just use the API server directly
   // If server has HTTPS, use it. Otherwise, browsers will block from HTTPS pages.
