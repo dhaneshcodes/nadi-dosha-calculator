@@ -3107,31 +3107,37 @@ const API_BASE_URL = (() => {
   // Production API server
   const PRODUCTION_API_HTTP = 'http://159.89.161.170:8000';
   
-  // For HTTPS pages (GitHub Pages), browsers block HTTP requests (mixed content)
-  // Solution: Use a CORS proxy service that accepts HTTPS and proxies to HTTP API
-  // This allows HTTPS pages to call HTTP APIs through an HTTPS proxy
+  // SIMPLE SOLUTION: Just use the API server directly
+  // If server has HTTPS, use it. Otherwise, browsers will block from HTTPS pages.
+  // The server already has CORS configured, so once HTTPS is set up, it works directly!
   
   let baseUrl;
   let useProxy = false;
   
   if (isLocal) {
     baseUrl = ''; // Use relative URLs on localhost
-  } else if (isHTTPS) {
-    // HTTPS page calling HTTP API - use CORS proxy to bypass mixed content
-    // Store the actual API URL and proxy prefix separately
-    baseUrl = PRODUCTION_API_HTTP;
-    useProxy = true; // Flag to use proxy when making requests
-    console.log('🌐 HTTPS detected - will use CORS proxy for requests');
   } else {
+    // Production: Use API server directly
+    // TODO: Once HTTPS is set up on server, change to: 'https://your-domain.com' or 'https://159.89.161.170:443'
     baseUrl = PRODUCTION_API_HTTP;
+    
+    // If page is HTTPS and API is HTTP, browser will block (mixed content)
+    // This is a browser security feature - can't be bypassed from client code
+    if (isHTTPS) {
+      console.warn('⚠️ Mixed Content Warning: HTTPS page calling HTTP API will be blocked by browser.');
+      console.info('💡 Solution: Set up HTTPS on API server (see setup-https.sh)');
+      console.info('   Once server has HTTPS, change PRODUCTION_API_HTTP to use https://');
+      // Don't use proxy - it's unreliable. Just show the warning.
+      // The proper fix is HTTPS on the server.
+    }
   }
   
   // Log API configuration
-  console.log(`🌐 API Configuration: ${isLocal ? 'Local (localhost)' : isHTTPS ? 'Production (via CORS proxy)' : 'Production'}`, 
+  console.log(`🌐 API Configuration: ${isLocal ? 'Local (localhost)' : 'Production'}`, 
               isLocal ? '' : `→ ${baseUrl}`);
   
   // Return object with baseUrl and proxy flag
-  return { baseUrl, useProxy, isLocal };
+  return { baseUrl, useProxy: false, isLocal }; // No proxy - direct calls only
 })();
 
 /**
@@ -3140,16 +3146,9 @@ const API_BASE_URL = (() => {
  * @returns {string} - Full URL with proxy if needed
  */
 function buildApiUrl(path) {
-  const apiUrl = `${API_BASE_URL.baseUrl}${path}`;
-  
-  // If on HTTPS and proxy is needed, wrap with CORS proxy
-  if (API_BASE_URL.useProxy && !API_BASE_URL.isLocal) {
-    // Using corsproxy.io - more reliable and supports POST
-    const CORS_PROXY = 'https://corsproxy.io/?';
-    return CORS_PROXY + encodeURIComponent(apiUrl);
-  }
-  
-  return apiUrl;
+  // Simple: Just return the API URL directly
+  // No proxy complications - server should have HTTPS for production
+  return `${API_BASE_URL.baseUrl}${path}`;
 }
 
 /**
@@ -4770,58 +4769,17 @@ document.addEventListener('DOMContentLoaded', () => {
       
       console.log('📤 Request:', requestBody);
       
-      // Build the full API URL with proxy support if needed
-      let apiUrl = buildApiUrl('/api/calculate-nadi-complete');
+      // Simple HTTP call - just like Postman!
+      const apiUrl = buildApiUrl('/api/calculate-nadi-complete');
       console.log('🌐 API URL:', apiUrl);
       
-      // Try with proxy first, fallback to direct if proxy fails
-      let response;
-      let lastError;
-      
-      try {
-        response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody)
-        });
-        
-        // If proxy returns error status, throw to trigger fallback
-        if (response.status >= 400 && API_BASE_URL.useProxy) {
-          const errorText = await response.text().catch(() => '');
-          throw new Error(`Proxy returned ${response.status}: ${errorText}`);
-        }
-      } catch (fetchError) {
-        lastError = fetchError;
-        // If proxy fails and we're on HTTPS, try alternative proxy
-        if (API_BASE_URL.useProxy && (fetchError.message.includes('Failed to fetch') || fetchError.message.includes('CORS'))) {
-          console.warn('⚠️ Primary proxy failed, trying alternative...');
-          // Try corsproxy.io as alternative
-          const altProxy = 'https://corsproxy.io/?';
-          const altUrl = altProxy + encodeURIComponent(`${API_BASE_URL.baseUrl}/api/calculate-nadi-complete`);
-          try {
-            response = await fetch(altUrl, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(requestBody)
-            });
-            
-            // Check if response is actually successful
-            if (!response.ok) {
-              throw new Error(`Alternative proxy returned ${response.status}`);
-            }
-            console.log('✅ Alternative proxy succeeded');
-          } catch (altError) {
-            console.error('❌ Alternative proxy also failed:', altError);
-            throw new Error('All proxy services failed. The API server needs HTTPS to work from GitHub Pages. Please set up SSL certificate on the server.');
-          }
-        } else {
-          throw fetchError;
-        }
-      }
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      });
       
       if (!response.ok) {
         const errorText = await response.text().catch(() => 'Unknown error');
