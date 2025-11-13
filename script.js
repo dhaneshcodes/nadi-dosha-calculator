@@ -3144,9 +3144,8 @@ function buildApiUrl(path) {
   
   // If on HTTPS and proxy is needed, wrap with CORS proxy
   if (API_BASE_URL.useProxy && !API_BASE_URL.isLocal) {
-    // Try multiple reliable CORS proxy services
-    // Using allorigins.win - more reliable for POST requests
-    const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+    // Using corsproxy.io - more reliable and supports POST
+    const CORS_PROXY = 'https://corsproxy.io/?';
     return CORS_PROXY + encodeURIComponent(apiUrl);
   }
   
@@ -4788,30 +4787,18 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(requestBody)
         });
         
-        // If proxy returns 500, try direct connection (might work if browser allows)
-        if (response.status === 500 && API_BASE_URL.useProxy) {
-          console.warn('⚠️ CORS proxy returned 500, trying direct connection...');
-          const directUrl = `${API_BASE_URL.baseUrl}/api/calculate-nadi-complete`;
-          try {
-            response = await fetch(directUrl, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(requestBody)
-            });
-            console.log('✅ Direct connection succeeded');
-          } catch (directError) {
-            console.error('❌ Direct connection also failed:', directError);
-            throw new Error('Both proxy and direct connection failed. The API server may be down or there is a network issue.');
-          }
+        // If proxy returns error status, throw to trigger fallback
+        if (response.status >= 400 && API_BASE_URL.useProxy) {
+          const errorText = await response.text().catch(() => '');
+          throw new Error(`Proxy returned ${response.status}: ${errorText}`);
         }
       } catch (fetchError) {
         lastError = fetchError;
         // If proxy fails and we're on HTTPS, try alternative proxy
-        if (API_BASE_URL.useProxy && fetchError.message.includes('Failed to fetch')) {
+        if (API_BASE_URL.useProxy && (fetchError.message.includes('Failed to fetch') || fetchError.message.includes('CORS'))) {
           console.warn('⚠️ Primary proxy failed, trying alternative...');
-          const altProxy = 'https://cors-anywhere.herokuapp.com/';
+          // Try corsproxy.io as alternative
+          const altProxy = 'https://corsproxy.io/?';
           const altUrl = altProxy + encodeURIComponent(`${API_BASE_URL.baseUrl}/api/calculate-nadi-complete`);
           try {
             response = await fetch(altUrl, {
@@ -4821,9 +4808,15 @@ document.addEventListener('DOMContentLoaded', () => {
               },
               body: JSON.stringify(requestBody)
             });
+            
+            // Check if response is actually successful
+            if (!response.ok) {
+              throw new Error(`Alternative proxy returned ${response.status}`);
+            }
             console.log('✅ Alternative proxy succeeded');
           } catch (altError) {
-            throw new Error('All proxy services failed. Please check your internet connection or try again later.');
+            console.error('❌ Alternative proxy also failed:', altError);
+            throw new Error('All proxy services failed. The API server needs HTTPS to work from GitHub Pages. Please set up SSL certificate on the server.');
           }
         } else {
           throw fetchError;
