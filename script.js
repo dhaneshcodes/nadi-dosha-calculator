@@ -3101,15 +3101,37 @@ const API_BASE_URL = (() => {
                  hostname === '127.0.0.1' ||
                  window.location.protocol === 'file:';
   
-  // Production API server
-  const PRODUCTION_API = 'http://159.89.161.170:8000';
+  // Check if page is HTTPS (GitHub Pages)
+  const isHTTPS = window.location.protocol === 'https:';
   
-  // Use production API when not on localhost (e.g., GitHub Pages)
-  const baseUrl = isLocal ? '' : PRODUCTION_API;
+  // Production API server
+  const PRODUCTION_API_HTTP = 'http://159.89.161.170:8000';
+  
+  // For HTTPS pages (GitHub Pages), browsers block HTTP requests (mixed content)
+  // Solution: Set up HTTPS on the API server (recommended)
+  // Temporary workaround: Use a CORS proxy (not recommended for production)
+  
+  let baseUrl;
+  if (isLocal) {
+    baseUrl = ''; // Use relative URLs on localhost
+  } else if (isHTTPS) {
+    // HTTPS page - need HTTPS API or CORS proxy
+    // TODO: Set up HTTPS on API server and change to: 'https://159.89.161.170:443'
+    // For now, this will be blocked by browser (mixed content)
+    // You need to either:
+    // 1. Set up HTTPS on the server (Let's Encrypt recommended)
+    // 2. Use a CORS proxy service with HTTPS
+    // 3. Use Cloudflare to proxy with free SSL
+    baseUrl = PRODUCTION_API_HTTP;
+    console.error('❌ Mixed Content Blocked: HTTPS page cannot call HTTP API. Please set up HTTPS on the API server.');
+    console.info('💡 Solutions: 1) Set up HTTPS with Let\'s Encrypt, 2) Use Cloudflare proxy, 3) Use HTTPS CORS proxy');
+  } else {
+    baseUrl = PRODUCTION_API_HTTP;
+  }
   
   // Log API configuration
-  console.log(`🌐 API Configuration: ${isLocal ? 'Local (localhost)' : 'Production'}`, 
-              isLocal ? '' : `→ ${PRODUCTION_API}`);
+  console.log(`🌐 API Configuration: ${isLocal ? 'Local (localhost)' : isHTTPS ? 'Production (HTTPS→HTTP - may be blocked)' : 'Production'}`, 
+              isLocal ? '' : `→ ${baseUrl}`);
   
   return baseUrl;
 })();
