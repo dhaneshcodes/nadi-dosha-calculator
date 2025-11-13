@@ -1,7 +1,8 @@
 """
 API routes/endpoints
 """
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Request
+from fastapi.responses import Response
 from server.api.schemas import (
     CalculationRequest, CalculationResponse, ErrorResponse,
     NadiCalculationRequest, NadiComparisonResult, PersonNadiResult
@@ -242,6 +243,20 @@ async def calculate_nadi_complete(request: NadiCalculationRequest) -> NadiCompar
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An error occurred: {str(e)}"
         )
+
+
+@router.options("/calculate-nadi-complete")
+async def options_calculate_nadi_complete(request: Request):
+    """Handle CORS preflight for calculate-nadi-complete endpoint"""
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            "Access-Control-Max-Age": "3600",
+        }
+    )
 
 
 @router.get("/health")

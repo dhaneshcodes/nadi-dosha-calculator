@@ -82,9 +82,13 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         super().__init__(app)
         self.rate_limiter = rate_limiter
         # Endpoints that should be rate limited
-        self.protected_paths = ["/api/calculate-nadi"]
+        self.protected_paths = ["/api/calculate-nadi", "/api/calculate-nadi-complete"]
     
     async def dispatch(self, request: Request, call_next):
+        # Skip rate limiting for OPTIONS requests (CORS preflight)
+        if request.method == "OPTIONS":
+            return await call_next(request)
+        
         # Only apply rate limiting to protected paths
         if any(request.url.path.startswith(path) for path in self.protected_paths):
             # Get client identifier (IP address)
