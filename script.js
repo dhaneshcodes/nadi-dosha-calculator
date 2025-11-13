@@ -3092,6 +3092,29 @@ function getNadiForNakshatra(nakshatraName) {
 }
 
 /**
+ * API Base URL Configuration
+ * Uses production server when not on localhost
+ */
+const API_BASE_URL = (() => {
+  const hostname = window.location.hostname;
+  const isLocal = hostname === 'localhost' || 
+                 hostname === '127.0.0.1' ||
+                 window.location.protocol === 'file:';
+  
+  // Production API server
+  const PRODUCTION_API = 'http://159.89.161.170:8000';
+  
+  // Use production API when not on localhost (e.g., GitHub Pages)
+  const baseUrl = isLocal ? '' : PRODUCTION_API;
+  
+  // Log API configuration
+  console.log(`🌐 API Configuration: ${isLocal ? 'Local (localhost)' : 'Production'}`, 
+              isLocal ? '' : `→ ${PRODUCTION_API}`);
+  
+  return baseUrl;
+})();
+
+/**
  * Check if running on localhost and proxy server is available
  */
 function isLocalhost() {
@@ -3273,10 +3296,10 @@ async function trySimpleGeocode(place, originalPlace) {
       // Extract city name from input
       const cityName = place.split(',')[0].trim();
       
-      // Use proxy on localhost to avoid CORS issues, direct call in production
+      // Use proxy on localhost to avoid CORS issues, use production API server otherwise
       const selfHostedUrl = isLocalhost()
         ? `/api/geocode?city=${encodeURIComponent(cityName)}&limit=5`
-        : `https://geocode.prateekanand.com/geocode?city=${encodeURIComponent(cityName)}&limit=5`;
+        : `${API_BASE_URL}/api/geocode?city=${encodeURIComponent(cityName)}&limit=5`;
       
       console.log('📡 Fetching:', selfHostedUrl, isLocalhost() ? '(via proxy)' : '(direct)');
       
@@ -3372,7 +3395,7 @@ async function tryComplexGeocode(place, originalPlace) {
     const result = await photonQueue.add(async () => {
       const photonUrl = isLocalhost() 
         ? `/api/photon?q=${encodeURIComponent(place)}&limit=1`
-        : `https://photon.komoot.io/api/?q=${encodeURIComponent(place)}&limit=1`;
+        : `${API_BASE_URL}/api/photon?q=${encodeURIComponent(place)}&limit=1`;
       
       const res = await fetch(photonUrl, {
         signal: AbortSignal.timeout(5000) // 5 second timeout
@@ -3410,7 +3433,7 @@ async function tryComplexGeocode(place, originalPlace) {
       if (isLocalhost()) {
         nominatimUrl = `/api/nominatim?q=${encodeURIComponent(place)}&format=json&limit=1`;
       } else {
-        nominatimUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(place)}&format=json&limit=1&addressdetails=1`;
+        nominatimUrl = `${API_BASE_URL}/api/nominatim?q=${encodeURIComponent(place)}&format=json&limit=1`;
         fetchOptions = {
           headers: { 
             'Accept': 'application/json',
@@ -3788,7 +3811,7 @@ async function calculateNakshatraAndNadiAPI(birthDate, birthTime, timezoneOffset
       longitude: longitude
     });
     
-    const response = await fetch('/api/calculate-nadi', {
+    const response = await fetch(`${API_BASE_URL}/api/calculate-nadi`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -4709,7 +4732,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       console.log('📤 Request:', requestBody);
       
-      const response = await fetch('/api/calculate-nadi-complete', {
+      const response = await fetch(`${API_BASE_URL}/api/calculate-nadi-complete`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
