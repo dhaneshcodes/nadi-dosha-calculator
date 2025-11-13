@@ -3112,18 +3112,16 @@ const API_BASE_URL = (() => {
   // This allows HTTPS pages to call HTTP APIs through an HTTPS proxy
   
   let baseUrl;
+  let useProxy = false;
+  
   if (isLocal) {
     baseUrl = ''; // Use relative URLs on localhost
   } else if (isHTTPS) {
     // HTTPS page calling HTTP API - use CORS proxy to bypass mixed content
-    // Using a CORS proxy service that accepts HTTPS and forwards to HTTP
-    const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
-    // Alternative proxies (if one doesn't work, try others):
-    // - 'https://corsproxy.io/?'
-    // - 'https://api.codetabs.com/v1/proxy?quest='
-    
-    baseUrl = CORS_PROXY + encodeURIComponent(PRODUCTION_API_HTTP);
-    console.log('🌐 Using CORS proxy for HTTPS→HTTP:', baseUrl);
+    // Store the actual API URL and proxy prefix separately
+    baseUrl = PRODUCTION_API_HTTP;
+    useProxy = true; // Flag to use proxy when making requests
+    console.log('🌐 HTTPS detected - will use CORS proxy for requests');
   } else {
     baseUrl = PRODUCTION_API_HTTP;
   }
@@ -3132,8 +3130,26 @@ const API_BASE_URL = (() => {
   console.log(`🌐 API Configuration: ${isLocal ? 'Local (localhost)' : isHTTPS ? 'Production (via CORS proxy)' : 'Production'}`, 
               isLocal ? '' : `→ ${baseUrl}`);
   
-  return baseUrl;
+  // Return object with baseUrl and proxy flag
+  return { baseUrl, useProxy, isLocal };
 })();
+
+/**
+ * Helper function to build API URL with proxy support if needed
+ * @param {string} path - API path (e.g., '/api/calculate-nadi-complete')
+ * @returns {string} - Full URL with proxy if needed
+ */
+function buildApiUrl(path) {
+  const apiUrl = `${API_BASE_URL.baseUrl}${path}`;
+  
+  // If on HTTPS and proxy is needed, wrap with CORS proxy
+  if (API_BASE_URL.useProxy && !API_BASE_URL.isLocal) {
+    const CORS_PROXY = 'https://corsproxy.io/?';
+    return CORS_PROXY + encodeURIComponent(apiUrl);
+  }
+  
+  return apiUrl;
+}
 
 /**
  * Check if running on localhost and proxy server is available
@@ -3320,7 +3336,7 @@ async function trySimpleGeocode(place, originalPlace) {
       // Use proxy on localhost to avoid CORS issues, use production API server otherwise
       const selfHostedUrl = isLocalhost()
         ? `/api/geocode?city=${encodeURIComponent(cityName)}&limit=5`
-        : `${API_BASE_URL}/api/geocode?city=${encodeURIComponent(cityName)}&limit=5`;
+        : buildApiUrl(`/api/geocode?city=${encodeURIComponent(cityName)}&limit=5`);
       
       console.log('📡 Fetching:', selfHostedUrl, isLocalhost() ? '(via proxy)' : '(direct)');
       
@@ -3416,7 +3432,7 @@ async function tryComplexGeocode(place, originalPlace) {
     const result = await photonQueue.add(async () => {
       const photonUrl = isLocalhost() 
         ? `/api/photon?q=${encodeURIComponent(place)}&limit=1`
-        : `${API_BASE_URL}/api/photon?q=${encodeURIComponent(place)}&limit=1`;
+        : buildApiUrl(`/api/photon?q=${encodeURIComponent(place)}&limit=1`);
       
       const res = await fetch(photonUrl, {
         signal: AbortSignal.timeout(5000) // 5 second timeout
@@ -3454,7 +3470,7 @@ async function tryComplexGeocode(place, originalPlace) {
       if (isLocalhost()) {
         nominatimUrl = `/api/nominatim?q=${encodeURIComponent(place)}&format=json&limit=1`;
       } else {
-        nominatimUrl = `${API_BASE_URL}/api/nominatim?q=${encodeURIComponent(place)}&format=json&limit=1`;
+        nominatimUrl = buildApiUrl(`/api/nominatim?q=${encodeURIComponent(place)}&format=json&limit=1`);
         fetchOptions = {
           headers: { 
             'Accept': 'application/json',
@@ -3832,7 +3848,7 @@ async function calculateNakshatraAndNadiAPI(birthDate, birthTime, timezoneOffset
       longitude: longitude
     });
     
-    const response = await fetch(`${API_BASE_URL}/api/calculate-nadi`, {
+    const response = await fetch(buildApiUrl('/api/calculate-nadi'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -4753,7 +4769,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       console.log('📤 Request:', requestBody);
       
-      const response = await fetch(`${API_BASE_URL}/api/calculate-nadi-complete`, {
+      // Build the full API URL with proxy support if needed
+      const apiUrl = buildApiUrl('/api/calculate-nadi-complete');
+      console.log('🌐 API URL:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
