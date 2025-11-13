@@ -3108,29 +3108,28 @@ const API_BASE_URL = (() => {
   const PRODUCTION_API_HTTP = 'http://159.89.161.170:8000';
   
   // For HTTPS pages (GitHub Pages), browsers block HTTP requests (mixed content)
-  // Solution: Set up HTTPS on the API server (recommended)
-  // Temporary workaround: Use a CORS proxy (not recommended for production)
+  // Solution: Use a CORS proxy service that accepts HTTPS and proxies to HTTP API
+  // This allows HTTPS pages to call HTTP APIs through an HTTPS proxy
   
   let baseUrl;
   if (isLocal) {
     baseUrl = ''; // Use relative URLs on localhost
   } else if (isHTTPS) {
-    // HTTPS page - need HTTPS API or CORS proxy
-    // TODO: Set up HTTPS on API server and change to: 'https://159.89.161.170:443'
-    // For now, this will be blocked by browser (mixed content)
-    // You need to either:
-    // 1. Set up HTTPS on the server (Let's Encrypt recommended)
-    // 2. Use a CORS proxy service with HTTPS
-    // 3. Use Cloudflare to proxy with free SSL
-    baseUrl = PRODUCTION_API_HTTP;
-    console.error('❌ Mixed Content Blocked: HTTPS page cannot call HTTP API. Please set up HTTPS on the API server.');
-    console.info('💡 Solutions: 1) Set up HTTPS with Let\'s Encrypt, 2) Use Cloudflare proxy, 3) Use HTTPS CORS proxy');
+    // HTTPS page calling HTTP API - use CORS proxy to bypass mixed content
+    // Using a CORS proxy service that accepts HTTPS and forwards to HTTP
+    const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+    // Alternative proxies (if one doesn't work, try others):
+    // - 'https://corsproxy.io/?'
+    // - 'https://api.codetabs.com/v1/proxy?quest='
+    
+    baseUrl = CORS_PROXY + encodeURIComponent(PRODUCTION_API_HTTP);
+    console.log('🌐 Using CORS proxy for HTTPS→HTTP:', baseUrl);
   } else {
     baseUrl = PRODUCTION_API_HTTP;
   }
   
   // Log API configuration
-  console.log(`🌐 API Configuration: ${isLocal ? 'Local (localhost)' : isHTTPS ? 'Production (HTTPS→HTTP - may be blocked)' : 'Production'}`, 
+  console.log(`🌐 API Configuration: ${isLocal ? 'Local (localhost)' : isHTTPS ? 'Production (via CORS proxy)' : 'Production'}`, 
               isLocal ? '' : `→ ${baseUrl}`);
   
   return baseUrl;
