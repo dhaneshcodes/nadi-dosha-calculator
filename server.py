@@ -15,6 +15,7 @@ from starlette.responses import JSONResponse
 import urllib.request
 import urllib.parse
 import time
+import os
 from pathlib import Path
 from server.utils.logger import setup_logger
 
@@ -204,7 +205,7 @@ async def serve_static(filename: str):
 if __name__ == '__main__':
     import uvicorn
     
-    PORT = 8000
+    PORT = int(os.getenv("PORT", "80"))  # Use port 80 for Cloudflare, or set PORT env var for custom port
     
     print('=' * 70)
     print('Nadi Dosha Calculator - Unified Server')
