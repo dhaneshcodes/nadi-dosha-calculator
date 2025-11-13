@@ -3144,7 +3144,9 @@ function buildApiUrl(path) {
   
   // If on HTTPS and proxy is needed, wrap with CORS proxy
   if (API_BASE_URL.useProxy && !API_BASE_URL.isLocal) {
-    const CORS_PROXY = 'https://corsproxy.io/?';
+    // Try multiple reliable CORS proxy services
+    // Using allorigins.win - more reliable for POST requests
+    const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
     return CORS_PROXY + encodeURIComponent(apiUrl);
   }
   
@@ -4770,19 +4772,72 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('📤 Request:', requestBody);
       
       // Build the full API URL with proxy support if needed
-      const apiUrl = buildApiUrl('/api/calculate-nadi-complete');
+      let apiUrl = buildApiUrl('/api/calculate-nadi-complete');
       console.log('🌐 API URL:', apiUrl);
       
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody)
-      });
+      // Try with proxy first, fallback to direct if proxy fails
+      let response;
+      let lastError;
+      
+      try {
+        response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody)
+        });
+        
+        // If proxy returns 500, try direct connection (might work if browser allows)
+        if (response.status === 500 && API_BASE_URL.useProxy) {
+          console.warn('⚠️ CORS proxy returned 500, trying direct connection...');
+          const directUrl = `${API_BASE_URL.baseUrl}/api/calculate-nadi-complete`;
+          try {
+            response = await fetch(directUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(requestBody)
+            });
+            console.log('✅ Direct connection succeeded');
+          } catch (directError) {
+            console.error('❌ Direct connection also failed:', directError);
+            throw new Error('Both proxy and direct connection failed. The API server may be down or there is a network issue.');
+          }
+        }
+      } catch (fetchError) {
+        lastError = fetchError;
+        // If proxy fails and we're on HTTPS, try alternative proxy
+        if (API_BASE_URL.useProxy && fetchError.message.includes('Failed to fetch')) {
+          console.warn('⚠️ Primary proxy failed, trying alternative...');
+          const altProxy = 'https://cors-anywhere.herokuapp.com/';
+          const altUrl = altProxy + encodeURIComponent(`${API_BASE_URL.baseUrl}/api/calculate-nadi-complete`);
+          try {
+            response = await fetch(altUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(requestBody)
+            });
+            console.log('✅ Alternative proxy succeeded');
+          } catch (altError) {
+            throw new Error('All proxy services failed. Please check your internet connection or try again later.');
+          }
+        } else {
+          throw fetchError;
+        }
+      }
       
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
+        const errorText = await response.text().catch(() => 'Unknown error');
+        let errorData;
+        try {
+          errorData = JSON.parse(errorText);
+        } catch {
+          errorData = { detail: errorText || `API error: ${response.status}` };
+        }
         throw new Error(errorData.detail || `API error: ${response.status}`);
       }
       
