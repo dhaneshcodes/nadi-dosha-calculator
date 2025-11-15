@@ -4642,6 +4642,7 @@ if ('serviceWorker' in navigator) {
 let deferredPrompt = null;
 const PWA_INSTALL_COOKIE = 'nadi_pwa_install_dismissed';
 const PWA_INSTALLED_COOKIE = 'nadi_pwa_installed';
+let autoHideTimer = null;
 
 function checkPWAPrompt() {
   // Don't show if already installed or dismissed
@@ -4670,6 +4671,13 @@ function checkPWAPrompt() {
   setTimeout(() => {
     prompt.style.display = 'flex';
     console.log('📱 PWA install prompt shown', deferredPrompt ? '(native install available)' : '(manual install)');
+    
+    // Auto-hide after 10 seconds if user doesn't interact
+    autoHideTimer = setTimeout(() => {
+      console.log('⏱️ PWA install prompt auto-hiding after 10 seconds');
+      hideInstallPrompt();
+      // Don't mark as dismissed - user can see it again on next visit
+    }, 10000); // 10 seconds
   }, delay);
 }
 
@@ -4711,6 +4719,12 @@ function setupPWAInstallPrompt() {
   
   // Install button click
   installBtn.addEventListener('click', async () => {
+    // Clear auto-hide timer when user interacts
+    if (autoHideTimer) {
+      clearTimeout(autoHideTimer);
+      autoHideTimer = null;
+    }
+    
     // Wait a bit more if deferredPrompt is not yet available
     // (especially on mobile where event might fire late)
     if (!deferredPrompt) {
@@ -4774,6 +4788,12 @@ function setupPWAInstallPrompt() {
   
   // Dismiss button click
   dismissBtn.addEventListener('click', () => {
+    // Clear auto-hide timer
+    if (autoHideTimer) {
+      clearTimeout(autoHideTimer);
+      autoHideTimer = null;
+    }
+    
     localStorage.setItem(PWA_INSTALL_COOKIE, 'true');
     hideInstallPrompt();
   });
@@ -4794,6 +4814,12 @@ function hideInstallPrompt() {
   const prompt = document.getElementById('pwaInstallPrompt');
   if (prompt) {
     prompt.style.display = 'none';
+  }
+  
+  // Clear auto-hide timer if it exists
+  if (autoHideTimer) {
+    clearTimeout(autoHideTimer);
+    autoHideTimer = null;
   }
 }
 
