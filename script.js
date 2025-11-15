@@ -66,12 +66,12 @@
 const translations = {
   en: {
     header: {
-      title: 'Nadi Dosha Calculator',
+      title: 'Nadi Dosh Calculator',
       subtitle: 'Check your Nadi or compare two persons for Nadi compatibility.'
     },
     mode: {
       single: 'Check My Nadi',
-      compare: 'Compare for Nadi Dosha'
+      compare: 'Compare for Nadi Dosh'
     },
     form: {
       yourDetails: 'Your Details',
@@ -88,15 +88,15 @@ const translations = {
       pobPlaceholder: 'Start typing city name...',
       pobHint: '💡 Select from suggestions or enter: City, State, Country',
       buttonSingle: 'Check My Nadi',
-      buttonCompare: 'Check Nadi Dosha'
+      buttonCompare: 'Check Nadi Dosh'
     },
     results: {
       nadiAnalysis: 'Nadi Analysis for',
       compatibilityAnalysis: 'Compatibility Analysis',
       nakshatra: 'Nakshatra',
       nadiType: 'Nadi Type',
-      doshaPresent: 'Nadi Dosha Present',
-      noDosha: 'No Nadi Dosha',
+      doshaPresent: 'Nadi Dosh Present',
+      noDosha: 'No Nadi Dosh',
       calculating: 'Analyzing Birth Details',
       analyzing: 'Analyzing',
       birthDetails: 'Birth Details Entered',
@@ -181,43 +181,43 @@ const translations = {
       userGuide: 'User Guide',
       technical: 'Technical Documentation',
       github: 'Open Source',
-      title: 'Nadi Dosha Calculator',
+      title: 'Nadi Dosh Calculator',
       rights: 'Made with ❤️ for accurate Vedic astrology'
     },
     explanation: {
-      title: 'Understanding Nadi Dosha - The Critical Marriage Compatibility Factor',
+      title: 'Understanding Nadi Dosh - The Critical Marriage Compatibility Factor',
       crisis: {
         title: 'The Growing Crisis in Marital Life',
-        content: 'Due to Nadi Dosha, marital life is deteriorating day by day. Not only in India but throughout the world, situations are such that married life breaks apart shortly after it begins. The coordination and harmony that should exist between men and women is not established, making life miserable with constant fights, disputes, and severe consequences including divorce, suicide, and murder cases making headlines.'
+        content: 'Due to Nadi Dosh, marital life is deteriorating day by day. Not only in India but throughout the world, situations are such that married life breaks apart shortly after it begins. The coordination and harmony that should exist between men and women is not established, making life miserable with constant fights, disputes, and severe consequences including divorce, suicide, and murder cases making headlines.'
       },
       statistics: {
         title: 'Alarming Statistics',
         content: 'According to WHO reports, 8 lakh people commit suicide worldwide every year - one person dies every 40 seconds. Shockingly, most of these are people who either commit suicide due to betrayal by their life partner or are driven to this extreme step by family troubles. In India, there was a 17.3% increase in suicides between 2005-2015. The biggest cause of suicide in India is specifically mismatched marriages.'
       },
       formation: {
-        title: 'How Nadi Dosha is Formed',
-        content1: 'The groom and bride\'s birth Nakshatras should not be of the same Nadi. Their Nadis should be different for it to be considered auspicious. Accordingly, Adi-Adi, Madhya-Madhya, and Antya-Antya Nadi combinations are considered inauspicious for marriage. It\'s essential that both have different Nadis. Adi-Madhya, Madhya-Antya, and Adi-Antya combinations are considered auspicious. If this doesn\'t happen, it\'s considered Nadi Dosha.',
+        title: 'How Nadi Dosh is Formed',
+        content1: 'The groom and bride\'s birth Nakshatras should not be of the same Nadi. Their Nadis should be different for it to be considered auspicious. Accordingly, Adi-Adi, Madhya-Madhya, and Antya-Antya Nadi combinations are considered inauspicious for marriage. It\'s essential that both have different Nadis. Adi-Madhya, Madhya-Antya, and Adi-Antya combinations are considered auspicious. If this doesn\'t happen, it\'s considered Nadi Dosh.',
         content2: 'If both have Madhya Nadi, it\'s considered extremely inauspicious and marriage should not be performed. Such marriages lead to chaotic married life with fights, disputes, separation, and even death.'
       },
       effects: {
-        title: 'Devastating Effects of Nadi Dosha',
-        content: 'If Nadi Dosha exists, the couple becomes afflicted with diseases, job/business losses, financial losses, family discord, lack of love and harmony between husband and wife. Nadi Dosha couples cannot have children, and if they do, the children are unhealthy. Both families face troubles, family members start dying due to diseases and accidents. The couple and family members face death-like sufferings.'
+        title: 'Devastating Effects of Nadi Dosh',
+        content: 'If Nadi Dosh exists, the couple becomes afflicted with diseases, job/business losses, financial losses, family discord, lack of love and harmony between husband and wife. Nadi Dosh couples cannot have children, and if they do, the children are unhealthy. Both families face troubles, family members start dying due to diseases and accidents. The couple and family members face death-like sufferings.'
       },
       scriptures: {
-        title: 'Ancient Scriptures on Nadi Dosha',
+        title: 'Ancient Scriptures on Nadi Dosh',
         intro: 'Sanskrit Shloka from Vashishtha Samhita (Chapter 32, Shloka 188):',
         shloka1: 'नाड़ी दोषे भवेन्मृत्यु गुणैः सर्वैः समन्वितः',
-        meaning1: 'Meaning: Even with all qualities present, marriage in Nadi Dosha definitely leads to death. This is a great sin and crime.',
+        meaning1: 'Meaning: Even with all qualities present, marriage in Nadi Dosh definitely leads to death. This is a great sin and crime.',
         intro2: 'From Vashishtha Samhita (Chapter 32, Shloka 189):',
         shloka2: 'मध्यनाडी पतिहन्ति पार्श्वेनाड़ी तु कन्याकाम\nतस्मान्नाड़ो सदा त्याज्या दम्पत्यो शुभमिछुता',
-        meaning2: 'Meaning: Madhya Nadi Dosha causes the groom\'s death, Antya Nadi causes the bride\'s death. There\'s no doubt about this.',
+        meaning2: 'Meaning: Madhya Nadi Dosh causes the groom\'s death, Antya Nadi causes the bride\'s death. There\'s no doubt about this.',
         intro3: 'From Brihad Daivajna Ranjanam (Chapter 71, Shloka 401):',
         shloka3: 'एकनाड़ी विवाहश्च गुणैः सर्वैः समन्वितः\nवर्जनीयः प्रयत्नेन दम्पत्योर्निधनं यत',
-        meaning3: 'Meaning: Even with all excellent qualities, if Nadi Dosha exists, such marriage should never be performed as it leads to certain death and great destruction.'
+        meaning3: 'Meaning: Even with all excellent qualities, if Nadi Dosh exists, such marriage should never be performed as it leads to certain death and great destruction.'
       },
       academic: {
         title: 'Modern Academic Validation',
-        content: 'Kashi Vidvat Parishad scholars including Professor Ramchandra Pandey, Professor Umashankar Shukla, and others have declared that Nadi Dosha is a deadly defect that occurs when both partners have the same Nadi type. They emphasized that there is no remedy for Nadi Dosha through any worship, mantras, yajnas, or donations. The only solution is to abandon such relationships.'
+        content: 'Kashi Vidvat Parishad scholars including Professor Ramchandra Pandey, Professor Umashankar Shukla, and others have declared that Nadi Dosh is a deadly defect that occurs when both partners have the same Nadi type. They emphasized that there is no remedy for Nadi Dosh through any worship, mantras, yajnas, or donations. The only solution is to abandon such relationships.'
       },
       troubleshooting: {
         title: 'Troubleshooting Location Lookup',
