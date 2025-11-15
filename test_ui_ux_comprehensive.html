@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UI/UX Test Suite - Nadi Dosha Calculator</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-container {
+      background: white;
+      padding: 30px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 { color: #667eea; margin-bottom: 10px; }
+    h2 { color: #764ba2; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
+    h3 { color: #555; margin-top: 25px; }
+    .test-section { margin: 30px 0; }
+    .test-item {
+      background: #f9f9f9;
+      padding: 15px;
+      margin: 10px 0;
+      border-left: 4px solid #667eea;
+      border-radius: 4px;
+    }
+    .test-item.passed { border-left-color: #10b981; background: #f0fdf4; }
+    .test-item.failed { border-left-color: #ef4444; background: #fef2f2; }
+    .test-item.warning { border-left-color: #f59e0b; background: #fffbeb; }
+    .status { font-weight: bold; padding: 5px 10px; border-radius: 4px; display: inline-block; }
+    .status.passed { background: #10b981; color: white; }
+    .status.failed { background: #ef4444; color: white; }
+    .status.warning { background: #f59e0b; color: white; }
+    .status.pending { background: #6b7280; color: white; }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .summary-card {
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .summary-card.total { background: #667eea; color: white; }
+    .summary-card.passed { background: #10b981; color: white; }
+    .summary-card.failed { background: #ef4444; color: white; }
+    .summary-card.warning { background: #f59e0b; color: white; }
+    .summary-card h3 { margin: 0 0 10px 0; color: inherit; border: none; }
+    .summary-card .number { font-size: 2em; font-weight: bold; }
+    .test-button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 14px;
+    }
+    .test-button:hover { background: #764ba2; }
+    .test-button:disabled { background: #ccc; cursor: not-allowed; }
+    .iframe-container {
+      width: 100%;
+      height: 600px;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    .iframe-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .device-selector {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    .device-btn {
+      padding: 8px 16px;
+      border: 2px solid #667eea;
+      background: white;
+      color: #667eea;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .device-btn.active {
+      background: #667eea;
+      color: white;
+    }
+    code {
+      background: #f4f4f4;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist li {
+      padding: 8px 0;
+      padding-left: 30px;
+      position: relative;
+    }
+    .checklist li:before {
+      content: "☐";
+      position: absolute;
+      left: 0;
+      font-size: 20px;
+    }
+    .checklist li.checked:before {
+      content: "☑";
+      color: #10b981;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>🧪 Comprehensive UI/UX Test Suite</h1>
+    <p><strong>Nadi Dosha Calculator</strong> - Testing UI Flow, Responsiveness & UX</p>
+    
+    <div class="summary" id="summary">
+      <div class="summary-card total">
+        <h3>Total Tests</h3>
+        <div class="number" id="totalCount">0</div>
+      </div>
+      <div class="summary-card passed">
+        <h3>Passed</h3>
+        <div class="number" id="passedCount">0</div>
+      </div>
+      <div class="summary-card failed">
+        <h3>Failed</h3>
+        <div class="number" id="failedCount">0</div>
+      </div>
+      <div class="summary-card warning">
+        <h3>Warnings</h3>
+        <div class="number" id="warningCount">0</div>
+      </div>
+    </div>
+
+    <div class="device-selector">
+      <button class="device-btn" onclick="setViewport(375, 667)">📱 Mobile (375px)</button>
+      <button class="device-btn" onclick="setViewport(768, 1024)">📱 Tablet (768px)</button>
+      <button class="device-btn active" onclick="setViewport(1920, 1080)">💻 Desktop (1920px)</button>
+      <button class="device-btn" onclick="runAllTests()">▶️ Run All Tests</button>
+    </div>
+
+    <div class="iframe-container">
+      <iframe id="testFrame" src="http://159.89.161.170:8000/"></iframe>
+    </div>
+  </div>
+
+  <!-- CATEGORY 1: UI FLOW TESTING -->
+  <div class="test-container">
+    <h2>1. UI Flow Testing</h2>
+    
+    <div class="test-section">
+      <h3>1.1 Mode Selection</h3>
+      <div class="test-item" id="test-mode-single">
+        <strong>Single Mode Selection</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Click "Check My Nadi" mode, verify Person 2 fields are hidden</p>
+      </div>
+      <div class="test-item" id="test-mode-compare">
+        <strong>Compare Mode Selection</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Click "Compare for Nadi Dosha" mode, verify Person 2 fields are visible</p>
+      </div>
+      <div class="test-item" id="test-mode-switch">
+        <strong>Mode Switching</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Switch between modes multiple times, verify smooth transition</p>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h3>1.2 Form Validation</h3>
+      <div class="test-item" id="test-validation-empty">
+        <strong>Empty Form Validation</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Submit empty form, verify error messages appear</p>
+      </div>
+      <div class="test-item" id="test-validation-name">
+        <strong>Name Validation</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Enter single character name, verify validation error</p>
+      </div>
+      <div class="test-item" id="test-validation-date">
+        <strong>Date Validation</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Enter invalid date (32-13-2025), verify error message</p>
+      </div>
+      <div class="test-item" id="test-validation-time">
+        <strong>Time Validation</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Enter invalid time (25:99), verify error message</p>
+      </div>
+      <div class="test-item" id="test-validation-place">
+        <strong>Place Validation</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Leave place empty, verify error message</p>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h3>1.3 Form Inputs</h3>
+      <div class="test-item" id="test-date-picker">
+        <strong>Date Picker</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Click date input, verify calendar popup appears</p>
+      </div>
+      <div class="test-item" id="test-time-input">
+        <strong>Time Input Format</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Enter time in HH:MM format, verify correct parsing</p>
+      </div>
+      <div class="test-item" id="test-autocomplete">
+        <strong>Place Autocomplete</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Type city name, verify suggestions appear</p>
+      </div>
+      <div class="test-item" id="test-language-switch">
+        <strong>Language Switching</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Switch languages (EN/HI/PA), verify UI updates</p>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h3>1.4 Form Submission</h3>
+      <div class="test-item" id="test-submit-valid">
+        <strong>Valid Form Submission</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Submit valid form, verify loading state appears</p>
+      </div>
+      <div class="test-item" id="test-submit-loading">
+        <strong>Loading State</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Verify loading spinner and message during API call</p>
+      </div>
+      <div class="test-item" id="test-results-display">
+        <strong>Results Display</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Verify results section appears after successful calculation</p>
+      </div>
+      <div class="test-item" id="test-error-handling">
+        <strong>Error Handling</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Simulate API error, verify error message displays</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 2: RESPONSIVENESS TESTING -->
+  <div class="test-container">
+    <h2>2. Responsiveness Testing</h2>
+    
+    <div class="test-section">
+      <h3>2.1 Mobile (< 768px)</h3>
+      <ul class="checklist">
+        <li id="responsive-mobile-layout">Layout stacks vertically</li>
+        <li id="responsive-mobile-header">Header scales appropriately</li>
+        <li id="responsive-mobile-form">Form fields full width</li>
+        <li id="responsive-mobile-buttons">Buttons touch-friendly (min 44px)</li>
+        <li id="responsive-mobile-text">Text readable (min 16px font)</li>
+        <li id="responsive-mobile-spacing">Adequate spacing between elements</li>
+        <li id="responsive-mobile-nav">Language selector accessible</li>
+        <li id="responsive-mobile-results">Results section scrollable</li>
+      </ul>
+    </div>
+
+    <div class="test-section">
+      <h3>2.2 Tablet (768px - 1024px)</h3>
+      <ul class="checklist">
+        <li id="responsive-tablet-layout">Layout adapts to tablet size</li>
+        <li id="responsive-tablet-grid">Grid layout optimized</li>
+        <li id="responsive-tablet-cards">Cards display side-by-side when appropriate</li>
+      </ul>
+    </div>
+
+    <div class="test-section">
+      <h3>2.3 Desktop (> 1024px)</h3>
+      <ul class="checklist">
+        <li id="responsive-desktop-layout">Full layout displayed</li>
+        <li id="responsive-desktop-maxwidth">Content doesn't exceed max-width</li>
+        <li id="responsive-desktop-centering">Content centered properly</li>
+      </ul>
+    </div>
+
+    <div class="test-section">
+      <h3>2.4 Breakpoint Testing</h3>
+      <div class="test-item" id="test-breakpoint-320">
+        <strong>320px (Small Mobile)</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Verify layout works on very small screens</p>
+      </div>
+      <div class="test-item" id="test-breakpoint-576">
+        <strong>576px (Large Mobile)</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Verify layout transitions smoothly</p>
+      </div>
+      <div class="test-item" id="test-breakpoint-768">
+        <strong>768px (Tablet)</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Verify tablet breakpoint works</p>
+      </div>
+      <div class="test-item" id="test-breakpoint-1024">
+        <strong>1024px (Desktop)</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Verify desktop breakpoint works</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY 3: UX FLOW TESTING -->
+  <div class="test-container">
+    <h2>3. UX Flow Testing</h2>
+    
+    <div class="test-section">
+      <h3>3.1 User Journey - Single Mode</h3>
+      <ol>
+        <li id="ux-journey-1">Page loads with form visible</li>
+        <li id="ux-journey-2">User selects "Check My Nadi" mode</li>
+        <li id="ux-journey-3">User enters name</li>
+        <li id="ux-journey-4">User selects date from calendar</li>
+        <li id="ux-journey-5">User enters time</li>
+        <li id="ux-journey-6">User types place, selects from autocomplete</li>
+        <li id="ux-journey-7">User clicks submit button</li>
+        <li id="ux-journey-8">Loading state appears</li>
+        <li id="ux-journey-9">Results display with Nadi information</li>
+        <li id="ux-journey-10">User can scroll to see explanation section</li>
+      </ol>
+    </div>
+
+    <div class="test-section">
+      <h3>3.2 User Journey - Compare Mode</h3>
+      <ol>
+        <li id="ux-journey-compare-1">User selects "Compare for Nadi Dosha"</li>
+        <li id="ux-journey-compare-2">Person 2 fields appear</li>
+        <li id="ux-journey-compare-3">User fills Person 1 details</li>
+        <li id="ux-journey-compare-4">User fills Person 2 details</li>
+        <li id="ux-journey-compare-5">User submits form</li>
+        <li id="ux-journey-compare-6">Results show both persons</li>
+        <li id="ux-journey-compare-7">Dosha judgement displayed</li>
+      </ol>
+    </div>
+
+    <div class="test-section">
+      <h3>3.3 Accessibility</h3>
+      <ul class="checklist">
+        <li id="a11y-1">Keyboard navigation works (Tab, Enter, Escape)</li>
+        <li id="a11y-2">Form labels properly associated</li>
+        <li id="a11y-3">Error messages accessible to screen readers</li>
+        <li id="a11y-4">Color contrast meets WCAG standards</li>
+        <li id="a11y-5">Focus indicators visible</li>
+        <li id="a11y-6">Alt text for icons (if any)</li>
+      </ul>
+    </div>
+
+    <div class="test-section">
+      <h3>3.4 Performance</h3>
+      <ul class="checklist">
+        <li id="perf-1">Page loads in < 3 seconds</li>
+        <li id="perf-2">Form interactions are responsive (< 100ms)</li>
+        <li id="perf-3">Autocomplete suggestions load quickly</li>
+        <li id="perf-4">Results display smoothly</li>
+        <li id="perf-5">No layout shift during loading</li>
+      </ul>
+    </div>
+
+    <div class="test-section">
+      <h3>3.5 Visual Feedback</h3>
+      <ul class="checklist">
+        <li id="visual-1">Button hover states work</li>
+        <li id="visual-2">Form field focus states visible</li>
+        <li id="visual-3">Validation errors highlighted</li>
+        <li id="visual-4">Loading spinner animated</li>
+        <li id="visual-5">Success/error states clear</li>
+        <li id="visual-6">Smooth transitions/animations</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CATEGORY 4: EDGE CASES -->
+  <div class="test-container">
+    <h2>4. Edge Cases & Error Scenarios</h2>
+    
+    <div class="test-section">
+      <h3>4.1 Input Edge Cases</h3>
+      <div class="test-item" id="edge-long-name">
+        <strong>Very Long Name</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Enter 100+ character name, verify handling</p>
+      </div>
+      <div class="test-item" id="edge-special-chars">
+        <strong>Special Characters in Name</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Enter name with special chars, verify validation</p>
+      </div>
+      <div class="test-item" id="edge-past-date">
+        <strong>Very Old Date</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Enter 1900 date, verify handling</p>
+      </div>
+      <div class="test-item" id="edge-future-date">
+        <strong>Future Date</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Enter 2050 date, verify handling</p>
+      </div>
+      <div class="test-item" id="edge-unknown-city">
+        <strong>Unknown City</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Enter non-existent city, verify fallback</p>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h3>4.2 Network Edge Cases</h3>
+      <div class="test-item" id="edge-slow-network">
+        <strong>Slow Network</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Simulate slow network, verify timeout handling</p>
+      </div>
+      <div class="test-item" id="edge-offline">
+        <strong>Offline Mode</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Go offline, verify error message</p>
+      </div>
+      <div class="test-item" id="edge-api-error">
+        <strong>API Error</strong>
+        <span class="status pending">PENDING</span>
+        <p>Test: Simulate 500 error, verify user-friendly message</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="test-container">
+    <h2>Test Summary & Recommendations</h2>
+    <div id="recommendations"></div>
+  </div>
+
+  <script>
+    let testResults = {
+      total: 0,
+      passed: 0,
+      failed: 0,
+      warning: 0
+    };
+
+    function updateSummary() {
+      document.getElementById('totalCount').textContent = testResults.total;
+      document.getElementById('passedCount').textContent = testResults.passed;
+      document.getElementById('failedCount').textContent = testResults.failed;
+      document.getElementById('warningCount').textContent = testResults.warning;
+    }
+
+    function setTestResult(testId, result, message) {
+      const element = document.getElementById(testId);
+      if (!element) return;
+      
+      const statusSpan = element.querySelector('.status');
+      element.className = `test-item ${result}`;
+      statusSpan.className = `status ${result}`;
+      statusSpan.textContent = result.toUpperCase();
+      
+      testResults.total++;
+      if (result === 'passed') testResults.passed++;
+      else if (result === 'failed') testResults.failed++;
+      else if (result === 'warning') testResults.warning++;
+      
+      if (message) {
+        const p = element.querySelector('p');
+        if (p) p.textContent = message;
+      }
+      
+      updateSummary();
+    }
+
+    function setChecklistItem(id, checked) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.className = checked ? 'checked' : '';
+        testResults.total++;
+        if (checked) testResults.passed++;
+        else testResults.failed++;
+        updateSummary();
+      }
+    }
+
+    function setViewport(width, height) {
+      document.querySelectorAll('.device-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('testFrame').style.width = width + 'px';
+      document.getElementById('testFrame').style.height = height + 'px';
+    }
+
+    async function runAllTests() {
+      alert('This test suite requires manual testing. Please:\n\n1. Use the iframe above to test the application\n2. Check each test item manually\n3. Update test results by clicking on test items\n\nAutomated testing can be added with Playwright or Selenium.');
+    }
+
+    // Make test items clickable to mark as passed/failed
+    document.querySelectorAll('.test-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const currentStatus = this.className.includes('passed') ? 'passed' : 
+                             this.className.includes('failed') ? 'failed' : 'pending';
+        
+        if (currentStatus === 'pending' || currentStatus === 'failed') {
+          setTestResult(this.id, 'passed', this.querySelector('p').textContent);
+        } else if (currentStatus === 'passed') {
+          setTestResult(this.id, 'failed', this.querySelector('p').textContent);
+        }
+      });
+    });
+
+    // Initialize
+    updateSummary();
+  </script>
+</body>
+</html>
+
