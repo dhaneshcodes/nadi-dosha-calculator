@@ -225,6 +225,14 @@ const translations = {
         examples: 'India: Mumbai, Maharashtra, India | USA: New York, NY, USA | UK: London, England, UK | Australia: Sydney, NSW, Australia | General: Always include city, region/state, and country',
         tip: '💡 Tip: Use major cities if your town isn\'t found. The difference is minimal for astrological calculations.'
       }
+    },
+    pwa: {
+      installTitle: 'Install App',
+      installDesc: 'Add to Home Screen for quick access',
+      installButton: 'Install',
+      iosInstructions: 'To install: Tap Share button → Add to Home Screen',
+      androidInstructions: 'To install: Tap Menu → Add to Home Screen',
+      desktopInstructions: 'To install: Click the install icon in your browser\'s address bar'
     }
   },
   hi: {
@@ -387,6 +395,14 @@ const translations = {
         content: 'यदि आपको "स्थान त्रुटि" मिलती है, तो इन प्रारूपों को आजमाएं:',
         examples: 'भारत: मुंबई, महाराष्ट्र, भारत | USA: न्यूयॉर्क, NY, USA | UK: लंदन, इंग्लैंड, UK | ऑस्ट्रेलिया: सिडनी, NSW, ऑस्ट्रेलिया | सामान्य: हमेशा शहर, क्षेत्र/राज्य और देश शामिल करें',
         tip: '💡 सुझाव: यदि आपका शहर नहीं मिलता है तो प्रमुख शहरों का उपयोग करें। ज्योतिषीय गणनाओं के लिए अंतर न्यूनतम है।'
+      },
+      pwa: {
+        installTitle: 'ऐप इंस्टॉल करें',
+        installDesc: 'त्वरित पहुंच के लिए होम स्क्रीन में जोड़ें',
+        installButton: 'इंस्टॉल करें',
+        iosInstructions: 'इंस्टॉल करने के लिए: शेयर बटन टैप करें → होम स्क्रीन में जोड़ें',
+        androidInstructions: 'इंस्टॉल करने के लिए: मेनू टैप करें → होम स्क्रीन में जोड़ें',
+        desktopInstructions: 'इंस्टॉल करने के लिए: अपने ब्राउज़र के एड्रेस बार में इंस्टॉल आइकन पर क्लिक करें'
       }
     }
   },
@@ -550,6 +566,14 @@ const translations = {
         content: 'ਜੇ ਤੁਹਾਨੂੰ "ਸਥਾਨ ਤਰੁੱਟੀ" ਮਿਲਦੀ ਹੈ, ਤਾਂ ਇਹ ਫਾਰਮੈਟ ਅਜ਼ਮਾਓ:',
         examples: 'ਭਾਰਤ: ਮੁੰਬਈ, ਮਹਾਰਾਸ਼ਟਰ, ਭਾਰਤ | USA: ਨਿਊਯਾਰਕ, NY, USA | UK: ਲੰਡਨ, ਇੰਗਲੈਂਡ, UK | ਆਸਟ੍ਰੇਲੀਆ: ਸਿਡਨੀ, NSW, ਆਸਟ੍ਰੇਲੀਆ | ਸਾਧਾਰਨ: ਹਮੇਸ਼ਾਂ ਸ਼ਹਿਰ, ਖੇਤਰ/ਰਾਜ ਅਤੇ ਦੇਸ਼ ਸ਼ਾਮਲ ਕਰੋ',
         tip: '💡 ਸੁਝਾਅ: ਜੇ ਤੁਹਾਡਾ ਸ਼ਹਿਰ ਨਹੀਂ ਮਿਲਦਾ ਤਾਂ ਮੁੱਖ ਸ਼ਹਿਰਾਂ ਦੀ ਵਰਤੋਂ ਕਰੋ। ਜੋਤਿਸ਼ੀ ਗਣਨਾਵਾਂ ਲਈ ਫਰਕ ਬਹੁਤ ਘੱਟ ਹੈ।'
+      },
+      pwa: {
+        installTitle: 'ਐਪ ਇੰਸਟਾਲ ਕਰੋ',
+        installDesc: 'ਤੁਰੰਤ ਪਹੁੰਚ ਲਈ ਹੋਮ ਸਕਰੀਨ ਵਿੱਚ ਜੋੜੋ',
+        installButton: 'ਇੰਸਟਾਲ ਕਰੋ',
+        iosInstructions: 'ਇੰਸਟਾਲ ਕਰਨ ਲਈ: ਸ਼ੇਅਰ ਬਟਨ ਟੈਪ ਕਰੋ → ਹੋਮ ਸਕਰੀਨ ਵਿੱਚ ਜੋੜੋ',
+        androidInstructions: 'ਇੰਸਟਾਲ ਕਰਨ ਲਈ: ਮੀਨੂ ਟੈਪ ਕਰੋ → ਹੋਮ ਸਕਰੀਨ ਵਿੱਚ ਜੋੜੋ',
+        desktopInstructions: 'ਇੰਸਟਾਲ ਕਰਨ ਲਈ: ਆਪਣੇ ਬ੍ਰਾਊਜ਼ਰ ਦੇ ਐਡਰੈਸ ਬਾਰ ਵਿੱਚ ਇੰਸਟਾਲ ਆਈਕਨ ਤੇ ਕਲਿਕ ਕਰੋ'
       }
     }
   }
@@ -4614,7 +4638,131 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// PWA Install Prompt (First-time users only)
+let deferredPrompt = null;
+const PWA_INSTALL_COOKIE = 'nadi_pwa_install_dismissed';
+const PWA_INSTALLED_COOKIE = 'nadi_pwa_installed';
+
+function checkPWAPrompt() {
+  // Don't show if already installed or dismissed
+  if (localStorage.getItem(PWA_INSTALLED_COOKIE) || localStorage.getItem(PWA_INSTALL_COOKIE)) {
+    return;
+  }
+  
+  // Don't show if already running as PWA
+  if (window.matchMedia('(display-mode: standalone)').matches || 
+      window.navigator.standalone === true) {
+    localStorage.setItem(PWA_INSTALLED_COOKIE, 'true');
+    return;
+  }
+  
+  const prompt = document.getElementById('pwaInstallPrompt');
+  if (!prompt) return;
+  
+  // Show prompt after a delay (better UX)
+  setTimeout(() => {
+    prompt.style.display = 'flex';
+    console.log('📱 PWA install prompt shown');
+  }, 3000); // Show after 3 seconds
+}
+
+function setupPWAInstallPrompt() {
+  const prompt = document.getElementById('pwaInstallPrompt');
+  const installBtn = document.getElementById('pwaInstallBtn');
+  const dismissBtn = document.getElementById('pwaDismissBtn');
+  
+  if (!prompt || !installBtn || !dismissBtn) return;
+  
+  // Listen for beforeinstallprompt event (Chrome/Edge)
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    
+    // Show our custom prompt
+    checkPWAPrompt();
+  });
+  
+  // Install button click
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) {
+      // Fallback for browsers that don't support beforeinstallprompt
+      showManualInstallInstructions();
+      return;
+    }
+    
+    // Show native install prompt
+    deferredPrompt.prompt();
+    
+    // Wait for user response
+    const { outcome } = await deferredPrompt.userChoice;
+    
+    if (outcome === 'accepted') {
+      console.log('✅ User accepted PWA install');
+      localStorage.setItem(PWA_INSTALLED_COOKIE, 'true');
+      hideInstallPrompt();
+      
+      // Show success message
+      showInstallSuccess();
+    } else {
+      console.log('❌ User declined PWA install');
+      localStorage.setItem(PWA_INSTALL_COOKIE, 'true');
+      hideInstallPrompt();
+    }
+    
+    deferredPrompt = null;
+  });
+  
+  // Dismiss button click
+  dismissBtn.addEventListener('click', () => {
+    localStorage.setItem(PWA_INSTALL_COOKIE, 'true');
+    hideInstallPrompt();
+  });
+  
+  // Check if already installed (for iOS Safari)
+  window.addEventListener('appinstalled', () => {
+    console.log('✅ PWA installed');
+    localStorage.setItem(PWA_INSTALLED_COOKIE, 'true');
+    hideInstallPrompt();
+    showInstallSuccess();
+  });
+  
+  // Check on page load (for first-time users)
+  checkPWAPrompt();
+}
+
+function hideInstallPrompt() {
+  const prompt = document.getElementById('pwaInstallPrompt');
+  if (prompt) {
+    prompt.style.display = 'none';
+  }
+}
+
+function showInstallSuccess() {
+  // Optional: Show success notification
+  console.log('🎉 App installed successfully!');
+}
+
+function showManualInstallInstructions() {
+  // Show instructions for manual installation (iOS Safari, etc.)
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+  
+  let message = '';
+  if (isIOS) {
+    message = t('pwa.iosInstructions');
+  } else if (isAndroid) {
+    message = t('pwa.androidInstructions');
+  } else {
+    message = t('pwa.desktopInstructions');
+  }
+  
+  alert(message);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize PWA install prompt
+  setupPWAInstallPrompt();
+  
   const form = document.getElementById('nadiForm');
   const resultSection = document.getElementById('resultsSection');
   const resultsTitle = document.getElementById('resultsTitle');

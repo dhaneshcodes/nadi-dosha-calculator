@@ -495,6 +495,25 @@
     </div>
   </footer>
 
+  <!-- PWA Install Prompt (First-time users only) -->
+  <div id="pwaInstallPrompt" class="pwa-install-prompt" style="display: none;">
+    <div class="pwa-install-content">
+      <div class="pwa-install-icon">
+        <i class="fas fa-home"></i>
+      </div>
+      <div class="pwa-install-text">
+        <strong data-i18n="pwa.installTitle">Install App</strong>
+        <span data-i18n="pwa.installDesc">Add to Home Screen for quick access</span>
+      </div>
+      <div class="pwa-install-buttons">
+        <button id="pwaInstallBtn" class="pwa-install-btn" data-i18n="pwa.installButton">Install</button>
+        <button id="pwaDismissBtn" class="pwa-dismiss-btn" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.0/air-datepicker.js"></script>
   <script src="script.js"></script>
 </body>
