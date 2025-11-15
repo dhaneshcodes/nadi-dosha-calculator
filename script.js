@@ -4659,11 +4659,18 @@ function checkPWAPrompt() {
   const prompt = document.getElementById('pwaInstallPrompt');
   if (!prompt) return;
   
+  // Check if prompt is already visible
+  if (prompt.style.display === 'flex') {
+    return;
+  }
+  
   // Show prompt after a delay (better UX)
+  // If native install is available, show sooner
+  const delay = deferredPrompt ? 2000 : 3000;
   setTimeout(() => {
     prompt.style.display = 'flex';
-    console.log('📱 PWA install prompt shown');
-  }, 3000); // Show after 3 seconds
+    console.log('📱 PWA install prompt shown', deferredPrompt ? '(native install available)' : '(manual install)');
+  }, delay);
 }
 
 function setupPWAInstallPrompt() {
@@ -4673,40 +4680,93 @@ function setupPWAInstallPrompt() {
   
   if (!prompt || !installBtn || !dismissBtn) return;
   
-  // Listen for beforeinstallprompt event (Chrome/Edge)
+  let installPromptTimer = null;
+  
+  // Listen for beforeinstallprompt event (Chrome/Edge/Android)
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
+    console.log('✅ beforeinstallprompt event received - native install available');
     
-    // Show our custom prompt
+    // Clear any pending timer
+    if (installPromptTimer) {
+      clearTimeout(installPromptTimer);
+      installPromptTimer = null;
+    }
+    
+    // Show our custom prompt immediately when event fires
     checkPWAPrompt();
   });
   
+  // Check if browser supports native install after a delay
+  // This helps catch the event even if it fires late
+  installPromptTimer = setTimeout(() => {
+    if (!deferredPrompt) {
+      // Event hasn't fired yet, but we can still show prompt
+      // It will use native install if available when clicked
+      console.log('⏳ beforeinstallprompt not yet received, showing prompt anyway');
+      checkPWAPrompt();
+    }
+  }, 2000); // Wait 2 seconds for the event
+  
   // Install button click
   installBtn.addEventListener('click', async () => {
+    // Wait a bit more if deferredPrompt is not yet available
+    // (especially on mobile where event might fire late)
     if (!deferredPrompt) {
-      // Fallback for browsers that don't support beforeinstallprompt
-      showManualInstallInstructions();
+      console.log('⏳ Waiting for beforeinstallprompt event...');
+      
+      // Wait up to 1 second for the event
+      let waited = 0;
+      const checkInterval = setInterval(() => {
+        waited += 100;
+        if (deferredPrompt) {
+          clearInterval(checkInterval);
+          // Retry install
+          installBtn.click();
+          return;
+        }
+        if (waited >= 1000) {
+          clearInterval(checkInterval);
+          // Fallback for browsers that don't support beforeinstallprompt (iOS Safari)
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+          if (isIOS) {
+            showManualInstallInstructions();
+          } else {
+            // For Android/Desktop, try to trigger install anyway
+            // Some browsers might still show install prompt
+            console.log('⚠️ Native install not available, showing manual instructions');
+            showManualInstallInstructions();
+          }
+        }
+      }, 100);
       return;
     }
     
-    // Show native install prompt
-    deferredPrompt.prompt();
-    
-    // Wait for user response
-    const { outcome } = await deferredPrompt.userChoice;
-    
-    if (outcome === 'accepted') {
-      console.log('✅ User accepted PWA install');
-      localStorage.setItem(PWA_INSTALLED_COOKIE, 'true');
-      hideInstallPrompt();
+    try {
+      // Show native install prompt
+      console.log('📱 Showing native install prompt...');
+      await deferredPrompt.prompt();
       
-      // Show success message
-      showInstallSuccess();
-    } else {
-      console.log('❌ User declined PWA install');
-      localStorage.setItem(PWA_INSTALL_COOKIE, 'true');
-      hideInstallPrompt();
+      // Wait for user response
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        console.log('✅ User accepted PWA install');
+        localStorage.setItem(PWA_INSTALLED_COOKIE, 'true');
+        hideInstallPrompt();
+        
+        // Show success message
+        showInstallSuccess();
+      } else {
+        console.log('❌ User declined PWA install');
+        localStorage.setItem(PWA_INSTALL_COOKIE, 'true');
+        hideInstallPrompt();
+      }
+    } catch (error) {
+      console.error('❌ Error showing install prompt:', error);
+      // Fallback to manual instructions
+      showManualInstallInstructions();
     }
     
     deferredPrompt = null;
@@ -4746,17 +4806,31 @@ function showManualInstallInstructions() {
   // Show instructions for manual installation (iOS Safari, etc.)
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   const isAndroid = /Android/.test(navigator.userAgent);
+  const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent);
   
   let message = '';
   if (isIOS) {
+    // iOS Safari requires manual installation
     message = t('pwa.iosInstructions');
+    alert(message);
+  } else if (isAndroid && isChrome) {
+    // Android Chrome should support native install
+    // If we're here, something went wrong - show helpful message
+    message = t('pwa.androidInstructions') + '\n\n' + 
+              'If you see an install icon in your browser\'s address bar, tap it for direct installation.';
+    alert(message);
   } else if (isAndroid) {
+    // Android non-Chrome browsers
     message = t('pwa.androidInstructions');
+    alert(message);
   } else {
+    // Desktop
     message = t('pwa.desktopInstructions');
+    alert(message);
   }
   
-  alert(message);
+  // Don't dismiss the prompt after showing instructions
+  // User might want to try again or follow the instructions
 }
 
 document.addEventListener('DOMContentLoaded', () => {
