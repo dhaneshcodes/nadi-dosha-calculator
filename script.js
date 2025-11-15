@@ -4579,6 +4579,41 @@ function showErrorState(errorMessage) {
 /**
  * Main calculation and UI update workflow.
  */
+// Register Service Worker for PWA support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('✅ Service Worker registered:', registration.scope);
+        
+        // Check for updates periodically
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New service worker available
+              console.log('🔄 New Service Worker available. Page will reload when you close all tabs.');
+              // Optionally show a notification to user
+            }
+          });
+        });
+      })
+      .catch((error) => {
+        console.warn('⚠️ Service Worker registration failed:', error);
+      });
+  });
+  
+  // Listen for service worker updates
+  let refreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!refreshing) {
+      refreshing = true;
+      console.log('🔄 Service Worker updated. Reloading page...');
+      window.location.reload();
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('nadiForm');
   const resultSection = document.getElementById('resultsSection');

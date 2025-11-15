@@ -189,7 +189,7 @@ async def serve_static(filename: str):
     from fastapi import HTTPException
     
     # Security: only serve specific file types
-    allowed_extensions = {'.css', '.js', '.html', '.ico', '.png', '.jpg', '.svg'}
+    allowed_extensions = {'.css', '.js', '.html', '.ico', '.png', '.jpg', '.svg', '.json', '.webmanifest'}
     file_path = static_dir / filename
     
     if not file_path.exists() or file_path.suffix not in allowed_extensions:
