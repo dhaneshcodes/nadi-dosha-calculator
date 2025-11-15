@@ -5,9 +5,9 @@
 body {
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #fafaf5 0%, #ffffff 50%, #fffef7 100%);
   font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
-  color: #222;
+  color: #2c2c2c;
   min-height: 100vh;
   padding-bottom: 3rem;
 }
@@ -135,15 +135,15 @@ body {
 }
 
 .lang-btn:hover {
-  background: rgba(102, 126, 234, 0.1);
-  color: #667eea;
+  background: rgba(251, 191, 36, 0.1);
+  color: #d97706;
   transform: translateY(-1px);
 }
 
 .lang-btn.active {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
   color: white;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
 }
 
 .lang-code {
@@ -163,12 +163,13 @@ body {
   font-size: 2.5rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  color: #fff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  color: #b8860b;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  text-shadow: 0 2px 8px rgba(184, 134, 11, 0.15);
 }
 
 .header .subtitle {
-  color: rgba(255, 255, 255, 0.95);
+  color: #5a5a5a;
   margin: 0;
   font-size: 1.1rem;
   font-weight: 400;
@@ -220,9 +221,9 @@ main {
 }
 
 .nadi-form .mode-selector .mode-option input[type="radio"]:checked + .mode-label {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
   color: #fff;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
   transform: translateY(-2px);
 }
 
@@ -247,12 +248,12 @@ main {
 
 .nadi-form .mode-selector .mode-option .mode-label i {
   font-size: 1.2rem;
-  color: #667eea;
+  color: #d97706;
   transition: color 0.3s ease;
 }
 
 .nadi-form .mode-selector .mode-option .mode-label:hover {
-  border-color: #667eea;
+  border-color: #f59e0b;
   transform: translateY(-1px);
 }
 
@@ -261,17 +262,17 @@ main {
   gap: 2rem;
   justify-content: center;
   align-items: stretch;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.05), rgba(245, 158, 11, 0.03));
   border-radius: 20px;
   padding: 2rem;
-  border: 2px solid rgba(102, 126, 234, 0.1);
+  border: 2px solid rgba(251, 191, 36, 0.15);
   transition: all 0.3s ease;
   overflow: visible;
 }
 
 .nadi-form .persons-container:hover {
-  border-color: rgba(102, 126, 234, 0.2);
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
+  border-color: rgba(251, 191, 36, 0.3);
+  box-shadow: 0 8px 32px rgba(251, 191, 36, 0.12);
 }
 
 .nadi-form .persons-container.single-mode {
@@ -289,17 +290,17 @@ main {
   background: #ffffff;
   border-radius: 16px;
   padding: 1.5rem;
-  border: 2px solid rgba(102, 126, 234, 0.1);
+  border: 2px solid rgba(251, 191, 36, 0.15);
   transition: all 0.3s ease;
   position: relative;
   z-index: 0;
   overflow: visible;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
 .nadi-form .person-subcard:hover {
-  border-color: rgba(102, 126, 234, 0.3);
-  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+  border-color: rgba(251, 191, 36, 0.4);
+  box-shadow: 0 8px 30px rgba(251, 191, 36, 0.12);
   transform: translateY(-2px);
 }
 
@@ -309,18 +310,18 @@ main {
   gap: 0.8rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+  border-bottom: 2px solid rgba(251, 191, 36, 0.2);
 }
 
 .nadi-form .person-subcard .person-header i {
   font-size: 1.5rem;
-  color: #667eea;
+  color: #d97706;
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.1));
   border-radius: 50%;
 }
 
@@ -364,7 +365,7 @@ main {
 .time-separator {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #667eea;
+  color: #d97706;
   margin: 0 0.2rem;
 }
 
@@ -379,7 +380,7 @@ main {
   background: #fafafa;
   cursor: pointer;
   font-weight: 600;
-  color: #667eea;
+  color: #d97706;
 }
 
 /* Date Input with Picker */
@@ -405,7 +406,7 @@ main {
 .date-icon {
   position: absolute;
   right: 1rem;
-  color: #667eea;
+  color: #d97706;
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -413,7 +414,7 @@ main {
 }
 
 .date-icon:hover {
-  color: #764ba2;
+  color: #f59e0b;
   transform: scale(1.1);
 }
 
@@ -781,7 +782,7 @@ input.error, select.error {
   color: #e5e7eb;
   padding: 2.5rem 1rem 1.5rem 1rem;
   margin-top: 4rem;
-  border-top: 3px solid #667eea;
+  border-top: 3px solid #f59e0b;
 }
 
 .footer-content {
@@ -793,8 +794,8 @@ input.error, select.error {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(102, 126, 234, 0.1);
-  border: 2px solid #667eea;
+  background: rgba(251, 191, 36, 0.15);
+  border: 2px solid #f59e0b;
   border-radius: 12px;
   padding: 1.2rem;
   margin-bottom: 1.5rem;
@@ -839,7 +840,7 @@ input.error, select.error {
 }
 
 .footer-details i {
-  color: #667eea;
+  color: #d97706;
   margin-top: 0.2rem;
   flex-shrink: 0;
 }
@@ -874,8 +875,8 @@ input.error, select.error {
 }
 
 .footer-links a:hover {
-  background: rgba(102, 126, 234, 0.2);
-  color: #667eea;
+  background: rgba(251, 191, 36, 0.25);
+  color: #d97706;
   transform: translateY(-2px);
 }
 
@@ -1080,7 +1081,7 @@ input.error, select.error {
 }
 
 /* ============================================================
-   AIR DATEPICKER - CUSTOM PURPLE THEME
+   AIR DATEPICKER - CUSTOM GOLD/YELLOW THEME
    ============================================================ */
 
 /* Input field styling */
@@ -1098,15 +1099,15 @@ input[readonly].air-datepicker-input {
 }
 
 input[readonly].air-datepicker-input:hover {
-  border-color: #c4b5fd;
+  border-color: #fbbf24;
   background: #fafafa;
 }
 
 input[readonly].air-datepicker-input:focus,
 input[readonly].air-datepicker-input.-focus- {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.18);
   background: #ffffff;
 }
 
@@ -1115,7 +1116,7 @@ input[readonly].air-datepicker-input.-focus- {
   background: #ffffff;
   border: none;
   border-radius: 12px;
-  box-shadow: 0 12px 48px rgba(102, 126, 234, 0.2), 0 0 0 1px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 12px 48px rgba(251, 191, 36, 0.25), 0 0 0 1px rgba(251, 191, 36, 0.15);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   padding: 0;
   width: 300px;
@@ -1123,7 +1124,7 @@ input[readonly].air-datepicker-input.-focus- {
 
 /* Navigation (header) */
 .air-datepicker-nav {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
   border-radius: 12px 12px 0 0;
   padding: 1rem;
   border-bottom: none;
@@ -1195,7 +1196,7 @@ input[readonly].air-datepicker-input.-focus- {
 
 .air-datepicker-cell.-focus- {
   background: #ede9fe;
-  color: #667eea;
+  color: #d97706;
 }
 
 .air-datepicker-cell.-current- {
@@ -1209,10 +1210,10 @@ input[readonly].air-datepicker-input.-focus- {
 }
 
 .air-datepicker-cell.-selected- {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
   color: #ffffff !important;
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.35);
 }
 
 .air-datepicker-cell.-selected-:hover {
@@ -1253,7 +1254,7 @@ input[readonly].air-datepicker-input.-focus- {
 }
 
 .air-datepicker-button:hover {
-  background: #667eea;
+  background: #f59e0b;
   color: #ffffff;
 }
 
@@ -1324,9 +1325,9 @@ input[readonly].air-datepicker-input.-focus- {
 
 /* Time input styling */
 .time-hour:focus, .time-minute:focus, .time-period:focus {
-  border-color: #667eea;
+  border-color: #f59e0b;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
   background: #ffffff;
   font-family: inherit;
   color: #1f2937;
@@ -1348,8 +1349,8 @@ input[type="date"]:hover ~ .date-icon-themed {
 
 input[type="date"]:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.18);
   background: linear-gradient(135deg, #ffffff 0%, #f9f5ff 100%);
 }
 
@@ -1360,12 +1361,12 @@ input[type="date"]:focus ~ .date-icon-themed {
 
 /* Valid state - when date is selected */
 input[type="date"]:valid {
-  border-color: #667eea;
+  border-color: #f59e0b;
   background: linear-gradient(135deg, #f9f5ff 0%, #ede9fe 100%);
 }
 
 input[type="date"]:valid ~ .date-icon-themed {
-  filter: grayscale(0%) hue-rotate(250deg) brightness(1.1) drop-shadow(0 0 2px rgba(102, 126, 234, 0.5));
+  filter: grayscale(0%) hue-rotate(250deg) brightness(1.1) drop-shadow(0 0 2px rgba(251, 191, 36, 0.55));
 }
 
 /* Hide native calendar indicator - we use custom icon */
@@ -1411,7 +1412,7 @@ input[type="date"]::-webkit-datetime-edit-month-field:focus,
 input[type="date"]::-webkit-datetime-edit-day-field:focus,
 input[type="date"]::-webkit-datetime-edit-year-field:focus {
   background: #ede9fe;
-  color: #667eea;
+  color: #d97706;
   outline: none;
 }
 
@@ -1420,7 +1421,7 @@ input[type="date"]:invalid {
   color: #9ca3af;
 }
 
-/* Mobile date input styling with purple theme */
+/* Mobile date input styling with gold/yellow theme */
 @media (max-width: 768px) {
   .date-input-themed {
     width: 100%;
@@ -1437,7 +1438,7 @@ input[type="date"]:invalid {
     font-size: 1rem;
     border: 2px solid #e5e7eb;
     border-radius: 10px;
-    background: linear-gradient(135deg, #ffffff 0%, #fefbff 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #fffef7 100%);
     color: #1f2937;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -1447,29 +1448,29 @@ input[type="date"]:invalid {
   }
   
   input[type="date"]:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
-    background: linear-gradient(135deg, #ffffff 0%, #f3f0ff 100%);
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.2);
+    background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);
   }
   
   input[type="date"]:focus ~ .date-icon-themed {
-    filter: grayscale(0%) hue-rotate(250deg) brightness(1.3) saturate(1.8) drop-shadow(0 0 3px rgba(102, 126, 234, 0.6));
+    filter: grayscale(0%) hue-rotate(250deg) brightness(1.3) saturate(1.8) drop-shadow(0 0 3px rgba(251, 191, 36, 0.65));
     transform: translateY(-50%) scale(1.2);
   }
   
   input[type="date"]:active {
-    background: linear-gradient(135deg, #f9f5ff 0%, #ede9fe 100%);
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
   }
   
-  /* Valid state (when date is selected) - Strong purple theme */
+  /* Valid state (when date is selected) - Strong gold/yellow theme */
   input[type="date"]:valid {
-    border-color: #667eea;
-    background: linear-gradient(135deg, #f3f0ff 0%, #ddd6fe 100%);
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
     font-weight: 500;
   }
   
   input[type="date"]:valid ~ .date-icon-themed {
-    filter: grayscale(0%) hue-rotate(250deg) brightness(1.2) saturate(2) drop-shadow(0 0 4px rgba(102, 126, 234, 0.7));
+    filter: grayscale(0%) hue-rotate(250deg) brightness(1.2) saturate(2) drop-shadow(0 0 4px rgba(251, 191, 36, 0.75));
     animation: pulse-icon 2s ease infinite;
   }
   
@@ -1486,14 +1487,14 @@ input[type="date"]:invalid {
   }
   
   input[type="date"]::-webkit-datetime-edit-text {
-    color: #667eea;
+    color: #d97706;
     font-weight: 600;
   }
   
   input[type="date"]::-webkit-datetime-edit-month-field,
   input[type="date"]::-webkit-datetime-edit-day-field,
   input[type="date"]::-webkit-datetime-edit-year-field {
-    color: #667eea;
+    color: #d97706;
     background: transparent;
     padding: 0.2rem 0.3rem;
     border-radius: 4px;
@@ -1503,7 +1504,7 @@ input[type="date"]:invalid {
   input[type="date"]::-webkit-datetime-edit-month-field:focus,
   input[type="date"]::-webkit-datetime-edit-day-field:focus,
   input[type="date"]::-webkit-datetime-edit-year-field:focus {
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(251, 191, 36, 0.15);
   }
   
   /* Placeholder state on mobile */
@@ -1547,11 +1548,11 @@ input[type="date"]:invalid {
 
 .flatpickr-calendar.arrowTop:before,
 .flatpickr-calendar.arrowTop:after {
-  border-bottom-color: #667eea;
+  border-bottom-color: #f59e0b;
 }
 
 .flatpickr-months {
-  background: #667eea;
+  background: #f59e0b;
   border-radius: 12px 12px 0 0;
   padding: 0.6rem 0.8rem;
   position: relative;
@@ -1589,7 +1590,7 @@ input[type="date"]:invalid {
 }
 
 .flatpickr-monthDropdown-months option {
-  background: #667eea;
+  background: #f59e0b;
   color: #ffffff;
 }
 
@@ -1689,7 +1690,7 @@ input[type="date"]:invalid {
 }
 
 .flatpickr-day.selected {
-  background: #667eea;
+  background: #f59e0b;
   color: #ffffff;
   font-weight: 600;
 }
@@ -1709,7 +1710,7 @@ input[type="date"]:invalid {
 }
 
 .flatpickr-day.today.selected {
-  background: #667eea;
+  background: #f59e0b;
   color: #ffffff;
 }
 
@@ -1800,11 +1801,11 @@ input[type="date"]:invalid {
 .year-decade-btn:hover,
 .year-btn:hover,
 .year-back-btn:hover {
-  background: #667eea;
+  background: #f59e0b;
   color: #ffffff;
-  border-color: #667eea;
+  border-color: #f59e0b;
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.35);
 }
 
 .year-back-btn {
@@ -1850,7 +1851,7 @@ input[type="date"]:invalid {
 }
 
 .date-icon:hover {
-  color: #667eea;
+  color: #d97706;
   transform: scale(1.1);
 }
 
@@ -2015,9 +2016,9 @@ input[type="date"]:invalid {
 }
 
 .time-hour:focus, .time-minute:focus, .time-period:focus {
-  border-color: #667eea;
+  border-color: #f59e0b;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
   background: #ffffff;
 }
 
@@ -2046,9 +2047,9 @@ input[type="date"]:invalid {
 }
 
 .nadi-form .person-subcard input:focus {
-  border-color: #667eea;
+  border-color: #f59e0b;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
   transform: translateY(-1px);
   background: #ffffff;
 }
@@ -2068,14 +2069,14 @@ input[type="date"]:invalid {
 }
 
 .nadi-form .person-section:hover {
-  border-color: rgba(102, 126, 234, 0.3);
+  border-color: rgba(251, 191, 36, 0.35);
   background: #f0f4ff;
 }
 
 .nadi-form .person-section h2 {
   margin-bottom: 0.8rem;
   font-size: 1.3rem;
-  color: #667eea;
+  color: #d97706;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -2112,9 +2113,9 @@ input[type="date"]:invalid {
 }
 
 .nadi-form .person-section input:focus {
-  border-color: #667eea;
+  border-color: #f59e0b;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
   transform: translateY(-1px);
 }
 
@@ -2141,11 +2142,11 @@ input[type="date"]:invalid {
   justify-content: center;
   gap: 0.6rem;
   color: #fff;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
   padding: 0.9rem 3rem;
   border: none;
   border-radius: 50px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
   cursor: pointer;
   transition: all 0.3s ease;
   letter-spacing: 0.05em;
@@ -2154,7 +2155,8 @@ input[type="date"]:invalid {
 
 .nadi-form button:hover, .nadi-form button:focus {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
 }
 
 .nadi-form button:hover i {
@@ -2184,10 +2186,11 @@ input[type="date"]:invalid {
   text-align: center;
   font-size: 1.8rem;
   font-weight: 700;
-  color: #667eea;
+  color: #b8860b;
   margin: 0 0 2rem 0;
   position: relative;
   padding-bottom: 1rem;
+  font-family: 'Georgia', 'Times New Roman', serif;
 }
 
 .results-section .results-title:after {
@@ -2198,7 +2201,7 @@ input[type="date"]:invalid {
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
   border-radius: 2px;
 }
 
@@ -2231,7 +2234,7 @@ input[type="date"]:invalid {
 .results-section .results-persons .result-person:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border-color: rgba(102, 126, 234, 0.5);
+  border-color: rgba(251, 191, 36, 0.55);
 }
 
 .results-section .results-persons .result-person .person-header {
@@ -2245,8 +2248,8 @@ input[type="date"]:invalid {
 
 .results-section .results-persons .result-person .person-header .person-icon {
   font-size: 1.5rem;
-  color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
+  color: #d97706;
+  background: rgba(251, 191, 36, 0.15);
   padding: 0.6rem;
   border-radius: 50%;
   width: 45px;
@@ -2374,9 +2377,9 @@ input[type="date"]:invalid {
   color: #555;
   line-height: 1.5;
   padding: 0.8rem;
-  background: rgba(102, 126, 234, 0.05);
+  background: rgba(251, 191, 36, 0.08);
   border-radius: 8px;
-  border-left: 3px solid #667eea;
+  border-left: 3px solid #f59e0b;
 }
 
 .results-section .results-persons .comparison-divider {
@@ -2399,14 +2402,14 @@ input[type="date"]:invalid {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 1rem;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
   letter-spacing: 0.1em;
 }
 
@@ -2464,9 +2467,9 @@ input[type="date"]:invalid {
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
-  background: rgba(102, 126, 234, 0.05);
+  background: rgba(251, 191, 36, 0.08);
   border-radius: 8px;
-  border: 1px solid rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(251, 191, 36, 0.25);
   margin-top: 1.5rem;
   font-size: 0.85rem;
   color: #555;
@@ -2474,12 +2477,12 @@ input[type="date"]:invalid {
 }
 
 .results-section .calculation-info i {
-  color: #667eea;
+  color: #d97706;
   font-size: 1rem;
 }
 
 .results-section .calculation-info strong {
-  color: #667eea;
+  color: #d97706;
   font-weight: 600;
 }
 
@@ -2505,15 +2508,15 @@ input[type="date"]:invalid {
   gap: 1.5rem;
   align-items: flex-start;
   padding: 1.5rem;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.06), rgba(245, 158, 11, 0.04));
   border-radius: 12px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #f59e0b;
   margin-bottom: 2rem;
 }
 
 .explanation-section .info-card .info-icon {
   font-size: 2rem;
-  color: #667eea;
+  color: #d97706;
   flex-shrink: 0;
   margin-top: 0.2rem;
 }
@@ -2521,8 +2524,9 @@ input[type="date"]:invalid {
 .explanation-section .info-card h4 {
   margin: 0 0 0.5rem 0;
   font-size: 1.3rem;
-  color: #667eea;
+  color: #b8860b;
   font-weight: 600;
+  font-family: 'Georgia', 'Times New Roman', serif;
 }
 
 .explanation-section .info-card p {
@@ -2533,8 +2537,8 @@ input[type="date"]:invalid {
 }
 
 .explanation-section .info-card .sanskrit-shloka {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-  border: 2px solid rgba(102, 126, 234, 0.3);
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.08));
+  border: 2px solid rgba(251, 191, 36, 0.3);
   border-radius: 12px;
   padding: 1.5rem;
   margin: 1.5rem 0;
@@ -2544,7 +2548,7 @@ input[type="date"]:invalid {
 .explanation-section .info-card .sanskrit-shloka strong {
   display: block;
   font-size: 1.3rem;
-  color: #667eea;
+  color: #b8860b;
   font-weight: 700;
   line-height: 1.6;
   margin-bottom: 1rem;
@@ -2558,7 +2562,7 @@ input[type="date"]:invalid {
 }
 
 .explanation-section .info-card .sanskrit-shloka p em {
-  color: #667eea;
+  color: #d97706;
   font-weight: 600;
 }
 
@@ -2570,9 +2574,9 @@ input[type="date"]:invalid {
   justify-content: center;
   padding: 3rem 2rem;
   text-align: center;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.06), rgba(245, 158, 11, 0.04));
   border-radius: 20px;
-  border: 2px solid rgba(102, 126, 234, 0.1);
+  border: 2px solid rgba(251, 191, 36, 0.15);
   margin: 2rem 0;
 }
 
@@ -2583,8 +2587,8 @@ input[type="date"]:invalid {
 .spinner {
   width: 60px;
   height: 60px;
-  border: 4px solid rgba(102, 126, 234, 0.2);
-  border-top: 4px solid #667eea;
+  border: 4px solid rgba(251, 191, 36, 0.2);
+  border-top: 4px solid #f59e0b;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -2600,7 +2604,7 @@ input[type="date"]:invalid {
 
 .loading-title {
   font-size: 1.5rem;
-  color: #667eea;
+  color: #d97706;
   font-weight: 700;
   margin-bottom: 1rem;
 }
@@ -2615,14 +2619,14 @@ input[type="date"]:invalid {
 .loading-progress {
   width: 100%;
   height: 4px;
-  background: rgba(102, 126, 234, 0.2);
+  background: rgba(251, 191, 36, 0.25);
   border-radius: 2px;
   overflow: hidden;
 }
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
   border-radius: 2px;
   animation: progress 2s ease-in-out infinite;
 }
@@ -2666,7 +2670,7 @@ input[type="date"]:invalid {
 }
 
 .retry-button {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
   color: white;
   border: none;
   padding: 0.8rem 2rem;
@@ -2679,11 +2683,11 @@ input[type="date"]:invalid {
 
 .retry-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 25px rgba(251, 191, 36, 0.3);
 }
 
 .back-to-form-btn {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -2701,7 +2705,7 @@ input[type="date"]:invalid {
 
 .back-to-form-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 25px rgba(251, 191, 36, 0.3);
 }
 
 .back-to-form-btn i {
@@ -2735,7 +2739,7 @@ input[type="date"]:invalid {
 }
 
 .autocomplete-container input:focus + .autocomplete-icon {
-  color: #667eea;
+  color: #d97706;
 }
 
 .autocomplete-dropdown {
@@ -2744,13 +2748,13 @@ input[type="date"]:invalid {
   left: 0;
   right: 0;
   background: white;
-  border: 2px solid #667eea;
+  border: 2px solid #f59e0b;
   border-top: none;
   border-radius: 0 0 10px 10px;
   max-height: 300px;
   overflow-y: auto;
   z-index: 9999;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 8px 24px rgba(251, 191, 36, 0.25);
   display: none;
   margin-top: -2px;
 }
@@ -2758,11 +2762,11 @@ input[type="date"]:invalid {
 /* Portal dropdown (moved to body) */
 .autocomplete-dropdown.autocomplete-portal {
   position: fixed;
-  border-top: 2px solid #667eea;
+  border-top: 2px solid #f59e0b;
   border-radius: 0 0 10px 10px;
   margin-top: 0;
   z-index: 999999;
-  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 40px rgba(251, 191, 36, 0.35);
   will-change: transform;
   transform-origin: top center;
 }
@@ -2802,18 +2806,18 @@ input[type="date"]:invalid {
 }
 
 .autocomplete-item:hover {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.05));
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.06));
   padding-left: 1.2rem;
 }
 
 .autocomplete-item.selected {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.1));
-  border-left: 3px solid #667eea;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.12));
+  border-left: 3px solid #f59e0b;
 }
 
 .autocomplete-item-icon {
   font-size: 0.9rem;
-  color: #667eea;
+  color: #d97706;
   min-width: 20px;
 }
 
@@ -2836,8 +2840,8 @@ input[type="date"]:invalid {
 }
 
 .autocomplete-item mark {
-  background: rgba(102, 126, 234, 0.2);
-  color: #667eea;
+  background: rgba(251, 191, 36, 0.25);
+  color: #d97706;
   font-weight: 700;
   padding: 0 2px;
   border-radius: 2px;
@@ -2854,15 +2858,15 @@ input[type="date"]:invalid {
   display: block;
   font-size: 2rem;
   margin-bottom: 0.5rem;
-  color: #667eea;
+  color: #d97706;
 }
 
 .autocomplete-footer {
   padding: 0.8rem 1rem;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.05));
-  border-top: 1px solid rgba(102, 126, 234, 0.2);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(245, 158, 11, 0.06));
+  border-top: 1px solid rgba(251, 191, 36, 0.25);
   font-size: 0.8rem;
-  color: #667eea;
+  color: #d97706;
   text-align: center;
   display: flex;
   align-items: center;
@@ -2878,7 +2882,7 @@ input[type="date"]:invalid {
 .autocomplete-loading {
   padding: 1rem;
   text-align: center;
-  color: #667eea;
+  color: #d97706;
 }
 
 .autocomplete-loading i {
@@ -2896,7 +2900,7 @@ input[type="date"]:invalid {
 }
 
 .autocomplete-dropdown::-webkit-scrollbar-thumb {
-  background: #667eea;
+  background: #f59e0b;
   border-radius: 3px;
 }
 
@@ -2954,7 +2958,7 @@ input[type="date"]:invalid {
   
   .autocomplete-dropdown.autocomplete-portal {
     max-height: 50vh;
-    box-shadow: 0 10px 50px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 50px rgba(251, 191, 36, 0.45);
   }
   
   .autocomplete-container {
@@ -3377,8 +3381,8 @@ input[type="date"]:invalid {
   }
 
   .explanation-section .info-card .sanskrit-shloka {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-    border: 2px solid rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.12));
+    border: 2px solid rgba(251, 191, 36, 0.35);
     border-radius: 12px;
     padding: 1rem;
     margin: 1rem 0;
@@ -3388,7 +3392,7 @@ input[type="date"]:invalid {
   .explanation-section .info-card .sanskrit-shloka strong {
     display: block;
     font-size: 1.1rem;
-    color: #667eea;
+    color: #d97706;
     font-weight: 700;
     line-height: 1.6;
     margin-bottom: 0.8rem;
@@ -3402,7 +3406,7 @@ input[type="date"]:invalid {
   }
 
   .explanation-section .info-card .sanskrit-shloka p em {
-    color: #667eea;
+    color: #d97706;
     font-weight: 600;
   }
 
