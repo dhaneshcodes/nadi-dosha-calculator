@@ -238,10 +238,12 @@ async def calculate_nadi_complete(request: NadiCalculationRequest) -> NadiCompar
         logger.warning(f"Validation error: {str(e)}")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     except Exception as e:
-        logger.error(f"Unexpected error: {str(e)}", exc_info=True)
+        error_msg = str(e) if str(e) else repr(e)
+        error_type = type(e).__name__
+        logger.error(f"Unexpected error [{error_type}]: {error_msg}", exc_info=True)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An error occurred: {str(e)}"
+            detail=f"An error occurred: {error_type}: {error_msg}"
         )
 
 

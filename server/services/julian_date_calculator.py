@@ -94,19 +94,13 @@ class JulianDateCalculator:
             utc_hour = hour - timezone_offset
             utc_minute = minute
             
-            # Handle overflow/underflow
-            while utc_hour >= 24:
-                utc_hour -= 24
-                day += 1
-            while utc_hour < 0:
-                utc_hour += 24
-                day -= 1
+            # Handle overflow/underflow - use timedelta for proper date arithmetic
+            from datetime import timedelta
+            original_datetime = datetime(year, month, day, hour, minute, 0)
+            utc_datetime = original_datetime - timedelta(hours=timezone_offset)
             
-            # Create UTC datetime
-            ut_datetime = datetime(
-                year, month, day,
-                int(utc_hour), utc_minute, 0
-            )
+            # Create UTC datetime using timedelta (handles month/year boundaries correctly)
+            ut_datetime = utc_datetime
             
             return JulianDateCalculator.from_ut_datetime(ut_datetime)
             
