@@ -233,24 +233,6 @@ const translations = {
       iosInstructions: 'To install: Tap Share button → Add to Home Screen',
       androidInstructions: 'To install: Tap Menu → Add to Home Screen',
       desktopInstructions: 'To install: Click the install icon in your browser\'s address bar'
-    },
-    ftu: {
-      step1: {
-        title: 'ਆਪਣੇ ਜਨਮ ਦੇ ਵੇਰਵੇ ਦਰਜ ਕਰੋ',
-        desc: 'ਨਾਮ, ਜਨਮ ਤਾਰੀਖ, ਸਮਾਂ ਅਤੇ ਜਨਮ ਸਥਾਨ ਦਰਜ ਕਰੋ। ਸ਼ਹਿਰ ਚੁਣਨ ਲਈ ਡਰਾਪਡਾਊਨ ਵਰਤੋਂ।'
-      },
-      step2: {
-        title: 'ਸਿੰਗਲ ਜਾਂ ਤੁਲਨਾ ਚੁਣੋ',
-        desc: 'ਆਪਣੀ ਨਾੜੀ ਕਿਸਮ ਜਾਂਚੋ ਜਾਂ ਦੋ ਵਿਅਕਤੀਆਂ ਦੀ ਨਾੜੀ ਦੋਸ਼ ਅਨੁਕੂਲਤਾ ਵੇਖੋ।'
-      },
-      step3: {
-        title: '"ਕੈਲਕੁਲੇਟ" ਤੇ ਟੈਪ ਕਰੋ',
-        desc: 'ਅਸੀਂ ਉੱਚ ਖਗੋਲੀ ਸਹੀਤਾ ਨਾਲ ਨਕਸ਼ਤਰ, ਨਾੜੀ ਕਿਸਮ ਅਤੇ ਅਨੁਕੂਲਤਾ ਗਿਣਦੇ ਹਾਂ।'
-      },
-      skip: 'ਛੱਡੋ',
-      prev: 'ਵਾਪਸ',
-      next: 'ਅੱਗੇ',
-      done: 'ਸਮਝ ਗਿਆ'
     }
   },
   hi: {
@@ -421,24 +403,6 @@ const translations = {
         iosInstructions: 'इंस्टॉल करने के लिए: शेयर बटन टैप करें → होम स्क्रीन में जोड़ें',
         androidInstructions: 'इंस्टॉल करने के लिए: मेनू टैप करें → होम स्क्रीन में जोड़ें',
         desktopInstructions: 'इंस्टॉल करने के लिए: अपने ब्राउज़र के एड्रेस बार में इंस्टॉल आइकन पर क्लिक करें'
-      },
-      ftu: {
-        step1: {
-          title: 'ਆਪਣੇ ਜਨਮ ਦੇ ਵੇਰਵੇ ਦਰਜ ਕਰੋ',
-          desc: 'ਨਾਮ, ਜਨਮ ਤਾਰੀਖ, ਸਮਾਂ ਅਤੇ ਜਨਮ ਸਥਾਨ ਦਰਜ ਕਰੋ। ਸ਼ਹਿਰ ਚੁਣਨ ਲਈ ਡਰਾਪਡਾਊਨ ਵਰਤੋਂ।'
-        },
-        step2: {
-          title: 'ਸਿੰਗਲ ਜਾਂ ਤੁਲਨਾ ਚੁਣੋ',
-          desc: 'ਆਪਣੀ ਨਾੜੀ ਕਿਸਮ ਜਾਂਚੋ ਜਾਂ ਦੋ ਵਿਅਕਤੀਆਂ ਦੀ ਨਾੜੀ ਦੋਸ਼ ਅਨੁਕੂਲਤਾ ਵੇਖੋ।'
-        },
-        step3: {
-          title: '"ਕੈਲਕੁਲੇਟ" ਤੇ ਟੈਪ ਕਰੋ',
-          desc: 'ਅਸੀਂ ਉੱਚ ਖਗੋਲੀ ਸਹੀਤਾ ਨਾਲ ਨਕਸ਼ਤਰ, ਨਾੜੀ ਕਿਸਮ ਅਤੇ ਅਨੁਕੂਲਤਾ ਗਿਣਦੇ ਹਾਂ।'
-        },
-        skip: 'ਛੱਡੋ',
-        prev: 'ਵਾਪਸ',
-        next: 'ਅੱਗੇ',
-        done: 'ਸਮਝ ਗਿਆ'
       }
     }
   },
@@ -464,7 +428,7 @@ const translations = {
       tobHint: '12-ਘੰਟੇ ਫਾਰਮੈਟ: ਦੁਪਹਿਰ 2:30 ਜਾਂ ਸਵੇਰੇ 10:15',
       pob: 'ਜਨਮ ਸਥਾਨ',
       pobPlaceholder: 'ਸ਼ਹਿਰ ਦਾ ਨਾਮ ਟਾਈਪ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ...',
-      pobHint: '💡 ਸੁਝਾਅ ਵਿੱਚੋਂ ਚੁਣੋ ਜਾਂ ਦਰਜ ਕਰੋ: ਸ਼ਹਿਰ, ਰਾਜ, ਦੇਸ਼',
+      pobHint: '💡 ਸੁਝਾਵਾਂ ਵਿੱਚੋਂ ਚੁਣੋ ਜਾਂ ਦਰਜ ਕਰੋ: ਸ਼ਹਿਰ, ਰਾਜ, ਦੇਸ਼',
       buttonSingle: 'ਮੇਰੀ ਨਾੜੀ ਜਾਂਚੋ',
       buttonCompare: 'ਨਾੜੀ ਦੋਸ਼ ਜਾਂਚੋ'
     },
@@ -610,121 +574,92 @@ const translations = {
         iosInstructions: 'ਇੰਸਟਾਲ ਕਰਨ ਲਈ: ਸ਼ੇਅਰ ਬਟਨ ਟੈਪ ਕਰੋ → ਹੋਮ ਸਕਰੀਨ ਵਿੱਚ ਜੋੜੋ',
         androidInstructions: 'ਇੰਸਟਾਲ ਕਰਨ ਲਈ: ਮੀਨੂ ਟੈਪ ਕਰੋ → ਹੋਮ ਸਕਰੀਨ ਵਿੱਚ ਜੋੜੋ',
         desktopInstructions: 'ਇੰਸਟਾਲ ਕਰਨ ਲਈ: ਆਪਣੇ ਬ੍ਰਾਊਜ਼ਰ ਦੇ ਐਡਰੈਸ ਬਾਰ ਵਿੱਚ ਇੰਸਟਾਲ ਆਈਕਨ ਤੇ ਕਲਿਕ ਕਰੋ'
-      },
-      ftu: {
-        step1: {
-          title: 'ਆਪਣੇ ਜਨਮ ਦੇ ਵੇਰਵੇ ਦਰਜ ਕਰੋ',
-          desc: 'ਨਾਮ, ਜਨਮ ਤਾਰੀਖ, ਸਮਾਂ ਅਤ੩ ਜਨਮ ਸਥਾਨ ਦਰਜ ਕਰੋ। ਸ਼ਹਿਰ ਚੁਣਨ ਲਈ ਡਰਾਪਡਾਊਨ ਵਰਤੋਂ।'
-        },
-        step2: {
-          title: 'ਸਿੰਗਲ ਜਾਂ ਤੁਲਨਾ ਚੁਣੋ',
-          desc: 'ਆਪਣੀ ਨਾੜੀ ਕਿਸਮ ਜਾਂਚੋ ਜਾਂ ਦੋ ਵਿਅਕਤੀਆਂ ਦੀ ਨਾੜੀ ਦੋਸ਼ ਅਨੁਕੂਲਤਾ ਵੇਖੋ।'
-        },
-        step3: {
-          title: '"ਕੈਲਕੁਲੇਟ" ਤੇ ਟੈਪ ਕਰੋ',
-          desc: 'ਅਸੀਂ ਉੱਚ ਖਗੋਲੀ ਸਹੀਤਾ ਨਾਲ ਨਕਸ਼ਤਰ, ਨਾੜੀ ਕਿਸਮ ਅਤੇ ਅਨੁਕੂਲਤਾ ਗਿਣਦੇ ਹਾਂ।'
-        },
-        skip: 'ਛੱਡੋ',
-        prev: 'ਵਾਪਸ',
-        next: 'ਅੱਗੇ',
-        done: 'ਸਮਝ ਗਿਆ'
       }
     }
-  };
-
-  // FTU (First-Time Use) walkthrough
-  const FTU_ENABLED = true;
-  const FTU_STORAGE_KEY = 'ftu_seen_v1';
-  const ftu = {
-    overlay: document.getElementById('ftuOverlay'),
-    title: document.getElementById('ftuTitle'),
-    desc: document.getElementById('ftuDesc'),
-    dots: [
-      document.querySelector('.ftu-dot-1'),
-      document.querySelector('.ftu-dot-2'),
-      document.querySelector('.ftu-dot-3')
-    ],
-    btnSkip: document.getElementById('ftuSkipBtn'),
-    btnPrev: document.getElementById('ftuPrevBtn'),
-    btnNext: document.getElementById('ftuNextBtn'),
-    btnDone: document.getElementById('ftuDoneBtn'),
-    step: 0
-  };
-
-  function setFtuTexts() {
-    if (!ftu.overlay) return;
-    const map = [
-      { t: 'ftu.step1.title', d: 'ftu.step1.desc' },
-      { t: 'ftu.step2.title', d: 'ftu.step2.desc' },
-      { t: 'ftu.step3.title', d: 'ftu.step3.desc' }
-    ];
-    const cur = map[ftu.step];
-    if (ftu.title) ftu.title.textContent = t(cur.t);
-    if (ftu.desc) ftu.desc.textContent = t(cur.d);
-    if (ftu.btnSkip) ftu.btnSkip.textContent = t('ftu.skip');
-    if (ftu.btnPrev) ftu.btnPrev.textContent = t('ftu.prev');
-    if (ftu.btnNext) ftu.btnNext.textContent = t('ftu.next');
-    if (ftu.btnDone) ftu.btnDone.textContent = t('ftu.done');
   }
+};
 
-  function renderFtuStep() {
-    if (!ftu.overlay) return;
-    // dots
-    ftu.dots.forEach((el, idx) => { if (el) el.classList.toggle('active', idx === ftu.step); });
-    // buttons
-    if (ftu.btnPrev) ftu.btnPrev.style.display = ftu.step > 0 ? 'inline-flex' : 'none';
-    if (ftu.btnNext) ftu.btnNext.style.display = ftu.step < 2 ? 'inline-flex' : 'none';
-    if (ftu.btnDone) ftu.btnDone.style.display = ftu.step === 2 ? 'inline-flex' : 'none';
-    setFtuTexts();
+let currentLang = 'en';
+
+// Get translation for a key
+function t(key) {
+  const keys = key.split('.');
+  let value = translations[currentLang];
+  
+  for (const k of keys) {
+    value = value?.[k];
   }
+  
+  return value || translations.en[key] || key;
+}
 
-  function openFtu() {
-    if (!ftu.overlay) return;
-    ftu.step = 0;
-    ftu.overlay.style.display = 'block';
-    renderFtuStep();
-  }
-
-  function closeFtu(persist) {
-    if (!ftu.overlay) return;
-    ftu.overlay.style.display = 'none';
-    if (persist) {
-      try { localStorage.setItem(FTU_STORAGE_KEY, '1'); } catch (e) {}
+// Update all UI text based on current language
+function updateLanguage(lang) {
+  currentLang = lang;
+  
+  console.log(`🔄 Updating language to: ${lang}`);
+  
+  // Update all text elements with data-i18n attribute
+  const textElements = document.querySelectorAll('[data-i18n]');
+  console.log(`📝 Found ${textElements.length} elements with data-i18n`);
+  
+  textElements.forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const translatedText = t(key);
+    
+    // Check if translation contains newlines (like shlokas)
+    if (translatedText && translatedText.includes('\n')) {
+      // Preserve line breaks by using innerHTML with <br>
+      el.innerHTML = translatedText.replace(/\n/g, '<br>');
+    } else {
+      // Simple text update
+      el.textContent = translatedText;
     }
+  });
+  
+  // Update all placeholders with data-i18n-placeholder attribute
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    el.placeholder = t(key);
+  });
+  
+  // Update button text based on mode
+  const btnText = document.getElementById('btnText');
+  const isSingleMode = document.getElementById('modeSingle')?.checked;
+  if (btnText) {
+    btnText.textContent = isSingleMode ? t('form.buttonSingle') : t('form.buttonCompare');
   }
+  
+  // Update person titles
+  const person1Title = document.getElementById('person1Title');
+  const person2Title = document.getElementById('person2Title');
+  if (person1Title) {
+    person1Title.textContent = isSingleMode ? t('form.yourDetails') : t('form.person1');
+  }
+  if (person2Title) {
+    person2Title.textContent = t('form.person2');
+  }
+  
+  // Update active language button
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  
+  // Save preference
+  localStorage.setItem('nadi_lang', lang);
+  
+  console.log(`✅ Language switched to: ${lang}`);
+  console.log(`📊 Updated ${textElements.length} text elements`);
+}
 
-  // Bind FTU buttons
-  if (ftu.btnSkip) ftu.btnSkip.addEventListener('click', () => closeFtu(true));
-  if (ftu.btnPrev) ftu.btnPrev.addEventListener('click', () => { ftu.step = Math.max(0, ftu.step - 1); renderFtuStep(); });
-  if (ftu.btnNext) ftu.btnNext.addEventListener('click', () => { ftu.step = Math.min(2, ftu.step + 1); renderFtuStep(); });
-  if (ftu.btnDone) ftu.btnDone.addEventListener('click', () => closeFtu(true));
+// ============================================================
+// END MULTILINGUAL SUPPORT
+// ============================================================
 
-  // Show FTU if first visit
-  try {
-    const seen = localStorage.getItem(FTU_STORAGE_KEY) === '1';
-    if (FTU_ENABLED && !seen) {
-      // Slight delay so DOM settles
-      setTimeout(() => {
-        setFtuTexts();
-        openFtu();
-      }, 600);
-    }
-  } catch (e) {}
+// ============================================================
+// GEOCODING CACHE SYSTEM - For High Traffic Scalability
+// ============================================================
 
-  // Re-run FTU text updates on language switch
-  const _origUpdateLanguage = updateLanguage;
-  updateLanguage = function(lang) {
-    _origUpdateLanguage(lang);
-    setTimeout(() => { renderFtuStep(); }, 0);
-  };
-
-  // ============================================================
-  // END MULTILINGUAL SUPPORT
-  // ============================================================
-
-  // ============================================================
-  // GEOCODING CACHE SYSTEM - For High Traffic Scalability
-  // ============================================================
 /**
  * Geocoding Cache Manager
  * Provides instant results for repeated location searches
@@ -1113,6 +1048,7 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Jamalpur, Bihar, India', lat: 25.3119, lon: 86.4889 },
   { place: 'Jehanabad, Bihar, India', lat: 25.2086, lon: 84.9869 },
   { place: 'Aurangabad, Bihar, India', lat: 24.7521, lon: 84.3742 },
+  
   // Rajasthan (Additional)
   { place: 'Alwar, Rajasthan, India', lat: 27.5530, lon: 76.6346 },
   { place: 'Bharatpur, Rajasthan, India', lat: 27.2173, lon: 77.4901 },
@@ -1513,6 +1449,7 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Palghar, Maharashtra, India', lat: 19.6967, lon: 72.7653 },
   { place: 'Alibag, Maharashtra, India', lat: 18.6414, lon: 72.8722 },
   { place: 'Raigad, Maharashtra, India', lat: 18.5102, lon: 73.1836 },
+  
   // Goa (Additional)
   { place: 'Margao, Goa, India', lat: 15.2708, lon: 73.9536 },
   { place: 'Madgaon, Goa, India', lat: 15.2708, lon: 73.9536 },
@@ -1706,6 +1643,7 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Kiraoli, Uttar Pradesh, India', lat: 27.1333, lon: 77.7833 },
   { place: 'Nandgaon, Uttar Pradesh, India', lat: 27.7109, lon: 77.3734 },
   { place: 'Raya, Uttar Pradesh, India', lat: 27.5643, lon: 77.7891 },
+  
   // Bihar (Complete District Coverage)
   { place: 'Khagaria, Bihar, India', lat: 25.5043, lon: 86.4669 },
   { place: 'Madhubani, Bihar, India', lat: 26.3538, lon: 86.0735 },
@@ -1892,6 +1830,7 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Pahalgam, Jammu and Kashmir, India', lat: 34.0161, lon: 75.3150 },
   { place: 'Sonmarg, Jammu and Kashmir, India', lat: 34.3000, lon: 75.3000 },
   { place: 'Gurez, Jammu and Kashmir, India', lat: 34.6500, lon: 74.8500 },
+  
   // Uttarakhand (Complete)
   { place: 'Vikasnagar, Uttarakhand, India', lat: 30.4700, lon: 77.7734 },
   { place: 'Herbertpur, Uttarakhand, India', lat: 30.4411, lon: 77.7255 },
@@ -2104,6 +2043,7 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Warangal, Telangana, India', lat: 17.9689, lon: 79.5941 },
   { place: 'Yadadri Bhuvanagiri, Telangana, India', lat: 17.5509, lon: 78.8698 },
   { place: 'Secunderabad, Telangana, India', lat: 17.4400, lon: 78.4949 },
+  
   // ============================================================
   // WEST INDIA - COMPREHENSIVE COVERAGE
   // ============================================================
@@ -2168,6 +2108,7 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Vasco da Gama, Goa, India', lat: 15.3989, lon: 73.8157 },
   { place: 'Mapusa, Goa, India', lat: 15.5901, lon: 73.8113 },
   { place: 'Ponda, Goa, India', lat: 15.4013, lon: 74.0089 },
+  
   // ============================================================
   // EAST INDIA - COMPLETE COVERAGE
   // ============================================================
@@ -2291,6 +2232,10 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Morena, Madhya Pradesh, India', lat: 26.4952, lon: 77.9937 },
   { place: 'Narsinghpur, Madhya Pradesh, India', lat: 22.9521, lon: 79.1949 },
   { place: 'Neemuch, Madhya Pradesh, India', lat: 24.4708, lon: 74.8708 },
+  { place: 'Niwari, Madhya Pradesh, India', lat: 24.6744, lon: 78.8530 },
+  { place: 'Panna, Madhya Pradesh, India', lat: 24.7166, lon: 80.1938 },
+  { place: 'Raisen, Madhya Pradesh, India', lat: 23.3315, lon: 77.7824 },
+  { place: 'Rajgarh, Madhya Pradesh, India', lat: 24.0073, lon: 76.7285 },
   { place: 'Ratlam, Madhya Pradesh, India', lat: 23.3315, lon: 75.0404 },
   { place: 'Rewa, Madhya Pradesh, India', lat: 24.5364, lon: 81.2961 },
   { place: 'Sagar, Madhya Pradesh, India', lat: 23.8388, lon: 78.7378 },
@@ -2304,6 +2249,10 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Sidhi, Madhya Pradesh, India', lat: 24.4146, lon: 81.8774 },
   { place: 'Singrauli, Madhya Pradesh, India', lat: 24.2000, lon: 82.6750 },
   { place: 'Tikamgarh, Madhya Pradesh, India', lat: 24.7448, lon: 78.8308 },
+  { place: 'Ujjain, Madhya Pradesh, India', lat: 23.1765, lon: 75.7885 },
+  { place: 'Umaria, Madhya Pradesh, India', lat: 23.5251, lon: 80.8370 },
+  { place: 'Vidisha, Madhya Pradesh, India', lat: 23.5251, lon: 77.8081 },
+  // Chhattisgarh (All Districts)
   { place: 'Balod, Chhattisgarh, India', lat: 20.7307, lon: 81.2057 },
   { place: 'Baloda Bazar, Chhattisgarh, India', lat: 21.6576, lon: 82.1611 },
   { place: 'Balrampur, Chhattisgarh, India', lat: 23.1163, lon: 83.0484 },
@@ -2482,6 +2431,7 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Leh, Ladakh, India', lat: 34.1526, lon: 77.5771 },
   { place: 'Kargil, Ladakh, India', lat: 34.5539, lon: 76.1313 }
 ];
+
 // Deduplicate cities based on normalized names
 const uniqueCities = [];
 const seenPlaces = new Set();
@@ -2496,6 +2446,7 @@ INDIAN_CITIES_DATABASE.forEach(city => {
 // Replace with deduplicated version
 const CITIES_DATABASE = uniqueCities;
 console.log(`✅ Loaded ${CITIES_DATABASE.length} unique cities (${INDIAN_CITIES_DATABASE.length - CITIES_DATABASE.length} duplicates removed)`);
+
 // Pre-populate cache on first load
 function initializeCache() {
   const cacheInitKey = 'nadi_cache_initialized_v1';
@@ -2518,6 +2469,155 @@ function initializeCache() {
     console.log('💡 Most Indian users will get INSTANT results!');
   }
 }
+// ============================================================
+// CUSTOM AUTOCOMPLETE SYSTEM
+// ============================================================
+
+/**
+ * Custom Autocomplete with beautiful UI/UX
+ * Features: Search highlighting, keyboard navigation, mobile-friendly
+ */
+class Autocomplete {
+  constructor(inputId, dropdownId, cities) {
+    this.input = document.getElementById(inputId);
+    this.dropdown = document.getElementById(dropdownId);
+    this.cities = cities;
+    this.selectedIndex = -1;
+    this.filteredCities = [];
+    
+    if (!this.input || !this.dropdown) return;
+    
+    // Portal dropdown to body for mobile z-index fix
+    this.portalDropdown();
+    
+    this.init();
+  }
+
+  portalDropdown() {
+    // Move dropdown to body to escape any parent overflow/stacking issues
+    if (this.dropdown && this.dropdown.parentElement !== document.body) {
+      // Store original parent for reference
+      this.originalParent = this.dropdown.parentElement;
+      document.body.appendChild(this.dropdown);
+      // Add portal class for special styling
+      this.dropdown.classList.add('autocomplete-portal');
+    }
+  }
+
+  positionDropdown() {
+    // Position dropdown relative to input
+    const rect = this.input.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    
+    // Use absolute positioning relative to viewport
+    this.dropdown.style.position = 'fixed';
+    this.dropdown.style.top = `${rect.bottom + 2}px`; // 2px gap
+    this.dropdown.style.left = `${rect.left}px`;
+    this.dropdown.style.width = `${rect.width}px`;
+    this.dropdown.style.maxWidth = `${rect.width}px`;
+    
+    // Ensure it doesn't go off screen
+    const dropdownHeight = 300; // max-height
+    const viewportHeight = window.innerHeight;
+    
+    if (rect.bottom + dropdownHeight > viewportHeight) {
+      // Not enough space below, show above input
+      this.dropdown.style.top = `${rect.top - Math.min(dropdownHeight, 200)}px`;
+      this.dropdown.style.borderRadius = '10px 10px 0 0';
+    } else {
+      this.dropdown.style.borderRadius = '0 0 10px 10px';
+    }
+  }
+
+  init() {
+    // Input event - show suggestions as user types
+    this.input.addEventListener('input', (e) => {
+      this.handleInput(e.target.value);
+    });
+
+    // Focus event - show dropdown with popular cities
+    this.input.addEventListener('focus', () => {
+      this.positionDropdown();
+      if (this.input.value.length === 0) {
+        this.showPopularCities();
+      } else {
+        this.handleInput(this.input.value);
+      }
+    });
+
+    // Blur event - hide dropdown after delay (to allow click)
+    this.input.addEventListener('blur', () => {
+      setTimeout(() => this.hideDropdown(), 200);
+    });
+
+    // Keyboard navigation
+    this.input.addEventListener('keydown', (e) => {
+      this.handleKeyboard(e);
+    });
+
+    // Click outside to close
+    document.addEventListener('click', (e) => {
+      if (!this.input.contains(e.target) && !this.dropdown.contains(e.target)) {
+        this.hideDropdown();
+      }
+    });
+
+    // Reposition on scroll/resize
+    window.addEventListener('scroll', () => {
+      if (this.dropdown.classList.contains('active')) {
+        this.positionDropdown();
+      }
+    }, true);
+
+    window.addEventListener('resize', () => {
+      if (this.dropdown.classList.contains('active')) {
+        this.positionDropdown();
+      }
+    });
+  }
+
+  handleInput(value) {
+    if (value.length === 0) {
+      this.showPopularCities();
+      return;
+    }
+
+    const query = value.toLowerCase().trim();
+    
+    // Filter cities based on input
+    this.filteredCities = this.cities.filter(city => {
+      const cityLower = city.toLowerCase();
+      const parts = cityLower.split(',').map(p => p.trim());
+      
+      // Match if query is in any part of the city name
+      return parts.some(part => part.includes(query)) || 
+             cityLower.includes(query);
+    }).slice(0, 10); // Limit to 10 suggestions for better UX
+
+    this.selectedIndex = -1;
+    this.renderSuggestions(query);
+  }
+
+  showPopularCities() {
+    // Show top 10 popular cities
+    const popular = [
+      'Mumbai, Maharashtra, India',
+      'Delhi, India',
+      'Bangalore, Karnataka, India',
+      'Hyderabad, Telangana, India',
+      'Chennai, Tamil Nadu, India',
+      'Kolkata, West Bengal, India',
+      'Pune, Maharashtra, India',
+      'Ahmedabad, Gujarat, India',
+      'Jaipur, Rajasthan, India',
+      'Surat, Gujarat, India'
+    ];
+    
+    this.filteredCities = popular;
+    this.selectedIndex = -1;
+    this.renderSuggestions('', true);
+  }
   renderSuggestions(query = '', isPopular = false) {
     // Position dropdown before showing
     this.positionDropdown();
@@ -2526,10 +2626,10 @@ function initializeCache() {
       this.dropdown.innerHTML = `
         <div class="autocomplete-no-results">
           <i class="fas fa-info-circle"></i>
-          <div><strong>ਕੋਈ ਸੁਝਾਅ ਨਹੀਂ ਮਿਲੀ</strong></div>
+          <div><strong>No suggestions found</strong></div>
           <div style="font-size: 0.85rem; margin-top: 0.5rem; color: #667eea;">
-            💡 ਤੁਸੀਂ ਅਜੇ ਵੀ ਕਿਸੇ ਵੀ ਸ਼ਹਿਰ/ਸਥਾਨ ਦਾ ਨਾਮ ਦਰਜ ਕਰ ਸਕਦੇ ਹੋ।<br>
-            ਅਸੀਂ ਇਸ ਨੂੰ ਆਪਣੇ ਆਪ ਖੋਜ ਕਰਾਂਗੇ!
+            💡 You can still enter any city/location name.<br>
+            We'll search for it automatically!
           </div>
         </div>
       `;
@@ -2564,10 +2664,11 @@ function initializeCache() {
     const footer = !isPopular ? `
       <div class="autocomplete-footer">
         <i class="fas fa-globe"></i>
-        ਤੁਹਾਡਾ ਸ਼ਹਿਰ ਨਹੀਂ ਮਿਲ ਰਿਹਾ ਹੈ? ਸਿਰਫ ਇਸ ਨੂੰ ਟਾਈਪ ਕਰੋ ਅਤੇ ਕੈਲਕੁਲੇਟ ਤੇ ਟਾਈਪ ਕਰੋ!
+        Can't find your city? Just type it and press Calculate!
       </div>
     ` : '';
     this.dropdown.innerHTML = suggestions + footer;
+
     // Add click handlers
     this.dropdown.querySelectorAll('.autocomplete-item').forEach(item => {
       item.addEventListener('mousedown', (e) => {
@@ -2767,6 +2868,7 @@ function initializeDatePickers() {
   }
   console.log('✅ Air Datepicker initialized with CSS arrow overlay');
 }
+
 /**
  * Populate birth details summary for verification
  * Modern, interactive design
@@ -3890,6 +3992,7 @@ function calculateNakshatraAndNadi(utDate) {
     const arg = d*D + m*M + mp*Mp + f*F;
     lambda += (coeff / 1000000.0) * sinDeg(arg);
   }
+
   lambda = norm360(lambda);
   // Step 5: Enhanced Lahiri Ayanamsa calculation
   // Using Lahiri's formula based on Chitrapaksha Ayanamsa
@@ -4129,9 +4232,11 @@ function validateFormValues(values, isSingleMode) {
     const hourField = `tobHour${i}`;
     const minField = `tobMin${i}`;
     const periodField = `tobPeriod${i}`;
+    
     const hour = values[hourField];
     const minute = values[minField];
     const period = values[periodField];
+    
     // Check if all time fields are filled
     if (!hour || !minute || !period) {
       const missingField = !hour ? hourField : !minute ? minField : periodField;
@@ -4641,6 +4746,7 @@ function setupPWAInstallPrompt() {
     
     deferredPrompt = null;
   });
+  
   // Dismiss button click
   dismissBtn.addEventListener('click', () => {
     // Clear auto-hide timer
