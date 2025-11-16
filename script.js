@@ -448,7 +448,7 @@ const translations = {
       backButton: 'ਦੁਬਾਰਾ ਗਣਨਾ ਕਰੋ',
       accuracyLabel: 'ਗਣਨਾ ਸਟੀਕਤਾ:',
       accuracyValue: 'ਉੱਨਤ ਚੰਦਰ ਸਿਧਾਂਤ (±0.5 ਚਾਪ-ਮਿੰਟ)',
-      techNote: 'IAU 2000B ਚੰਦਰ ਤੱਤਾਂ ਦੇ ਨਾਲ 60 ELP2000 ਆਵਰਤੀ ਪਦਾਂ ਅਤੇ ਲਾਹਿੜੀ ਅਯਨਾਂਸ਼ ਦੀ ਵਰਤੋਂ',
+      techNote: 'IAU 2000B ਚੰਦਰ ਤੱਤਾਨ ਦੇ ਨਾਲ 60 ELP2000 ਆਵਰਤੀ ਪਦਾਂ ਅਤੇ ਲਾਹਿੜੀ ਅਯਨਾਂਸ਼ ਦੀ ਵਰਤੋਂ',
       summaryName: 'ਨਾਮ',
       summaryDOB: 'ਜਨਮ ਤਾਰੀਖ',
       summaryTOB: 'ਜਨਮ ਸਮਾਂ',
@@ -497,7 +497,7 @@ const translations = {
       'Revati': 'ਰੇਵਤੀ'
     },
     judgement: {
-      incompatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਇੱਕੋ ਜਿਹੀ ਹੈ, ਜੋ ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਸੰਭਾਵਿਤ ਸਰੀਰਕ ਅਤੇ ਜੈਨੇਟਿਕ ਅਸੰਗਤਤਾ ਦਾ ਸੰਕੇਤ ਹੋ ਸਕਦਾ ਹੈ। ਇਸ ਪਹਿਲੂ ਨੂੰ ਹੋਰ ਅਨੁਕੂਲਤਾ ਕਾਰਕਾਂ ਦੇ ਨਾਲ ਵਿਚਾਰਿਆ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।',
+      incompatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਇੱਕੋ ਹੈ, ਜੋ ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਸੰਭਾਵਿਤ ਸਰੀਰਕ ਅਤੇ ਜੈਨੇਟਿਕ ਅਸੰਗਤਤਾ ਦਾ ਸੰਕੇਤ ਹੋ ਸਕਦਾ ਹੈ। ਇਸ ਪਹਿਲੂ ਨੂੰ ਹੋਰ ਅਨੁਕੂਲਤਾ ਕਾਰਕਾਂ ਦੇ ਨਾਲ ਵਿਚਾਰਿਆ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।',
       compatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਵੱਖਰੀ ਹੈ, ਜੋ ਚੰਗੀ ਸਰੀਰਕ ਅਨੁਕੂਲਤਾ ਨੂੰ ਦਰਸਾਉਂਦੀ ਹੈ। ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਇਹ ਸਮਰੱਸ ਸਬੰਧ ਲਈ ਅਨੁਕੂਲ ਮੰਨਿਆ ਜਾਂਦਾ ਹੈ।'
     },
     validation: {
@@ -530,7 +530,7 @@ const translations = {
       title: 'ਨਾੜੀ ਦੋਸ਼ ਨੂੰ ਸਮਝੋ - ਵਿਆਹ ਅਨੁਕੂਲਤਾ ਦਾ ਮਹੱਤਵਪੂਰਨ ਕਾਰਕ',
       crisis: {
         title: 'ਵਿਆਹੁਤਾ ਜੀਵਨ ਵਿੱਚ ਵਧਦਾ ਸੰਕਟ',
-        content: 'ਨਾੜੀ ਦੋਸ਼ ਦੇ ਕਾਰਨ ਵਿਆਹੁਤਾ ਜੀਵਨ ਦਿਨ-ਪ੍ਰਤੀਦਿਨ ਵਿਗੜਦਾ ਜਾ ਰਿਹਾ ਹੈ। ਨਾ ਸਿਰਫ ਭਾਰਤ ਵਿੱਚ ਬਲਕਿ ਪੂਰੀ ਦੁਨੀਆ ਵਿੱਚ ਹਾਲਾਤ ਅਜਿਹੇ ਹਨ ਕਿ ਵਿਆਹੁਤਾ ਜੀਵਨ ਸ਼ੁਰੂ ਹੋਣ ਤੋਂ ਤੁਰੰਤ ਬਾਅਦ ਟੁੱਟ ਜਾਂਦਾ ਹੈ। ਮਰਦਾਂ ਅਤੇ ਔਰਤਾਂ ਵਿਚਕਾਰ ਜੋ ਤਾਲਮੇਲ ਅਤੇ ਸਾਮੰਜਸ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ, ਉਹ ਸਥਾਪਿਤ ਨਹੀਂ ਹੁੰਦਾ, ਜਿਸ ਨਾਲ ਜੀਵਨ ਲਗਾਤਾਰ ਝਗੜਿਆਂ, ਵਿਵਾਦਾਂ ਅਤੇ ਤਲਾਕ, ਆਤਮ-ਹੱਤਿਆ ਅਤੇ ਕਤਲ ਦੇ ਗੰਭੀਰ ਨਤੀਜਿਆਂ ਨਾਲ ਦੁਖੀ ਹੋ ਜਾਂਦਾ ਹੈ।'
+        content: 'ਨਾੜੀ ਦੋਸ਼ ਦੇ ਕਾਰਨ ਵਿਆਹੁਤਾ ਜੀਵਨ ਦਿਨ-ਪ੍ਰਤੀਦਿਨ ਵਿਗੜਦਾ ਜਾ ਰਿਹਾ ਹੈ। ਨਾ ਸਿਰਫ ਭਾਰਤ ਵਿੱਚ ਬਲਕਿ ਪੂਰੀ ਦੁਨੀਆ ਵਿੱਚ ਹਾਲਾਤ ਅਜਿਹੇ ਹਨ ਕਿ ਵਿਆਹੁਤਾ ਜੀਵਨ ਸ਼ੁਰੂ ਹੋਣ ਤੋਂ ਤੁਰੰਤ ਬਾਅਦ ਟੁੱਟ ਜਾਂਦਾ ਹੈ। ਮਰਦਾਂ ਅਤੇ ਔਰਤਾਂ ਵਿਚਕਾਰ ਜੋ ਤਾਲਮੇਲ ਅਤੇ ਸਾਮੰਜਸ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ, ਉਹ ਸਥਾਪਿਤ ਨਹੀਂ ਹੁੰਦਾ, ਜਿਸ ਨਾਲ ਜੀਵਨ ਲਗਾਤਾਰ ਝਗੜਿਆਂ, ਵਿਵਾਦਾਂ ਅਤੇ ਤਲਾਕ, ਆਤਮ-ਹੱਤਿਆ ਅਤ੩ ਕਤਲ ਦੇ ਗੰਭੀਰ ਨਤੀਜਿਆਂ ਨਾਲ ਦੁਖੀ ਹੋ ਜਾਂਦਾ ਹੈ।'
       },
       statistics: {
         title: 'ਚਿੰਤਾਜਨਕ ਅੰਕੜੇ',
@@ -543,7 +543,7 @@ const translations = {
       },
       effects: {
         title: 'ਨਾੜੀ ਦੋਸ਼ ਦੇ ਵਿਨਾਸ਼ਕਾਰੀ ਪ੍ਰਭਾਵ',
-        content: 'ਜੇ ਨਾੜੀ ਦੋਸ਼ ਮੌਜੂਦ ਹੈ, ਤਾਂ ਜੋੜਾ ਬਿਮਾਰੀਆਂ, ਨੌਕਰੀ/ਕਾਰੋਬਾਰ ਵਿੱਚ ਨੁਕਸਾਨ, ਵਿੱਤੀ ਹਾਨੀ, ਪਰਿਵਾਰਕ ਕਲੇਸ਼, ਪਤੀ-ਪਤਨੀ ਵਿਚਕਾਰ ਪਿਆਰ ਅਤੇ ਸਾਮੰਜਸ ਦੀ ਕਮੀ ਨਾਲ ਗ੍ਰਸਤ ਹੋ ਜਾਂਦਾ ਹੈ। ਨਾੜੀ ਦੋਸ਼ ਵਾਲੇ ਜੋੜਿਆਂ ਦੇ ਬੱਚੇ ਨਹੀਂ ਹੋ ਸਕਦੇ, ਅਤੇ ਜੇ ਹੁੰਦੇ ਹਨ ਤਾਂ ਬੱਚੇ ਅਸਵਸਥ ਹੁੰਦੇ ਹਨ। ਦੋਵਾਂ ਪਰਿਵਾਰਾਂ ਨੂੰ ਮੁਸੀਬਤਾਂ ਦਾ ਸਾਮ੍ਹਣਾ ਕਰਨਾ ਪੈਂਦਾ ਹੈ, ਪਰਿਵਾਰ ਦੇ ਮੈਂਬਰ ਬਿਮਾਰੀਆਂ ਅਤੇ ਦੁਰਘਟਨਾਵਾਂ ਨਾਲ ਮਰਨ ਲੱਗ ਜਾਂਦੇ ਹਨ। ਜੋੜੇ ਅਤੇ ਪਰਿਵਾਰ ਦੇ ਮੈਂਬਰਾਂ ਨੂੰ ਮੌਤ ਵਰਗੀਆਂ ਪੀੜਾਂ ਦਾ ਸਾਮ੍ਹਣਾ ਕਰਨਾ ਪੈਂਦਾ ਹੈ।'
+        content: 'ਜੇ ਨਾੜੀ ਦੋਸ਼ ਮੌਜੂਦ ਹੈ, ਤਾਂ ਜੋੜਾ ਬਿਮਾਰੀਆਂ, ਨੌਕਰੀ/ਕਾਰੋਬਾਰ ਵਿੱਚ ਨੁਕਸਾਨ, ਵਿੱਤੀ ਹਾਨੀ, ਪਰਿਵਾਰਕ ਕਲੇਸ਼, ਪਤੀ-ਪਤਨੀ ਵਿਚਕਾਰ ਪਿਆਰ ਅਤੇ ਸਾਮੰਜਸ ਦੀ ਕਮੀ ਨਾਲ ਗ੍ਰਸਤ ਹੋ ਜਾਂਦਾ ਹੈ। ਨਾੜੀ ਦੋਸ਼ ਵਾਲੇ ਜੋੜਿਆਂ ਦੇ ਬੱਚੇ ਨਹੀਂ ਹੁੰਦੇ, ਅਤੇ ਜੇ ਹੁੰਦੇ ਹਨ ਤਾਂ ਬੱਚੇ ਅਸਵਸਥ ਹੁੰਦੇ ਹਨ। ਦੋਵਾਂ ਪਰਿਵਾਰਾਂ ਨੂੰ ਮੁਸੀਬਤਾਂ ਦਾ ਸਾਮ੍ਹਣਾ ਕਰਨਾ ਪੈਂਦਾ ਹੈ, ਪਰਿਵਾਰ ਦੇ ਮੈਂਬਰ ਬਿਮਾਰੀਆਂ ਅਤੇ ਦੁਰਘਟਨਾਵਾਂ ਨਾਲ ਮਰਨ ਲੱਗ ਜਾਂਦੇ ਹਨ। ਜੋੜੇ ਅਤੇ ਪਰਿਵਾਰ ਦੇ ਮੈਂਬਰਾਂ ਨੂੰ ਮੌਤ ਵਰਗੀਆਂ ਪੀੜਾਂ ਦਾ ਸਾਮ੍ਹਣਾ ਕਰਨਾ ਪੈਂਦਾ ਹੈ।'
       },
       scriptures: {
         title: 'ਨਾੜੀ ਦੋਸ਼ ਤੇ ਪ੍ਰਾਚੀਨ ਸ਼ਾਸਤਰ',
@@ -551,7 +551,7 @@ const translations = {
         shloka1: 'नाड़ी दोषे भवेन्मृत्यु गुणैः सर्वैः समन्वितः',
         meaning1: 'ਅਰਥ: ਸਾਰੇ ਗੁਣਾਂ ਦੇ ਮੌਜੂਦ ਹੋਣ ਤੇ ਵੀ, ਨਾੜੀ ਦੋਸ਼ ਵਿੱਚ ਵਿਆਹ ਨਿਸ਼ਚਿਤ ਰੂਪ ਨਾਲ ਮੌਤ ਵੱਲ ਲੈ ਜਾਂਦਾ ਹੈ। ਇਹ ਇੱਕ ਮਹਾਨ ਪਾਪ ਅਤੇ ਅਪਰਾਧ ਹੈ।',
         intro2: 'ਵਸ਼ਿਸ਼ਠ ਸੰਹਿਤਾ (ਅਧਿਆਇ 32, ਸ਼ਲੋਕ 189) ਤੋਂ:',
-        shloka2: 'मध्यनाडी पतिहन्ति पार्श्वेनाड़ी तु कन्याकाम\nतस्मान्नाड़ो सदा त्याज्या दम्पत्यो शुभमिछुता',
+        shloka2: 'मध्यनाड़ी पतिहन्ति पार्श्वेनाड़ी तु कन्याकाम\nतस्मान्नाड़ो सदा त्याज्या दम्पत्यो शुभमिछुता',
         meaning2: 'ਅਰਥ: ਮੱਧ ਨਾੜੀ ਦੋਸ਼ ਵਰ ਦੀ ਮੌਤ ਦਾ ਕਾਰਨ ਬਣਦਾ ਹੈ, ਅੰਤਯ ਨਾੜੀ ਵਧੂ ਦੀ ਮੌਤ ਦਾ ਕਾਰਨ ਬਣਦੀ ਹੈ। ਇਸ ਵਿੱਚ ਕੋਈ ਸ਼ੱਕ ਨਹੀਂ ਹੈ।',
         intro3: 'ਬ੍ਰਿਹਦ ਦੈਵਜ੍ਞ ਰੰਜਨਮ (ਅਧਿਆਇ 71, ਸ਼ਲੋਕ 401) ਤੋਂ:',
         shloka3: 'एकनाड़ी विवाहश्च गुणैः सर्वैः समन्वितः\nवर्जनीयः प्रयत्नेन दम्पत्योर्निधनं यत',
@@ -559,7 +559,7 @@ const translations = {
       },
       academic: {
         title: 'ਆਧੁਨਿਕ ਅਕਾਦਮਿਕ ਪ੍ਰਮਾਣਿਕਤਾ',
-        content: 'ਕਾਸ਼ੀ ਵਿਦਵਤ ਪਰਿਸ਼ਦ ਦੇ ਵਿਦਵਾਨਾਂ ਵਿੱਚ ਪ੍ਰੋਫੈਸਰ ਰਾਮਚੰਦਰ ਪਾਂਡੇ, ਪ੍ਰੋਫੈਸਰ ਉਮਾਸ਼ੰਕਰ ਸ਼ੁਕਲਾ ਅਤੇ ਹੋਰਾਂ ਨੇ ਘੋਸ਼ਿਤ ਕੀਤਾ ਹੈ ਕਿ ਨਾੜੀ ਦੋਸ਼ ਇੱਕ ਘਾਤਕ ਦੋਸ਼ ਹੈ ਜੋ ਉਦੋਂ ਹੁੰਦਾ ਹੈ ਜਦੋਂ ਦੋਵਾਂ ਸਾਥੀਆਂ ਦੀ ਨਾੜੀ ਇੱਕੋ ਜਿਹੀ ਹੁੰਦੀ ਹੈ। ਉਹਨਾਂ ਨੇ ਜ਼ੋਰ ਦੇ ਕੇ ਕਿਹਾ ਕਿ ਕਿਸੇ ਵੀ ਪੂਜਾ, ਮੰਤਰ, ਯੱਗ ਜਾਂ ਦਾਨ ਨਾਲ ਨਾੜੀ ਦੋਸ਼ ਦਾ ਕੋਈ ਉਪਾਅ ਨਹੀਂ ਹੈ। ਇਕੱਲਾ ਹੱਲ ਅਜਿਹੇ ਰਿਸ਼ਤਿਆਂ ਨੂੰ ਤਿਆਗਣਾ ਹੈ।'
+        content: 'ਕਾਸ਼ੀ ਵਿਦਵਤ ਪਰਿਸ਼ਦ ਦੇ ਵਿਦਵਾਨਾਂ ਵਿੱਚ ਪ੍ਰੋਫੈਸਰ ਰਾਮਚੰਦਰ ਪਾਂਡੇ, ਪ੍ਰੋਫੈਸਰ ਉਮਾਸ਼ੰਕਰ ਸ਼ੁਕਲਾ ਅਤ੩ ਹੋਰਾਂ ਨੇ ਘੋਸ਼ਿਤ ਕੀਤਾ ਹੈ ਕਿ ਨਾੜੀ ਦੋਸ਼ ਇੱਕ ਘਾਤਕ ਦੋਸ਼ ਹੈ ਜੋ ਉਦੋਂ ਹੁੰਦਾ ਹੈ ਜਦੋਂ ਦੋਵਾਂ ਸਾਥੀਆਂ ਦੀ ਨਾੜੀ ਇੱਕੋ ਜਿਹੀ ਹੁੰਦੀ ਹੈ। ਉਹਨਾਂ ਨੇ ਜ਼ੋਰ ਦੇ ਕੇ ਕਿਹਾ ਕਿ ਕਿਸੇ ਵੀ ਪੂਜਾ, ਮੰਤਰ, ਯੱਗ ਜਾਂ ਦਾਨ ਨਾਲ ਨਾੜੀ ਦੋਸ਼ ਦਾ ਕੋਈ ਉਪਾਅ ਨਹੀਂ ਹੈ। ਇਕੱਲਾ ਹੱਲ ਅਜਿਹੇ ਰਿਸ਼ਤਿਆਂ ਨੂੰ ਤਿਆਗਣਾ ਹੈ।'
       },
       troubleshooting: {
         title: 'ਸਥਾਨ ਖੋਜ ਸਮੱਸਿਆ ਨਿਵਾਰਣ',
@@ -715,7 +715,6 @@ class GeocodingCache {
     }
     return null;
   }
-
   save(place, data) {
     try {
       const cache = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
@@ -903,7 +902,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Madurai, Tamil Nadu, India', lat: 9.9252, lon: 78.1198 },
   { place: 'Raipur, Chhattisgarh, India', lat: 21.2514, lon: 81.6296 },
   { place: 'Kota, Rajasthan, India', lat: 25.2138, lon: 75.8648 },
-  
   // State Capitals (Remaining)
   { place: 'Chandigarh, India', lat: 30.7333, lon: 76.7794 },
   { place: 'Thiruvananthapuram, Kerala, India', lat: 8.5241, lon: 76.9366 },
@@ -1096,7 +1094,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Tuticorin, Tamil Nadu, India', lat: 8.8000, lon: 78.1333 },
   { place: 'Ambur, Tamil Nadu, India', lat: 12.7916, lon: 78.7166 },
   { place: 'Hosur, Tamil Nadu, India', lat: 12.7409, lon: 77.8253 },
-  
   // Kerala (Additional)
   { place: 'Kannur, Kerala, India', lat: 11.8745, lon: 75.3704 },
   { place: 'Kollam, Kerala, India', lat: 8.8932, lon: 76.6141 },
@@ -1108,7 +1105,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Kottayam, Kerala, India', lat: 9.5916, lon: 76.5222 },
   { place: 'Kasaragod, Kerala, India', lat: 12.4996, lon: 74.9869 },
   { place: 'Pathanamthitta, Kerala, India', lat: 9.2648, lon: 76.7870 },
-  
   // Karnataka (Additional)
   { place: 'Gulbarga, Karnataka, India', lat: 17.3297, lon: 76.8343 },
   { place: 'Kalaburagi, Karnataka, India', lat: 17.3297, lon: 76.8343 },
@@ -1294,7 +1290,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Vadodara, India', lat: 22.3072, lon: 73.1812 },
   { place: 'Nashik, India', lat: 19.9975, lon: 73.7898 },
   { place: 'Aurangabad, India', lat: 19.8762, lon: 75.3433 },
-  
   // Simple city names (most common user input)
   { place: 'Mumbai', lat: 19.0760, lon: 72.8777 },
   { place: 'Bangalore', lat: 12.9716, lon: 77.5946 },
@@ -1488,7 +1483,6 @@ const INDIAN_CITIES_DATABASE = [
   // ============================================================
   // POPULAR WORLD CITIES (International Users)
   // ============================================================
-  
   // North America
   { place: 'New York, USA', lat: 40.7128, lon: -74.0060 },
   { place: 'New York, NY, USA', lat: 40.7128, lon: -74.0060 },
@@ -1503,7 +1497,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Toronto, Canada', lat: 43.6532, lon: -79.3832 },
   { place: 'Vancouver, Canada', lat: 49.2827, lon: -123.1207 },
   { place: 'Montreal, Canada', lat: 45.5017, lon: -73.5673 },
-  
   // Europe
   { place: 'London, UK', lat: 51.5074, lon: -0.1278 },
   { place: 'London, England, UK', lat: 51.5074, lon: -0.1278 },
@@ -1673,7 +1666,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Rohtas, Bihar, India', lat: 24.9520, lon: 84.0323 },
   { place: 'Bhabua, Bihar, India', lat: 25.0410, lon: 83.6074 },
   { place: 'Kaimur, Bihar, India', lat: 25.0410, lon: 83.6074 },
-  
   // Rajasthan (Complete Coverage)
   { place: 'Nagaur, Rajasthan, India', lat: 27.1991, lon: 73.7347 },
   { place: 'Chittorgarh, Rajasthan, India', lat: 24.8829, lon: 74.6230 },
@@ -1693,7 +1685,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Mount Abu, Rajasthan, India', lat: 24.5926, lon: 72.7156 },
   { place: 'Jaisalmer, Rajasthan, India', lat: 26.9157, lon: 70.9083 },
   { place: 'Ganganagar, Rajasthan, India', lat: 29.9038, lon: 73.8772 },
-  
   // Punjab (Complete Coverage)
   { place: 'Gurdaspur, Punjab, India', lat: 32.0408, lon: 75.4059 },
   { place: 'Batala, Punjab, India', lat: 31.8089, lon: 75.2041 },
@@ -1873,11 +1864,9 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Bageshwar, Uttarakhand, India', lat: 29.8391, lon: 79.7703 },
   { place: 'Munsyari, Uttarakhand, India', lat: 30.0668, lon: 80.2376 },
   { place: 'Champawat, Uttarakhand, India', lat: 29.3360, lon: 80.0921 },
-  
   // ============================================================
   // SOUTH INDIA - COMPLETE COVERAGE (450+ Cities)
   // ============================================================
-  
   // Tamil Nadu (All Districts + Major Towns)
   { place: 'Ariyalur, Tamil Nadu, India', lat: 11.1401, lon: 79.0777 },
   { place: 'Chengalpattu, Tamil Nadu, India', lat: 12.6921, lon: 79.9759 },
@@ -2058,7 +2047,6 @@ const INDIAN_CITIES_DATABASE = [
   // ============================================================
   // WEST INDIA - COMPREHENSIVE COVERAGE
   // ============================================================
-  
   // Maharashtra (Remaining Cities)
   { place: 'Ahmednagar, Maharashtra, India', lat: 19.0948, lon: 74.7480 },
   { place: 'Akola, Maharashtra, India', lat: 20.7002, lon: 77.0082 },
@@ -2124,7 +2112,6 @@ const INDIAN_CITIES_DATABASE = [
   // ============================================================
   // EAST INDIA - COMPLETE COVERAGE
   // ============================================================
-  
   // West Bengal (Remaining Districts)
   { place: 'Alipurduar, West Bengal, India', lat: 26.4916, lon: 89.5272 },
   { place: 'Bankura, West Bengal, India', lat: 23.2324, lon: 87.0696 },
@@ -2265,7 +2252,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Ujjain, Madhya Pradesh, India', lat: 23.1765, lon: 75.7885 },
   { place: 'Umaria, Madhya Pradesh, India', lat: 23.5251, lon: 80.8370 },
   { place: 'Vidisha, Madhya Pradesh, India', lat: 23.5251, lon: 77.8081 },
-  
   // Chhattisgarh (All Districts)
   { place: 'Balod, Chhattisgarh, India', lat: 20.7307, lon: 81.2057 },
   { place: 'Baloda Bazar, Chhattisgarh, India', lat: 21.6576, lon: 82.1611 },
@@ -2457,10 +2443,8 @@ INDIAN_CITIES_DATABASE.forEach(city => {
     uniqueCities.push(city);
   }
 });
-
 // Replace with deduplicated version
 const CITIES_DATABASE = uniqueCities;
-
 console.log(`✅ Loaded ${CITIES_DATABASE.length} unique cities (${INDIAN_CITIES_DATABASE.length - CITIES_DATABASE.length} duplicates removed)`);
 
 // Pre-populate cache on first load
@@ -2485,7 +2469,6 @@ function initializeCache() {
     console.log('💡 Most Indian users will get INSTANT results!');
   }
 }
-
 // ============================================================
 // CUSTOM AUTOCOMPLETE SYSTEM
 // ============================================================
@@ -2635,7 +2618,6 @@ class Autocomplete {
     this.selectedIndex = -1;
     this.renderSuggestions('', true);
   }
-
   renderSuggestions(query = '', isPopular = false) {
     // Position dropdown before showing
     this.positionDropdown();
@@ -2685,7 +2667,6 @@ class Autocomplete {
         Can't find your city? Just type it and press Calculate!
       </div>
     ` : '';
-    
     this.dropdown.innerHTML = suggestions + footer;
 
     // Add click handlers
@@ -2814,8 +2795,6 @@ function hideDatepickerSVGArrows(datepickerElement) {
     }
   });
 }
-
-
 function initializeDatePickers() {
   // Check if Air Datepicker is loaded
   if (typeof AirDatepicker === 'undefined') {
@@ -2887,7 +2866,6 @@ function initializeDatePickers() {
     new AirDatepicker(dob2, datePickerConfig);
     addDateInputFormatting(dob2);
   }
-  
   console.log('✅ Air Datepicker initialized with CSS arrow overlay');
 }
 
@@ -2989,7 +2967,6 @@ function populateBirthDetailsSummary(values, isSingleMode) {
     });
   }, 100);
 }
-
 /**
  * Add auto-formatting for date input (DD-MM-YYYY)
  */
@@ -3087,7 +3064,6 @@ const nakshatras = [
   'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishta', 'Shatabhisha',
   'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'
 ];
-
 const nadiGroups = {
   'Aadi': [
     'Ashwini', 'Ardra', 'Punarvasu', 'Uttara Phalguni', 'Hasta', 'Jyeshtha',
@@ -3183,7 +3159,6 @@ function isLocalhost() {
          window.location.hostname === '127.0.0.1' ||
          window.location.protocol === 'file:';
 }
-
 /**
  * Analyze query complexity to determine best geocoding strategy
  * @param {string} place - The place query string
@@ -3239,7 +3214,6 @@ function getOffsetFromTimezone(tzName, dateStr = null) {
     return 0;
   }
 }
-
 /**
  * Search INDIAN_CITIES_DATABASE for exact or fuzzy matches
  * @param {string} place 
@@ -3345,7 +3319,6 @@ async function geocodePlace(place) {
     return await tryComplexGeocode(place, originalPlace);
   }
 }
-
 /**
  * Geocode simple city names using Self-Hosted API with fallbacks
  */
@@ -3441,7 +3414,6 @@ async function trySimpleGeocode(place, originalPlace) {
     console.error('❌ Self-Hosted API failed:', err);
     console.log('Self-Hosted API failed:', err.message, '→ Falling back to Photon/Nominatim');
   }
-
   // 2. Fallback to complex geocoding if self-hosted fails
   return await tryComplexGeocode(place, originalPlace);
 }
@@ -3534,7 +3506,6 @@ async function tryComplexGeocode(place, originalPlace) {
   } catch (err) {
     console.log('Nominatim failed:', err.message);
   }
-
   // STEP 4: Try geocode.maps.co API (NO API KEY NEEDED! 10 req/sec)
   try {
     console.log('🌍 Trying Geocode.maps.co API...');
@@ -3636,7 +3607,6 @@ async function tryComplexGeocode(place, originalPlace) {
   } catch (err) {
     console.log('Positionstack failed:', err.message);
   }
-
   // STEP 7: All APIs failed - throw helpful error
   throw new Error(
     `Could not find location: "${place}"\n\n` +
@@ -3717,7 +3687,6 @@ function parseTimeZoneOffset(offsetStr) {
   const minutes = parseInt(match[3]);
   return sign * (hours + minutes / 60);
 }
-
 /**
  * Estimate timezone from coordinates using longitude-based approximation
  * Enhanced with accurate offsets for major regions
@@ -3827,7 +3796,6 @@ function convertToUT(date, time, offsetHours) {
   const utMillis = localDate.getTime() - offsetHours * 60 * 60 * 1000;
   return new Date(utMillis);
 }
-
 /**
  * Calculate the Julian Date given a UT time.
  * @param {Date} utDate
@@ -3910,7 +3878,6 @@ async function calculateNakshatraAndNadiAPI(birthDate, birthTime, timezoneOffset
     throw error;
   }
 }
-
 /**
  * LEGACY: Calculate the Moon's position and Nakshatra/Nadi with enhanced accuracy.
  * DEPRECATED: Now using server-side API (calculateNakshatraAndNadiAPI)
@@ -4027,7 +3994,6 @@ function calculateNakshatraAndNadi(utDate) {
   }
 
   lambda = norm360(lambda);
-
   // Step 5: Enhanced Lahiri Ayanamsa calculation
   // Using Lahiri's formula based on Chitrapaksha Ayanamsa
   // Reference point: 285° on 21 March 1956 (Lahiri's definition)
@@ -4073,7 +4039,6 @@ function calculateNakshatraAndNadi(utDate) {
     accuracy: 'Enhanced (±0.5 arc-minutes)'
   };
 }
-
 /**
  * Parse various date formats and convert to YYYY-MM-DD
  * @param {string} dateStr 
@@ -4259,10 +4224,8 @@ function validateFormValues(values, isSingleMode) {
       );
       return false;
     }
-    
     // Update with normalized format
     values[`dob${i}`] = normalizedDate;
-    
     // ============================================
     // 3. TIME OF BIRTH VALIDATION
     // ============================================
@@ -4381,7 +4344,6 @@ function showValidationError(fieldId, title, hint) {
   // Show error message in a card (not alert)
   showErrorCard(title, hint);
 }
-
 /**
  * Show error card instead of alert
  * @param {string} title - Error title
@@ -4458,7 +4420,6 @@ function getNadiDescription(nadiType) {
   };
   return descKeys[nadiType] ? t(descKeys[nadiType]) : '';
 }
-
 /**
  * Loading state management functions
  */
@@ -4584,7 +4545,6 @@ function addBackToFormButton() {
   const resultsSection = document.getElementById('resultsSection');
   resultsSection.parentNode.insertBefore(backButton, resultsSection);
 }
-
 function showErrorState(errorMessage) {
   const errorHTML = `
     <div class="error-container">
@@ -4637,14 +4597,15 @@ if ('serviceWorker' in navigator) {
     }
   });
 }
-
 // PWA Install Prompt (First-time users only)
+const PWA_PROMPT_ENABLED = false;
 let deferredPrompt = null;
 const PWA_INSTALL_COOKIE = 'nadi_pwa_install_dismissed';
 const PWA_INSTALLED_COOKIE = 'nadi_pwa_installed';
 let autoHideTimer = null;
 
 function checkPWAPrompt() {
+  if (!PWA_PROMPT_ENABLED) { return; }
   // Don't show if already installed or dismissed
   if (localStorage.getItem(PWA_INSTALLED_COOKIE) || localStorage.getItem(PWA_INSTALL_COOKIE)) {
     return;
@@ -4682,6 +4643,7 @@ function checkPWAPrompt() {
 }
 
 function setupPWAInstallPrompt() {
+  if (!PWA_PROMPT_ENABLED) { return; }
   const prompt = document.getElementById('pwaInstallPrompt');
   const installBtn = document.getElementById('pwaInstallBtn');
   const dismissBtn = document.getElementById('pwaDismissBtn');
@@ -4756,7 +4718,6 @@ function setupPWAInstallPrompt() {
       }, 100);
       return;
     }
-    
     try {
       // Show native install prompt
       console.log('📱 Showing native install prompt...');
@@ -4827,7 +4788,6 @@ function showInstallSuccess() {
   // Optional: Show success notification
   console.log('🎉 App installed successfully!');
 }
-
 function showManualInstallInstructions() {
   // Show instructions for manual installation (iOS Safari, etc.)
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -4952,7 +4912,6 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.remove('active');
     }
   });
-
   // Handle mode change
   function updateFormMode() {
     const isSingleMode = modeSingle.checked;
@@ -4979,7 +4938,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (btnText) btnText.textContent = t('form.buttonCompare');
     }
   }
-
   modeSingle.addEventListener('change', updateFormMode);
   modeCompare.addEventListener('change', updateFormMode);
   updateFormMode();
@@ -5140,7 +5098,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isSingleMode && name2) {
         document.getElementById('resultName2').textContent = name2;
       }
-      
       // Populate birth details summary
       populateBirthDetailsSummary(values, isSingleMode);
       
@@ -5177,5 +5134,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-
-
