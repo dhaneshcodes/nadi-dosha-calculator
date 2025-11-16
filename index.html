@@ -495,6 +495,35 @@
     </div>
   </footer>
 
+  <!-- First-Time Use (FTU) Walkthrough Overlay -->
+  <div id="ftuOverlay" class="ftu-overlay" style="display: none;">
+    <div class="ftu-backdrop"></div>
+    <div class="ftu-card" role="dialog" aria-modal="true" aria-labelledby="ftuTitle" aria-describedby="ftuDesc">
+      <div class="ftu-progress">
+        <span class="ftu-dot ftu-dot-1"></span>
+        <span class="ftu-dot ftu-dot-2"></span>
+        <span class="ftu-dot ftu-dot-3"></span>
+      </div>
+      <div class="ftu-content">
+        <h3 id="ftuTitle" data-i18n="ftu.step1.title">Enter your birth details</h3>
+        <p id="ftuDesc" data-i18n="ftu.step1.desc">Provide Name, Date, Time and Place of Birth. Use the city dropdown.</p>
+        <div class="ftu-illustration">
+          <i class="fas fa-user"></i>
+          <i class="fas fa-calendar-alt"></i>
+          <i class="fas fa-clock"></i>
+          <i class="fas fa-location-dot"></i>
+        </div>
+      </div>
+      <div class="ftu-actions">
+        <button id="ftuSkipBtn" class="ftu-btn ftu-btn-secondary" data-i18n="ftu.skip">Skip</button>
+        <div class="ftu-spacer"></div>
+        <button id="ftuPrevBtn" class="ftu-btn ftu-btn-ghost" data-i18n="ftu.prev" style="display:none">Back</button>
+        <button id="ftuNextBtn" class="ftu-btn ftu-btn-primary" data-i18n="ftu.next">Next</button>
+        <button id="ftuDoneBtn" class="ftu-btn ftu-btn-primary" data-i18n="ftu.done" style="display:none">Got it</button>
+      </div>
+    </div>
+  </div>
+
   <!-- PWA Install Prompt (First-time users only) -->
   <div id="pwaInstallPrompt" class="pwa-install-prompt" style="display: none;">
     <div class="pwa-install-content">

@@ -3740,3 +3740,142 @@ input[type="date"]:invalid {
     font-size: 0.75rem;
   }
 }
+
+/* ============================================================
+   FIRST-TIME USE (FTU) WALKTHROUGH OVERLAY
+   ============================================================ */
+.ftu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+}
+
+.ftu-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  animation: ftuFadeIn 250ms ease both;
+}
+
+.ftu-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.98);
+  width: min(92vw, 560px);
+  background: #fff;
+  border: 2px solid rgba(251, 191, 36, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  padding: 1.25rem 1.25rem 1rem 1.25rem;
+  animation: ftuPopIn 240ms ease-out forwards;
+}
+
+.ftu-progress {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-bottom: 0.9rem;
+}
+
+.ftu-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+}
+
+.ftu-dot.active {
+  background: #f59e0b;
+}
+
+.ftu-content {
+  text-align: center;
+}
+
+.ftu-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #78350f;
+}
+
+.ftu-content p {
+  margin: 0 0 1rem 0;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.ftu-illustration {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.8rem 0 0.2rem 0;
+}
+
+.ftu-illustration i {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  box-shadow: 0 6px 18px rgba(251, 191, 36, 0.35);
+}
+
+.ftu-actions {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ftu-spacer { flex: 1; }
+
+.ftu-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ftu-btn-primary {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(251, 191, 36, 0.35);
+}
+
+.ftu-btn-primary:hover { filter: brightness(1.05); }
+
+.ftu-btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 2px solid #e5e7eb;
+}
+
+.ftu-btn-ghost {
+  background: transparent;
+  color: #d97706;
+}
+
+@keyframes ftuFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ftuPopIn {
+  to { transform: translate(-50%, -50%) scale(1); }
+}
+
+@media (max-width: 480px) {
+  .ftu-card {
+    width: calc(100vw - 2rem);
+    padding: 1rem;
+  }
+  .ftu-content h3 { font-size: 1.1rem; }
+  .ftu-content p { font-size: 0.95rem; }
+}
