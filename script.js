@@ -59,6 +59,28 @@
  * - Atlas-based timezone database
  */
 
+// Google Apps Script Web App (bound to your Sheet): POST JSON → append row in doPost.
+// Replace with '' to disable logging. Redeploy the script URL if it is leaked.
+const GOOGLE_SHEETS_WEB_APP_URL =
+  'https://script.google.com/macros/s/AKfycbx6c1IAfuBfe3MiwX_IIf7-vBJPeL5ErhBWkF5L0H98fQi011rqHmpABZ-5yuC3faU/exec';
+
+function submitNadiResultToSheet(payload) {
+  const url = (typeof GOOGLE_SHEETS_WEB_APP_URL === 'string' && GOOGLE_SHEETS_WEB_APP_URL.trim())
+    ? GOOGLE_SHEETS_WEB_APP_URL.trim()
+    : '';
+  if (!url) return;
+  try {
+    fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    }).catch(() => {});
+  } catch (_) {
+    /* non-blocking — never disturb the UX */
+  }
+}
+
 // ============================================================
 // MULTILINGUAL SUPPORT SYSTEM
 // ============================================================
@@ -5128,6 +5150,35 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // scroll to result
       resultSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      const sheetPayload = {
+        submittedAt: new Date().toISOString(),
+        mode: isSingleMode ? 'single' : 'compare',
+        person1: {
+          name: name1,
+          dob: values.dob1,
+          tob: `${values.tobHour1}:${values.tobMin1} ${values.tobPeriod1}`,
+          pob: values.pob1,
+          nakshatra: getNakshatraName(persons[0].nakshatra),
+          nadi: getNadiName(persons[0].nadi),
+        },
+        verdict: isSingleMode
+          ? getNadiName(persons[0].nadi)
+          : persons[0].nadi === persons[1].nadi
+            ? 'Nadi Dosha (same Nadi)'
+            : 'No Nadi Dosha (different Nadi)',
+      };
+      if (!isSingleMode) {
+        sheetPayload.person2 = {
+          name: name2,
+          dob: values.dob2,
+          tob: `${values.tobHour2}:${values.tobMin2} ${values.tobPeriod2}`,
+          pob: values.pob2,
+          nakshatra: getNakshatraName(persons[1].nakshatra),
+          nadi: getNadiName(persons[1].nadi),
+        };
+      }
+      submitNadiResultToSheet(sheetPayload);
     } catch (err) {
       hideLoadingState();
       showErrorState(err.message);
