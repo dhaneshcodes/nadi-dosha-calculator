@@ -59,6 +59,28 @@
  * - Atlas-based timezone database
  */
 
+// Google Apps Script Web App (bound to your Sheet): POST JSON → append row in doPost.
+// Replace with '' to disable logging. Redeploy the script URL if it is leaked.
+const GOOGLE_SHEETS_WEB_APP_URL =
+  'https://script.google.com/macros/s/AKfycbx6c1IAfuBfe3MiwX_IIf7-vBJPeL5ErhBWkF5L0H98fQi011rqHmpABZ-5yuC3faU/exec';
+
+function submitNadiResultToSheet(payload) {
+  const url = (typeof GOOGLE_SHEETS_WEB_APP_URL === 'string' && GOOGLE_SHEETS_WEB_APP_URL.trim())
+    ? GOOGLE_SHEETS_WEB_APP_URL.trim()
+    : '';
+  if (!url) return;
+  try {
+    fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    }).catch(() => {});
+  } catch (_) {
+    /* non-blocking — never disturb the UX */
+  }
+}
+
 // ============================================================
 // MULTILINGUAL SUPPORT SYSTEM
 // ============================================================
@@ -66,12 +88,12 @@
 const translations = {
   en: {
     header: {
-      title: 'Nadi Dosha Calculator',
+      title: 'Nadi Dosh Calculator',
       subtitle: 'Check your Nadi or compare two persons for Nadi compatibility.'
     },
     mode: {
       single: 'Check My Nadi',
-      compare: 'Compare for Nadi Dosha'
+      compare: 'Compare for Nadi Dosh'
     },
     form: {
       yourDetails: 'Your Details',
@@ -88,15 +110,15 @@ const translations = {
       pobPlaceholder: 'Start typing city name...',
       pobHint: '💡 Select from suggestions or enter: City, State, Country',
       buttonSingle: 'Check My Nadi',
-      buttonCompare: 'Check Nadi Dosha'
+      buttonCompare: 'Check Nadi Dosh'
     },
     results: {
       nadiAnalysis: 'Nadi Analysis for',
       compatibilityAnalysis: 'Compatibility Analysis',
       nakshatra: 'Nakshatra',
       nadiType: 'Nadi Type',
-      doshaPresent: 'Nadi Dosha Present',
-      noDosha: 'No Nadi Dosha',
+      doshaPresent: 'Nadi Dosh Present',
+      noDosha: 'No Nadi Dosh',
       calculating: 'Analyzing Birth Details',
       analyzing: 'Analyzing',
       birthDetails: 'Birth Details Entered',
@@ -181,43 +203,43 @@ const translations = {
       userGuide: 'User Guide',
       technical: 'Technical Documentation',
       github: 'Open Source',
-      title: 'Nadi Dosha Calculator',
+      title: 'Nadi Dosh Calculator',
       rights: 'Made with ❤️ for accurate Vedic astrology'
     },
     explanation: {
-      title: 'Understanding Nadi Dosha - The Critical Marriage Compatibility Factor',
+      title: 'Understanding Nadi Dosh - The Critical Marriage Compatibility Factor',
       crisis: {
         title: 'The Growing Crisis in Marital Life',
-        content: 'Due to Nadi Dosha, marital life is deteriorating day by day. Not only in India but throughout the world, situations are such that married life breaks apart shortly after it begins. The coordination and harmony that should exist between men and women is not established, making life miserable with constant fights, disputes, and severe consequences including divorce, suicide, and murder cases making headlines.'
+        content: 'Due to Nadi Dosh, marital life is deteriorating day by day. Not only in India but throughout the world, situations are such that married life breaks apart shortly after it begins. The coordination and harmony that should exist between men and women is not established, making life miserable with constant fights, disputes, and severe consequences including divorce, suicide, and murder cases making headlines.'
       },
       statistics: {
         title: 'Alarming Statistics',
         content: 'According to WHO reports, 8 lakh people commit suicide worldwide every year - one person dies every 40 seconds. Shockingly, most of these are people who either commit suicide due to betrayal by their life partner or are driven to this extreme step by family troubles. In India, there was a 17.3% increase in suicides between 2005-2015. The biggest cause of suicide in India is specifically mismatched marriages.'
       },
       formation: {
-        title: 'How Nadi Dosha is Formed',
-        content1: 'The groom and bride\'s birth Nakshatras should not be of the same Nadi. Their Nadis should be different for it to be considered auspicious. Accordingly, Adi-Adi, Madhya-Madhya, and Antya-Antya Nadi combinations are considered inauspicious for marriage. It\'s essential that both have different Nadis. Adi-Madhya, Madhya-Antya, and Adi-Antya combinations are considered auspicious. If this doesn\'t happen, it\'s considered Nadi Dosha.',
+        title: 'How Nadi Dosh is Formed',
+        content1: 'The groom and bride\'s birth Nakshatras should not be of the same Nadi. Their Nadis should be different for it to be considered auspicious. Accordingly, Adi-Adi, Madhya-Madhya, and Antya-Antya Nadi combinations are considered inauspicious for marriage. It\'s essential that both have different Nadis. Adi-Madhya, Madhya-Antya, and Adi-Antya combinations are considered auspicious. If this doesn\'t happen, it\'s considered Nadi Dosh.',
         content2: 'If both have Madhya Nadi, it\'s considered extremely inauspicious and marriage should not be performed. Such marriages lead to chaotic married life with fights, disputes, separation, and even death.'
       },
       effects: {
-        title: 'Devastating Effects of Nadi Dosha',
-        content: 'If Nadi Dosha exists, the couple becomes afflicted with diseases, job/business losses, financial losses, family discord, lack of love and harmony between husband and wife. Nadi Dosha couples cannot have children, and if they do, the children are unhealthy. Both families face troubles, family members start dying due to diseases and accidents. The couple and family members face death-like sufferings.'
+        title: 'Devastating Effects of Nadi Dosh',
+        content: 'If Nadi Dosh exists, the couple becomes afflicted with diseases, job/business losses, financial losses, family discord, lack of love and harmony between husband and wife. Nadi Dosh couples cannot have children, and if they do, the children are unhealthy. Both families face troubles, family members start dying due to diseases and accidents. The couple and family members face death-like sufferings.'
       },
       scriptures: {
-        title: 'Ancient Scriptures on Nadi Dosha',
+        title: 'Ancient Scriptures on Nadi Dosh',
         intro: 'Sanskrit Shloka from Vashishtha Samhita (Chapter 32, Shloka 188):',
         shloka1: 'नाड़ी दोषे भवेन्मृत्यु गुणैः सर्वैः समन्वितः',
-        meaning1: 'Meaning: Even with all qualities present, marriage in Nadi Dosha definitely leads to death. This is a great sin and crime.',
+        meaning1: 'Meaning: Even with all qualities present, marriage in Nadi Dosh definitely leads to death. This is a great sin and crime.',
         intro2: 'From Vashishtha Samhita (Chapter 32, Shloka 189):',
         shloka2: 'मध्यनाडी पतिहन्ति पार्श्वेनाड़ी तु कन्याकाम\nतस्मान्नाड़ो सदा त्याज्या दम्पत्यो शुभमिछुता',
-        meaning2: 'Meaning: Madhya Nadi Dosha causes the groom\'s death, Antya Nadi causes the bride\'s death. There\'s no doubt about this.',
+        meaning2: 'Meaning: Madhya Nadi Dosh causes the groom\'s death, Antya Nadi causes the bride\'s death. There\'s no doubt about this.',
         intro3: 'From Brihad Daivajna Ranjanam (Chapter 71, Shloka 401):',
         shloka3: 'एकनाड़ी विवाहश्च गुणैः सर्वैः समन्वितः\nवर्जनीयः प्रयत्नेन दम्पत्योर्निधनं यत',
-        meaning3: 'Meaning: Even with all excellent qualities, if Nadi Dosha exists, such marriage should never be performed as it leads to certain death and great destruction.'
+        meaning3: 'Meaning: Even with all excellent qualities, if Nadi Dosh exists, such marriage should never be performed as it leads to certain death and great destruction.'
       },
       academic: {
         title: 'Modern Academic Validation',
-        content: 'Kashi Vidvat Parishad scholars including Professor Ramchandra Pandey, Professor Umashankar Shukla, and others have declared that Nadi Dosha is a deadly defect that occurs when both partners have the same Nadi type. They emphasized that there is no remedy for Nadi Dosha through any worship, mantras, yajnas, or donations. The only solution is to abandon such relationships.'
+        content: 'Kashi Vidvat Parishad scholars including Professor Ramchandra Pandey, Professor Umashankar Shukla, and others have declared that Nadi Dosh is a deadly defect that occurs when both partners have the same Nadi type. They emphasized that there is no remedy for Nadi Dosh through any worship, mantras, yajnas, or donations. The only solution is to abandon such relationships.'
       },
       troubleshooting: {
         title: 'Troubleshooting Location Lookup',
@@ -225,6 +247,14 @@ const translations = {
         examples: 'India: Mumbai, Maharashtra, India | USA: New York, NY, USA | UK: London, England, UK | Australia: Sydney, NSW, Australia | General: Always include city, region/state, and country',
         tip: '💡 Tip: Use major cities if your town isn\'t found. The difference is minimal for astrological calculations.'
       }
+    },
+    pwa: {
+      installTitle: 'Install App',
+      installDesc: 'Add to Home Screen for quick access',
+      installButton: 'Install',
+      iosInstructions: 'To install: Tap Share button → Add to Home Screen',
+      androidInstructions: 'To install: Tap Menu → Add to Home Screen',
+      desktopInstructions: 'To install: Click the install icon in your browser\'s address bar'
     }
   },
   hi: {
@@ -387,6 +417,14 @@ const translations = {
         content: 'यदि आपको "स्थान त्रुटि" मिलती है, तो इन प्रारूपों को आजमाएं:',
         examples: 'भारत: मुंबई, महाराष्ट्र, भारत | USA: न्यूयॉर्क, NY, USA | UK: लंदन, इंग्लैंड, UK | ऑस्ट्रेलिया: सिडनी, NSW, ऑस्ट्रेलिया | सामान्य: हमेशा शहर, क्षेत्र/राज्य और देश शामिल करें',
         tip: '💡 सुझाव: यदि आपका शहर नहीं मिलता है तो प्रमुख शहरों का उपयोग करें। ज्योतिषीय गणनाओं के लिए अंतर न्यूनतम है।'
+      },
+      pwa: {
+        installTitle: 'ऐप इंस्टॉल करें',
+        installDesc: 'त्वरित पहुंच के लिए होम स्क्रीन में जोड़ें',
+        installButton: 'इंस्टॉल करें',
+        iosInstructions: 'इंस्टॉल करने के लिए: शेयर बटन टैप करें → होम स्क्रीन में जोड़ें',
+        androidInstructions: 'इंस्टॉल करने के लिए: मेनू टैप करें → होम स्क्रीन में जोड़ें',
+        desktopInstructions: 'इंस्टॉल करने के लिए: अपने ब्राउज़र के एड्रेस बार में इंस्टॉल आइकन पर क्लिक करें'
       }
     }
   },
@@ -432,7 +470,7 @@ const translations = {
       backButton: 'ਦੁਬਾਰਾ ਗਣਨਾ ਕਰੋ',
       accuracyLabel: 'ਗਣਨਾ ਸਟੀਕਤਾ:',
       accuracyValue: 'ਉੱਨਤ ਚੰਦਰ ਸਿਧਾਂਤ (±0.5 ਚਾਪ-ਮਿੰਟ)',
-      techNote: 'IAU 2000B ਚੰਦਰ ਤੱਤਾਂ ਦੇ ਨਾਲ 60 ELP2000 ਆਵਰਤੀ ਪਦਾਂ ਅਤੇ ਲਾਹਿੜੀ ਅਯਨਾਂਸ਼ ਦੀ ਵਰਤੋਂ',
+      techNote: 'IAU 2000B ਚੰਦਰ ਤੱਤਾਨ ਦੇ ਨਾਲ 60 ELP2000 ਆਵਰਤੀ ਪਦਾਂ ਅਤੇ ਲਾਹਿੜੀ ਅਯਨਾਂਸ਼ ਦੀ ਵਰਤੋਂ',
       summaryName: 'ਨਾਮ',
       summaryDOB: 'ਜਨਮ ਤਾਰੀਖ',
       summaryTOB: 'ਜਨਮ ਸਮਾਂ',
@@ -481,7 +519,7 @@ const translations = {
       'Revati': 'ਰੇਵਤੀ'
     },
     judgement: {
-      incompatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਇੱਕੋ ਜਿਹੀ ਹੈ, ਜੋ ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਸੰਭਾਵਿਤ ਸਰੀਰਕ ਅਤੇ ਜੈਨੇਟਿਕ ਅਸੰਗਤਤਾ ਦਾ ਸੰਕੇਤ ਹੋ ਸਕਦਾ ਹੈ। ਇਸ ਪਹਿਲੂ ਨੂੰ ਹੋਰ ਅਨੁਕੂਲਤਾ ਕਾਰਕਾਂ ਦੇ ਨਾਲ ਵਿਚਾਰਿਆ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।',
+      incompatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਇੱਕੋ ਹੈ, ਜੋ ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਸੰਭਾਵਿਤ ਸਰੀਰਕ ਅਤੇ ਜੈਨੇਟਿਕ ਅਸੰਗਤਤਾ ਦਾ ਸੰਕੇਤ ਹੋ ਸਕਦਾ ਹੈ। ਇਸ ਪਹਿਲੂ ਨੂੰ ਹੋਰ ਅਨੁਕੂਲਤਾ ਕਾਰਕਾਂ ਦੇ ਨਾਲ ਵਿਚਾਰਿਆ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ।',
       compatible: '{name1} ਅਤੇ {name2} ਦੀ ਨਾੜੀ ਵੱਖਰੀ ਹੈ, ਜੋ ਚੰਗੀ ਸਰੀਰਕ ਅਨੁਕੂਲਤਾ ਨੂੰ ਦਰਸਾਉਂਦੀ ਹੈ। ਵੈਦਿਕ ਜੋਤਿਸ਼ ਦੇ ਅਨੁਸਾਰ ਇਹ ਸਮਰੱਸ ਸਬੰਧ ਲਈ ਅਨੁਕੂਲ ਮੰਨਿਆ ਜਾਂਦਾ ਹੈ।'
     },
     validation: {
@@ -514,7 +552,7 @@ const translations = {
       title: 'ਨਾੜੀ ਦੋਸ਼ ਨੂੰ ਸਮਝੋ - ਵਿਆਹ ਅਨੁਕੂਲਤਾ ਦਾ ਮਹੱਤਵਪੂਰਨ ਕਾਰਕ',
       crisis: {
         title: 'ਵਿਆਹੁਤਾ ਜੀਵਨ ਵਿੱਚ ਵਧਦਾ ਸੰਕਟ',
-        content: 'ਨਾੜੀ ਦੋਸ਼ ਦੇ ਕਾਰਨ ਵਿਆਹੁਤਾ ਜੀਵਨ ਦਿਨ-ਪ੍ਰਤੀਦਿਨ ਵਿਗੜਦਾ ਜਾ ਰਿਹਾ ਹੈ। ਨਾ ਸਿਰਫ ਭਾਰਤ ਵਿੱਚ ਬਲਕਿ ਪੂਰੀ ਦੁਨੀਆ ਵਿੱਚ ਹਾਲਾਤ ਅਜਿਹੇ ਹਨ ਕਿ ਵਿਆਹੁਤਾ ਜੀਵਨ ਸ਼ੁਰੂ ਹੋਣ ਤੋਂ ਤੁਰੰਤ ਬਾਅਦ ਟੁੱਟ ਜਾਂਦਾ ਹੈ। ਮਰਦਾਂ ਅਤੇ ਔਰਤਾਂ ਵਿਚਕਾਰ ਜੋ ਤਾਲਮੇਲ ਅਤੇ ਸਾਮੰਜਸ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ, ਉਹ ਸਥਾਪਿਤ ਨਹੀਂ ਹੁੰਦਾ, ਜਿਸ ਨਾਲ ਜੀਵਨ ਲਗਾਤਾਰ ਝਗੜਿਆਂ, ਵਿਵਾਦਾਂ ਅਤੇ ਤਲਾਕ, ਆਤਮ-ਹੱਤਿਆ ਅਤੇ ਕਤਲ ਦੇ ਗੰਭੀਰ ਨਤੀਜਿਆਂ ਨਾਲ ਦੁਖੀ ਹੋ ਜਾਂਦਾ ਹੈ।'
+        content: 'ਨਾੜੀ ਦੋਸ਼ ਦੇ ਕਾਰਨ ਵਿਆਹੁਤਾ ਜੀਵਨ ਦਿਨ-ਪ੍ਰਤੀਦਿਨ ਵਿਗੜਦਾ ਜਾ ਰਿਹਾ ਹੈ। ਨਾ ਸਿਰਫ ਭਾਰਤ ਵਿੱਚ ਬਲਕਿ ਪੂਰੀ ਦੁਨੀਆ ਵਿੱਚ ਹਾਲਾਤ ਅਜਿਹੇ ਹਨ ਕਿ ਵਿਆਹੁਤਾ ਜੀਵਨ ਸ਼ੁਰੂ ਹੋਣ ਤੋਂ ਤੁਰੰਤ ਬਾਅਦ ਟੁੱਟ ਜਾਂਦਾ ਹੈ। ਮਰਦਾਂ ਅਤੇ ਔਰਤਾਂ ਵਿਚਕਾਰ ਜੋ ਤਾਲਮੇਲ ਅਤੇ ਸਾਮੰਜਸ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ, ਉਹ ਸਥਾਪਿਤ ਨਹੀਂ ਹੁੰਦਾ, ਜਿਸ ਨਾਲ ਜੀਵਨ ਲਗਾਤਾਰ ਝਗੜਿਆਂ, ਵਿਵਾਦਾਂ ਅਤੇ ਤਲਾਕ, ਆਤਮ-ਹੱਤਿਆ ਅਤ੩ ਕਤਲ ਦੇ ਗੰਭੀਰ ਨਤੀਜਿਆਂ ਨਾਲ ਦੁਖੀ ਹੋ ਜਾਂਦਾ ਹੈ।'
       },
       statistics: {
         title: 'ਚਿੰਤਾਜਨਕ ਅੰਕੜੇ',
@@ -527,7 +565,7 @@ const translations = {
       },
       effects: {
         title: 'ਨਾੜੀ ਦੋਸ਼ ਦੇ ਵਿਨਾਸ਼ਕਾਰੀ ਪ੍ਰਭਾਵ',
-        content: 'ਜੇ ਨਾੜੀ ਦੋਸ਼ ਮੌਜੂਦ ਹੈ, ਤਾਂ ਜੋੜਾ ਬਿਮਾਰੀਆਂ, ਨੌਕਰੀ/ਕਾਰੋਬਾਰ ਵਿੱਚ ਨੁਕਸਾਨ, ਵਿੱਤੀ ਹਾਨੀ, ਪਰਿਵਾਰਕ ਕਲੇਸ਼, ਪਤੀ-ਪਤਨੀ ਵਿਚਕਾਰ ਪਿਆਰ ਅਤੇ ਸਾਮੰਜਸ ਦੀ ਕਮੀ ਨਾਲ ਗ੍ਰਸਤ ਹੋ ਜਾਂਦਾ ਹੈ। ਨਾੜੀ ਦੋਸ਼ ਵਾਲੇ ਜੋੜਿਆਂ ਦੇ ਬੱਚੇ ਨਹੀਂ ਹੋ ਸਕਦੇ, ਅਤੇ ਜੇ ਹੁੰਦੇ ਹਨ ਤਾਂ ਬੱਚੇ ਅਸਵਸਥ ਹੁੰਦੇ ਹਨ। ਦੋਵਾਂ ਪਰਿਵਾਰਾਂ ਨੂੰ ਮੁਸੀਬਤਾਂ ਦਾ ਸਾਮ੍ਹਣਾ ਕਰਨਾ ਪੈਂਦਾ ਹੈ, ਪਰਿਵਾਰ ਦੇ ਮੈਂਬਰ ਬਿਮਾਰੀਆਂ ਅਤੇ ਦੁਰਘਟਨਾਵਾਂ ਨਾਲ ਮਰਨ ਲੱਗ ਜਾਂਦੇ ਹਨ। ਜੋੜੇ ਅਤੇ ਪਰਿਵਾਰ ਦੇ ਮੈਂਬਰਾਂ ਨੂੰ ਮੌਤ ਵਰਗੀਆਂ ਪੀੜਾਂ ਦਾ ਸਾਮ੍ਹਣਾ ਕਰਨਾ ਪੈਂਦਾ ਹੈ।'
+        content: 'ਜੇ ਨਾੜੀ ਦੋਸ਼ ਮੌਜੂਦ ਹੈ, ਤਾਂ ਜੋੜਾ ਬਿਮਾਰੀਆਂ, ਨੌਕਰੀ/ਕਾਰੋਬਾਰ ਵਿੱਚ ਨੁਕਸਾਨ, ਵਿੱਤੀ ਹਾਨੀ, ਪਰਿਵਾਰਕ ਕਲੇਸ਼, ਪਤੀ-ਪਤਨੀ ਵਿਚਕਾਰ ਪਿਆਰ ਅਤੇ ਸਾਮੰਜਸ ਦੀ ਕਮੀ ਨਾਲ ਗ੍ਰਸਤ ਹੋ ਜਾਂਦਾ ਹੈ। ਨਾੜੀ ਦੋਸ਼ ਵਾਲੇ ਜੋੜਿਆਂ ਦੇ ਬੱਚੇ ਨਹੀਂ ਹੁੰਦੇ, ਅਤੇ ਜੇ ਹੁੰਦੇ ਹਨ ਤਾਂ ਬੱਚੇ ਅਸਵਸਥ ਹੁੰਦੇ ਹਨ। ਦੋਵਾਂ ਪਰਿਵਾਰਾਂ ਨੂੰ ਮੁਸੀਬਤਾਂ ਦਾ ਸਾਮ੍ਹਣਾ ਕਰਨਾ ਪੈਂਦਾ ਹੈ, ਪਰਿਵਾਰ ਦੇ ਮੈਂਬਰ ਬਿਮਾਰੀਆਂ ਅਤੇ ਦੁਰਘਟਨਾਵਾਂ ਨਾਲ ਮਰਨ ਲੱਗ ਜਾਂਦੇ ਹਨ। ਜੋੜੇ ਅਤੇ ਪਰਿਵਾਰ ਦੇ ਮੈਂਬਰਾਂ ਨੂੰ ਮੌਤ ਵਰਗੀਆਂ ਪੀੜਾਂ ਦਾ ਸਾਮ੍ਹਣਾ ਕਰਨਾ ਪੈਂਦਾ ਹੈ।'
       },
       scriptures: {
         title: 'ਨਾੜੀ ਦੋਸ਼ ਤੇ ਪ੍ਰਾਚੀਨ ਸ਼ਾਸਤਰ',
@@ -535,7 +573,7 @@ const translations = {
         shloka1: 'नाड़ी दोषे भवेन्मृत्यु गुणैः सर्वैः समन्वितः',
         meaning1: 'ਅਰਥ: ਸਾਰੇ ਗੁਣਾਂ ਦੇ ਮੌਜੂਦ ਹੋਣ ਤੇ ਵੀ, ਨਾੜੀ ਦੋਸ਼ ਵਿੱਚ ਵਿਆਹ ਨਿਸ਼ਚਿਤ ਰੂਪ ਨਾਲ ਮੌਤ ਵੱਲ ਲੈ ਜਾਂਦਾ ਹੈ। ਇਹ ਇੱਕ ਮਹਾਨ ਪਾਪ ਅਤੇ ਅਪਰਾਧ ਹੈ।',
         intro2: 'ਵਸ਼ਿਸ਼ਠ ਸੰਹਿਤਾ (ਅਧਿਆਇ 32, ਸ਼ਲੋਕ 189) ਤੋਂ:',
-        shloka2: 'मध्यनाडी पतिहन्ति पार्श्वेनाड़ी तु कन्याकाम\nतस्मान्नाड़ो सदा त्याज्या दम्पत्यो शुभमिछुता',
+        shloka2: 'मध्यनाड़ी पतिहन्ति पार्श्वेनाड़ी तु कन्याकाम\nतस्मान्नाड़ो सदा त्याज्या दम्पत्यो शुभमिछुता',
         meaning2: 'ਅਰਥ: ਮੱਧ ਨਾੜੀ ਦੋਸ਼ ਵਰ ਦੀ ਮੌਤ ਦਾ ਕਾਰਨ ਬਣਦਾ ਹੈ, ਅੰਤਯ ਨਾੜੀ ਵਧੂ ਦੀ ਮੌਤ ਦਾ ਕਾਰਨ ਬਣਦੀ ਹੈ। ਇਸ ਵਿੱਚ ਕੋਈ ਸ਼ੱਕ ਨਹੀਂ ਹੈ।',
         intro3: 'ਬ੍ਰਿਹਦ ਦੈਵਜ੍ਞ ਰੰਜਨਮ (ਅਧਿਆਇ 71, ਸ਼ਲੋਕ 401) ਤੋਂ:',
         shloka3: 'एकनाड़ी विवाहश्च गुणैः सर्वैः समन्वितः\nवर्जनीयः प्रयत्नेन दम्पत्योर्निधनं यत',
@@ -543,13 +581,21 @@ const translations = {
       },
       academic: {
         title: 'ਆਧੁਨਿਕ ਅਕਾਦਮਿਕ ਪ੍ਰਮਾਣਿਕਤਾ',
-        content: 'ਕਾਸ਼ੀ ਵਿਦਵਤ ਪਰਿਸ਼ਦ ਦੇ ਵਿਦਵਾਨਾਂ ਵਿੱਚ ਪ੍ਰੋਫੈਸਰ ਰਾਮਚੰਦਰ ਪਾਂਡੇ, ਪ੍ਰੋਫੈਸਰ ਉਮਾਸ਼ੰਕਰ ਸ਼ੁਕਲਾ ਅਤੇ ਹੋਰਾਂ ਨੇ ਘੋਸ਼ਿਤ ਕੀਤਾ ਹੈ ਕਿ ਨਾੜੀ ਦੋਸ਼ ਇੱਕ ਘਾਤਕ ਦੋਸ਼ ਹੈ ਜੋ ਉਦੋਂ ਹੁੰਦਾ ਹੈ ਜਦੋਂ ਦੋਵਾਂ ਸਾਥੀਆਂ ਦੀ ਨਾੜੀ ਇੱਕੋ ਜਿਹੀ ਹੁੰਦੀ ਹੈ। ਉਹਨਾਂ ਨੇ ਜ਼ੋਰ ਦੇ ਕੇ ਕਿਹਾ ਕਿ ਕਿਸੇ ਵੀ ਪੂਜਾ, ਮੰਤਰ, ਯੱਗ ਜਾਂ ਦਾਨ ਨਾਲ ਨਾੜੀ ਦੋਸ਼ ਦਾ ਕੋਈ ਉਪਾਅ ਨਹੀਂ ਹੈ। ਇਕੱਲਾ ਹੱਲ ਅਜਿਹੇ ਰਿਸ਼ਤਿਆਂ ਨੂੰ ਤਿਆਗਣਾ ਹੈ।'
+        content: 'ਕਾਸ਼ੀ ਵਿਦਵਤ ਪਰਿਸ਼ਦ ਦੇ ਵਿਦਵਾਨਾਂ ਵਿੱਚ ਪ੍ਰੋਫੈਸਰ ਰਾਮਚੰਦਰ ਪਾਂਡੇ, ਪ੍ਰੋਫੈਸਰ ਉਮਾਸ਼ੰਕਰ ਸ਼ੁਕਲਾ ਅਤ੩ ਹੋਰਾਂ ਨੇ ਘੋਸ਼ਿਤ ਕੀਤਾ ਹੈ ਕਿ ਨਾੜੀ ਦੋਸ਼ ਇੱਕ ਘਾਤਕ ਦੋਸ਼ ਹੈ ਜੋ ਉਦੋਂ ਹੁੰਦਾ ਹੈ ਜਦੋਂ ਦੋਵਾਂ ਸਾਥੀਆਂ ਦੀ ਨਾੜੀ ਇੱਕੋ ਜਿਹੀ ਹੁੰਦੀ ਹੈ। ਉਹਨਾਂ ਨੇ ਜ਼ੋਰ ਦੇ ਕੇ ਕਿਹਾ ਕਿ ਕਿਸੇ ਵੀ ਪੂਜਾ, ਮੰਤਰ, ਯੱਗ ਜਾਂ ਦਾਨ ਨਾਲ ਨਾੜੀ ਦੋਸ਼ ਦਾ ਕੋਈ ਉਪਾਅ ਨਹੀਂ ਹੈ। ਇਕੱਲਾ ਹੱਲ ਅਜਿਹੇ ਰਿਸ਼ਤਿਆਂ ਨੂੰ ਤਿਆਗਣਾ ਹੈ।'
       },
       troubleshooting: {
         title: 'ਸਥਾਨ ਖੋਜ ਸਮੱਸਿਆ ਨਿਵਾਰਣ',
         content: 'ਜੇ ਤੁਹਾਨੂੰ "ਸਥਾਨ ਤਰੁੱਟੀ" ਮਿਲਦੀ ਹੈ, ਤਾਂ ਇਹ ਫਾਰਮੈਟ ਅਜ਼ਮਾਓ:',
         examples: 'ਭਾਰਤ: ਮੁੰਬਈ, ਮਹਾਰਾਸ਼ਟਰ, ਭਾਰਤ | USA: ਨਿਊਯਾਰਕ, NY, USA | UK: ਲੰਡਨ, ਇੰਗਲੈਂਡ, UK | ਆਸਟ੍ਰੇਲੀਆ: ਸਿਡਨੀ, NSW, ਆਸਟ੍ਰੇਲੀਆ | ਸਾਧਾਰਨ: ਹਮੇਸ਼ਾਂ ਸ਼ਹਿਰ, ਖੇਤਰ/ਰਾਜ ਅਤੇ ਦੇਸ਼ ਸ਼ਾਮਲ ਕਰੋ',
         tip: '💡 ਸੁਝਾਅ: ਜੇ ਤੁਹਾਡਾ ਸ਼ਹਿਰ ਨਹੀਂ ਮਿਲਦਾ ਤਾਂ ਮੁੱਖ ਸ਼ਹਿਰਾਂ ਦੀ ਵਰਤੋਂ ਕਰੋ। ਜੋਤਿਸ਼ੀ ਗਣਨਾਵਾਂ ਲਈ ਫਰਕ ਬਹੁਤ ਘੱਟ ਹੈ।'
+      },
+      pwa: {
+        installTitle: 'ਐਪ ਇੰਸਟਾਲ ਕਰੋ',
+        installDesc: 'ਤੁਰੰਤ ਪਹੁੰਚ ਲਈ ਹੋਮ ਸਕਰੀਨ ਵਿੱਚ ਜੋੜੋ',
+        installButton: 'ਇੰਸਟਾਲ ਕਰੋ',
+        iosInstructions: 'ਇੰਸਟਾਲ ਕਰਨ ਲਈ: ਸ਼ੇਅਰ ਬਟਨ ਟੈਪ ਕਰੋ → ਹੋਮ ਸਕਰੀਨ ਵਿੱਚ ਜੋੜੋ',
+        androidInstructions: 'ਇੰਸਟਾਲ ਕਰਨ ਲਈ: ਮੀਨੂ ਟੈਪ ਕਰੋ → ਹੋਮ ਸਕਰੀਨ ਵਿੱਚ ਜੋੜੋ',
+        desktopInstructions: 'ਇੰਸਟਾਲ ਕਰਨ ਲਈ: ਆਪਣੇ ਬ੍ਰਾਊਜ਼ਰ ਦੇ ਐਡਰੈਸ ਬਾਰ ਵਿੱਚ ਇੰਸਟਾਲ ਆਈਕਨ ਤੇ ਕਲਿਕ ਕਰੋ'
       }
     }
   }
@@ -691,7 +737,6 @@ class GeocodingCache {
     }
     return null;
   }
-
   save(place, data) {
     try {
       const cache = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
@@ -879,7 +924,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Madurai, Tamil Nadu, India', lat: 9.9252, lon: 78.1198 },
   { place: 'Raipur, Chhattisgarh, India', lat: 21.2514, lon: 81.6296 },
   { place: 'Kota, Rajasthan, India', lat: 25.2138, lon: 75.8648 },
-  
   // State Capitals (Remaining)
   { place: 'Chandigarh, India', lat: 30.7333, lon: 76.7794 },
   { place: 'Thiruvananthapuram, Kerala, India', lat: 8.5241, lon: 76.9366 },
@@ -1072,7 +1116,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Tuticorin, Tamil Nadu, India', lat: 8.8000, lon: 78.1333 },
   { place: 'Ambur, Tamil Nadu, India', lat: 12.7916, lon: 78.7166 },
   { place: 'Hosur, Tamil Nadu, India', lat: 12.7409, lon: 77.8253 },
-  
   // Kerala (Additional)
   { place: 'Kannur, Kerala, India', lat: 11.8745, lon: 75.3704 },
   { place: 'Kollam, Kerala, India', lat: 8.8932, lon: 76.6141 },
@@ -1084,7 +1127,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Kottayam, Kerala, India', lat: 9.5916, lon: 76.5222 },
   { place: 'Kasaragod, Kerala, India', lat: 12.4996, lon: 74.9869 },
   { place: 'Pathanamthitta, Kerala, India', lat: 9.2648, lon: 76.7870 },
-  
   // Karnataka (Additional)
   { place: 'Gulbarga, Karnataka, India', lat: 17.3297, lon: 76.8343 },
   { place: 'Kalaburagi, Karnataka, India', lat: 17.3297, lon: 76.8343 },
@@ -1270,7 +1312,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Vadodara, India', lat: 22.3072, lon: 73.1812 },
   { place: 'Nashik, India', lat: 19.9975, lon: 73.7898 },
   { place: 'Aurangabad, India', lat: 19.8762, lon: 75.3433 },
-  
   // Simple city names (most common user input)
   { place: 'Mumbai', lat: 19.0760, lon: 72.8777 },
   { place: 'Bangalore', lat: 12.9716, lon: 77.5946 },
@@ -1464,7 +1505,6 @@ const INDIAN_CITIES_DATABASE = [
   // ============================================================
   // POPULAR WORLD CITIES (International Users)
   // ============================================================
-  
   // North America
   { place: 'New York, USA', lat: 40.7128, lon: -74.0060 },
   { place: 'New York, NY, USA', lat: 40.7128, lon: -74.0060 },
@@ -1479,7 +1519,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Toronto, Canada', lat: 43.6532, lon: -79.3832 },
   { place: 'Vancouver, Canada', lat: 49.2827, lon: -123.1207 },
   { place: 'Montreal, Canada', lat: 45.5017, lon: -73.5673 },
-  
   // Europe
   { place: 'London, UK', lat: 51.5074, lon: -0.1278 },
   { place: 'London, England, UK', lat: 51.5074, lon: -0.1278 },
@@ -1649,7 +1688,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Rohtas, Bihar, India', lat: 24.9520, lon: 84.0323 },
   { place: 'Bhabua, Bihar, India', lat: 25.0410, lon: 83.6074 },
   { place: 'Kaimur, Bihar, India', lat: 25.0410, lon: 83.6074 },
-  
   // Rajasthan (Complete Coverage)
   { place: 'Nagaur, Rajasthan, India', lat: 27.1991, lon: 73.7347 },
   { place: 'Chittorgarh, Rajasthan, India', lat: 24.8829, lon: 74.6230 },
@@ -1669,7 +1707,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Mount Abu, Rajasthan, India', lat: 24.5926, lon: 72.7156 },
   { place: 'Jaisalmer, Rajasthan, India', lat: 26.9157, lon: 70.9083 },
   { place: 'Ganganagar, Rajasthan, India', lat: 29.9038, lon: 73.8772 },
-  
   // Punjab (Complete Coverage)
   { place: 'Gurdaspur, Punjab, India', lat: 32.0408, lon: 75.4059 },
   { place: 'Batala, Punjab, India', lat: 31.8089, lon: 75.2041 },
@@ -1849,11 +1886,9 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Bageshwar, Uttarakhand, India', lat: 29.8391, lon: 79.7703 },
   { place: 'Munsyari, Uttarakhand, India', lat: 30.0668, lon: 80.2376 },
   { place: 'Champawat, Uttarakhand, India', lat: 29.3360, lon: 80.0921 },
-  
   // ============================================================
   // SOUTH INDIA - COMPLETE COVERAGE (450+ Cities)
   // ============================================================
-  
   // Tamil Nadu (All Districts + Major Towns)
   { place: 'Ariyalur, Tamil Nadu, India', lat: 11.1401, lon: 79.0777 },
   { place: 'Chengalpattu, Tamil Nadu, India', lat: 12.6921, lon: 79.9759 },
@@ -2034,7 +2069,6 @@ const INDIAN_CITIES_DATABASE = [
   // ============================================================
   // WEST INDIA - COMPREHENSIVE COVERAGE
   // ============================================================
-  
   // Maharashtra (Remaining Cities)
   { place: 'Ahmednagar, Maharashtra, India', lat: 19.0948, lon: 74.7480 },
   { place: 'Akola, Maharashtra, India', lat: 20.7002, lon: 77.0082 },
@@ -2100,7 +2134,6 @@ const INDIAN_CITIES_DATABASE = [
   // ============================================================
   // EAST INDIA - COMPLETE COVERAGE
   // ============================================================
-  
   // West Bengal (Remaining Districts)
   { place: 'Alipurduar, West Bengal, India', lat: 26.4916, lon: 89.5272 },
   { place: 'Bankura, West Bengal, India', lat: 23.2324, lon: 87.0696 },
@@ -2241,7 +2274,6 @@ const INDIAN_CITIES_DATABASE = [
   { place: 'Ujjain, Madhya Pradesh, India', lat: 23.1765, lon: 75.7885 },
   { place: 'Umaria, Madhya Pradesh, India', lat: 23.5251, lon: 80.8370 },
   { place: 'Vidisha, Madhya Pradesh, India', lat: 23.5251, lon: 77.8081 },
-  
   // Chhattisgarh (All Districts)
   { place: 'Balod, Chhattisgarh, India', lat: 20.7307, lon: 81.2057 },
   { place: 'Baloda Bazar, Chhattisgarh, India', lat: 21.6576, lon: 82.1611 },
@@ -2433,10 +2465,8 @@ INDIAN_CITIES_DATABASE.forEach(city => {
     uniqueCities.push(city);
   }
 });
-
 // Replace with deduplicated version
 const CITIES_DATABASE = uniqueCities;
-
 console.log(`✅ Loaded ${CITIES_DATABASE.length} unique cities (${INDIAN_CITIES_DATABASE.length - CITIES_DATABASE.length} duplicates removed)`);
 
 // Pre-populate cache on first load
@@ -2461,7 +2491,6 @@ function initializeCache() {
     console.log('💡 Most Indian users will get INSTANT results!');
   }
 }
-
 // ============================================================
 // CUSTOM AUTOCOMPLETE SYSTEM
 // ============================================================
@@ -2611,7 +2640,6 @@ class Autocomplete {
     this.selectedIndex = -1;
     this.renderSuggestions('', true);
   }
-
   renderSuggestions(query = '', isPopular = false) {
     // Position dropdown before showing
     this.positionDropdown();
@@ -2661,7 +2689,6 @@ class Autocomplete {
         Can't find your city? Just type it and press Calculate!
       </div>
     ` : '';
-    
     this.dropdown.innerHTML = suggestions + footer;
 
     // Add click handlers
@@ -2790,8 +2817,6 @@ function hideDatepickerSVGArrows(datepickerElement) {
     }
   });
 }
-
-
 function initializeDatePickers() {
   // Check if Air Datepicker is loaded
   if (typeof AirDatepicker === 'undefined') {
@@ -2863,7 +2888,6 @@ function initializeDatePickers() {
     new AirDatepicker(dob2, datePickerConfig);
     addDateInputFormatting(dob2);
   }
-  
   console.log('✅ Air Datepicker initialized with CSS arrow overlay');
 }
 
@@ -2965,7 +2989,6 @@ function populateBirthDetailsSummary(values, isSingleMode) {
     });
   }, 100);
 }
-
 /**
  * Add auto-formatting for date input (DD-MM-YYYY)
  */
@@ -3063,7 +3086,6 @@ const nakshatras = [
   'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishta', 'Shatabhisha',
   'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'
 ];
-
 const nadiGroups = {
   'Aadi': [
     'Ashwini', 'Ardra', 'Punarvasu', 'Uttara Phalguni', 'Hasta', 'Jyeshtha',
@@ -3092,6 +3114,66 @@ function getNadiForNakshatra(nakshatraName) {
 }
 
 /**
+ * API Base URL Configuration
+ * Uses production server when not on localhost
+ */
+const API_BASE_URL = (() => {
+  const hostname = window.location.hostname;
+  const isLocal = hostname === 'localhost' || 
+                 hostname === '127.0.0.1' ||
+                 window.location.protocol === 'file:';
+  
+  // Check if page is HTTPS (GitHub Pages)
+  const isHTTPS = window.location.protocol === 'https:';
+  
+  // Production API server (via Cloudflare with free SSL)
+  const PRODUCTION_API_HTTP = 'https://api.nadidosh.com';
+  
+  // SIMPLE SOLUTION: Just use the API server directly
+  // If server has HTTPS, use it. Otherwise, browsers will block from HTTPS pages.
+  // The server already has CORS configured, so once HTTPS is set up, it works directly!
+  
+  let baseUrl;
+  let useProxy = false;
+  
+  if (isLocal) {
+    baseUrl = ''; // Use relative URLs on localhost
+  } else {
+    // Production: Use API server directly
+    // TODO: Once HTTPS is set up on server, change to: 'https://your-domain.com' or 'https://159.89.161.170:443'
+    baseUrl = PRODUCTION_API_HTTP;
+    
+    // If page is HTTPS and API is HTTP, browser will block (mixed content)
+    // This is a browser security feature - can't be bypassed from client code
+    if (isHTTPS) {
+      console.warn('⚠️ Mixed Content Warning: HTTPS page calling HTTP API will be blocked by browser.');
+      console.info('💡 Solution: Set up HTTPS on API server (see setup-https.sh)');
+      console.info('   Once server has HTTPS, change PRODUCTION_API_HTTP to use https://');
+      // Don't use proxy - it's unreliable. Just show the warning.
+      // The proper fix is HTTPS on the server.
+    }
+  }
+  
+  // Log API configuration
+  console.log(`🌐 API Configuration: ${isLocal ? 'Local (localhost)' : 'Production'}`, 
+              isLocal ? '' : `→ ${baseUrl}`);
+  
+  // Return object with baseUrl and proxy flag
+  return { baseUrl, useProxy: false, isLocal }; // No proxy - direct calls only
+})();
+
+/**
+ * Helper function to build API URL with proxy support if needed
+ * @param {string} path - API path (e.g., '/api/calculate-nadi-complete')
+ * @returns {string} - Full URL with proxy if needed
+ */
+function buildApiUrl(path) {
+  // Simple: Just return the API URL directly
+  // No proxy complications - server should have HTTPS for production
+  return `${API_BASE_URL.baseUrl}${path}`;
+}
+
+/**
  * Check if running on localhost and proxy server is available
  */
 function isLocalhost() {
@@ -3099,7 +3181,6 @@ function isLocalhost() {
          window.location.hostname === '127.0.0.1' ||
          window.location.protocol === 'file:';
 }
-
 /**
  * Analyze query complexity to determine best geocoding strategy
  * @param {string} place - The place query string
@@ -3155,10 +3236,66 @@ function getOffsetFromTimezone(tzName, dateStr = null) {
     return 0;
   }
 }
+/**
+ * Search INDIAN_CITIES_DATABASE for exact or fuzzy matches
+ * @param {string} place 
+ * @returns {{lat: number, lon: number, source: string} | null}
+ */
+function lookupInDatabase(place) {
+  const normalized = place.toLowerCase().trim();
+  const placeParts = normalized.split(',').map(p => p.trim());
+  const cityName = placeParts[0].toLowerCase();
+  
+  // Try exact match first
+  let match = INDIAN_CITIES_DATABASE.find(city => 
+    city.place.toLowerCase() === normalized
+  );
+  
+  if (match) {
+    console.log(`   ✅ Exact match: "${place}" → "${match.place}"`);
+    return {
+      lat: match.lat,
+      lon: match.lon,
+      source: 'Indian Cities Database'
+    };
+  }
+  
+  // Try fuzzy match - check if city name matches (most common case)
+  match = INDIAN_CITIES_DATABASE.find(city => {
+    const dbCityName = city.place.split(',')[0].toLowerCase().trim();
+    return dbCityName === cityName;
+  });
+  
+  if (match) {
+    console.log(`   ✅ Fuzzy match: "${place}" → "${match.place}"`);
+    return {
+      lat: match.lat,
+      lon: match.lon,
+      source: 'Indian Cities Database'
+    };
+  }
+  
+  // Try partial match (e.g., "Adoni" matches "Adoni, Andhra Pradesh, India")
+  match = INDIAN_CITIES_DATABASE.find(city => 
+    city.place.toLowerCase().includes(cityName) || 
+    cityName.includes(city.place.split(',')[0].toLowerCase().trim())
+  );
+  
+  if (match) {
+    console.log(`   ✅ Partial match: "${place}" → "${match.place}"`);
+    return {
+      lat: match.lat,
+      lon: match.lon,
+      source: 'Indian Cities Database'
+    };
+  }
+  
+  return null;
+}
 
 /**
  * Geocode Place of Birth using intelligent API selection with fallbacks.
- * Uses cache-first approach for instant results on repeated searches.
+ * Uses database-first approach, then cache, then APIs.
  * Smart routing: Simple queries → Self-Hosted API, Complex queries → Photon/Nominatim
  * Multi-API fallback with rate limiting for high traffic scalability.
  * @param {string} place 
@@ -3167,17 +3304,35 @@ function getOffsetFromTimezone(tzName, dateStr = null) {
 async function geocodePlace(place) {
   const originalPlace = place;
   
-  // STEP 1: Check cache first (instant results!)
+  console.log(`🔍 Geocoding: "${place}"`);
+  
+  // STEP 1: Check local database FIRST (fastest, no network!)
+  console.log('📍 STEP 1: Checking local database...');
+  const dbResult = lookupInDatabase(place);
+  if (dbResult) {
+    console.log(`✅ Database HIT! Using coordinates from INDIAN_CITIES_DATABASE`);
+    // Cache database result for future use
+    geoCache.save(originalPlace, dbResult);
+    return dbResult;
+  }
+  console.log('❌ Database MISS - not found in INDIAN_CITIES_DATABASE');
+  
+  // STEP 2: Check cache (instant results for repeated searches!)
+  console.log('💾 STEP 2: Checking cache...');
   const cached = geoCache.get(place);
   if (cached) {
+    console.log(`✅ Cache HIT! Using cached coordinates`);
     return { ...cached, source: `${cached.source} (cached)` };
   }
+  console.log('❌ Cache MISS - not found in localStorage');
+  
+  console.log('🌐 STEP 3: Need to fetch from APIs...');
 
-  // STEP 2: Analyze query complexity for smart routing
+  // STEP 3: Analyze query complexity for smart routing
   const queryType = analyzeQueryComplexity(place);
   console.log(`🎯 Query "${place}" classified as: ${queryType}`);
 
-  // STEP 3: Route to appropriate strategy
+  // STEP 4: Route to appropriate strategy
   if (queryType === 'simple') {
     // Simple city names → Try Self-Hosted API first
     return await trySimpleGeocode(place, originalPlace);
@@ -3186,7 +3341,6 @@ async function geocodePlace(place) {
     return await tryComplexGeocode(place, originalPlace);
   }
 }
-
 /**
  * Geocode simple city names using Self-Hosted API with fallbacks
  */
@@ -3198,15 +3352,54 @@ async function trySimpleGeocode(place, originalPlace) {
       // Extract city name from input
       const cityName = place.split(',')[0].trim();
       
-      const selfHostedUrl = `https://geocode.prateekanand.com/geocode?city=${encodeURIComponent(cityName)}&limit=5`;
+      // Use proxy on localhost to avoid CORS issues, use production API server otherwise
+      const selfHostedUrl = isLocalhost()
+        ? `/api/geocode?city=${encodeURIComponent(cityName)}&limit=5`
+        : buildApiUrl(`/api/geocode?city=${encodeURIComponent(cityName)}&limit=5`);
+      
+      console.log('📡 Fetching:', selfHostedUrl, isLocalhost() ? '(via proxy)' : '(direct)');
       
       const res = await fetch(selfHostedUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
         signal: AbortSignal.timeout(5000) // 5 second timeout
       });
       
+      console.log('📥 Response status:', res.status, res.statusText);
+      console.log('📥 Response headers:', Object.fromEntries(res.headers.entries()));
+      
       if (res.ok) {
-        const data = await res.json();
-        if (data && data.length > 0) {
+        // Clone response to read both as text (for debugging) and JSON
+        const clonedRes = res.clone();
+        const text = await clonedRes.text();
+        console.log('📥 Response text (first 500 chars):', text.substring(0, 500));
+        
+        let data;
+        try {
+          data = await res.json();
+        } catch (parseError) {
+          console.error('❌ JSON parse error:', parseError);
+          console.error('Raw response (first 500 chars):', text.substring(0, 500));
+          throw new Error(`Invalid JSON response: ${parseError.message}`);
+        }
+        
+        console.log('📥 Parsed data:', data);
+        console.log('📥 Data type:', Array.isArray(data) ? 'Array' : typeof data);
+        console.log('📥 Data length:', Array.isArray(data) ? data.length : 'N/A');
+        
+        // Handle empty response (API returns 200 but empty array)
+        if (!data) {
+          throw new Error('Self-Hosted: Null or undefined response');
+        }
+        
+        if (Array.isArray(data) && data.length === 0) {
+          throw new Error('Self-Hosted: Empty array response');
+        }
+        
+        if (Array.isArray(data) && data.length > 0) {
           // Smart ranking: Sort by population (larger cities more likely)
           const sorted = data.sort((a, b) => (b.population || 0) - (a.population || 0));
           const best = sorted[0];
@@ -3223,8 +3416,16 @@ async function trySimpleGeocode(place, originalPlace) {
             elevation: best.dem
           };
         }
+        
+        // Handle non-array responses (unexpected format)
+        console.warn('⚠️ Unexpected response format:', typeof data, data);
+        throw new Error(`Self-Hosted: Unexpected response format (expected array, got ${typeof data})`);
+      } else {
+        // Non-OK response
+        const errorText = await res.text().catch(() => 'No error details');
+        console.error('❌ API Error:', res.status, res.statusText, errorText);
+        throw new Error(`Self-Hosted API error: ${res.status} ${res.statusText}`);
       }
-      throw new Error('Self-Hosted: No results');
     });
     
     // Cache successful result
@@ -3232,9 +3433,9 @@ async function trySimpleGeocode(place, originalPlace) {
     return result;
     
   } catch (err) {
+    console.error('❌ Self-Hosted API failed:', err);
     console.log('Self-Hosted API failed:', err.message, '→ Falling back to Photon/Nominatim');
   }
-
   // 2. Fallback to complex geocoding if self-hosted fails
   return await tryComplexGeocode(place, originalPlace);
 }
@@ -3249,7 +3450,7 @@ async function tryComplexGeocode(place, originalPlace) {
     const result = await photonQueue.add(async () => {
       const photonUrl = isLocalhost() 
         ? `/api/photon?q=${encodeURIComponent(place)}&limit=1`
-        : `https://photon.komoot.io/api/?q=${encodeURIComponent(place)}&limit=1`;
+        : buildApiUrl(`/api/photon?q=${encodeURIComponent(place)}&limit=1`);
       
       const res = await fetch(photonUrl, {
         signal: AbortSignal.timeout(5000) // 5 second timeout
@@ -3287,7 +3488,7 @@ async function tryComplexGeocode(place, originalPlace) {
       if (isLocalhost()) {
         nominatimUrl = `/api/nominatim?q=${encodeURIComponent(place)}&format=json&limit=1`;
       } else {
-        nominatimUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(place)}&format=json&limit=1&addressdetails=1`;
+        nominatimUrl = buildApiUrl(`/api/nominatim?q=${encodeURIComponent(place)}&format=json&limit=1`);
         fetchOptions = {
           headers: { 
             'Accept': 'application/json',
@@ -3327,7 +3528,6 @@ async function tryComplexGeocode(place, originalPlace) {
   } catch (err) {
     console.log('Nominatim failed:', err.message);
   }
-
   // STEP 4: Try geocode.maps.co API (NO API KEY NEEDED! 10 req/sec)
   try {
     console.log('🌍 Trying Geocode.maps.co API...');
@@ -3365,7 +3565,7 @@ async function tryComplexGeocode(place, originalPlace) {
     const result = await openCageQueue.add(async () => {
       // Using demo key - get your own free key at: https://opencagedata.com/
       // Free tier: 2,500 requests/day (more than enough for fallback!)
-      const apiKey = 'c63386b4f77e46de817bdf94f69bfcac'; // Demo key
+      const apiKey = 'df0020105ec243aeb353f5c6ea440e75'; // Your API key
       
       const openCageUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(place)}&key=${apiKey}&limit=1`;
       
@@ -3401,7 +3601,7 @@ async function tryComplexGeocode(place, originalPlace) {
     const result = await positionstackQueue.add(async () => {
       // Free API key - get your own at: https://positionstack.com/
       // Free tier: 25,000 requests/month (excellent for fallback!)
-      const apiKey = '45ed17d7be562743c0425e1097e190d5'; // Free demo key
+      const apiKey = '4641963610714aa46fe83052b7e13f41'; // Your API key
       
       const positionstackUrl = `http://api.positionstack.com/v1/forward?access_key=${apiKey}&query=${encodeURIComponent(place)}&limit=1`;
       
@@ -3429,7 +3629,6 @@ async function tryComplexGeocode(place, originalPlace) {
   } catch (err) {
     console.log('Positionstack failed:', err.message);
   }
-
   // STEP 7: All APIs failed - throw helpful error
   throw new Error(
     `Could not find location: "${place}"\n\n` +
@@ -3510,7 +3709,6 @@ function parseTimeZoneOffset(offsetStr) {
   const minutes = parseInt(match[3]);
   return sign * (hours + minutes / 60);
 }
-
 /**
  * Estimate timezone from coordinates using longitude-based approximation
  * Enhanced with accurate offsets for major regions
@@ -3620,7 +3818,6 @@ function convertToUT(date, time, offsetHours) {
   const utMillis = localDate.getTime() - offsetHours * 60 * 60 * 1000;
   return new Date(utMillis);
 }
-
 /**
  * Calculate the Julian Date given a UT time.
  * @param {Date} utDate
@@ -3647,10 +3844,69 @@ function calculateJulianDate(utDate) {
 }
 
 /**
- * Calculate the Moon's position and Nakshatra/Nadi with enhanced accuracy.
- * Uses improved lunar theory with additional periodic terms and modern Ayanamsa calculation.
+ * Calculate Nadi via server-side API
+ * @param {string} birthDate - Date in YYYY-MM-DD format
+ * @param {string} birthTime - Time in HH:MM format (24-hour)
+ * @param {number} timezoneOffset - Timezone offset in hours
+ * @param {number} latitude - Latitude in degrees
+ * @param {number} longitude - Longitude in degrees
+ * @returns {Promise<{nakshatra:string, nakshatraIndex:number, pada:number, nadi:string, siderealLongitude:number, tropicalLongitude:number, accuracy:string}>}
+ */
+async function calculateNakshatraAndNadiAPI(birthDate, birthTime, timezoneOffset, latitude, longitude) {
+  try {
+    console.log('Calling API with:', {
+      birth_date: birthDate,
+      birth_time: birthTime,
+      timezone: timezoneOffset,
+      latitude: latitude,
+      longitude: longitude
+    });
+    
+    const response = await fetch(buildApiUrl('/api/calculate-nadi'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        birth_date: birthDate,
+        birth_time: birthTime,
+        timezone: timezoneOffset.toString(),
+        latitude: latitude,
+        longitude: longitude
+      })
+    });
+    
+    console.log('API Response status:', response.status, response.statusText);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('API Error response:', errorText);
+      let error;
+      try {
+        error = JSON.parse(errorText);
+      } catch {
+        error = { detail: errorText || 'Calculation failed' };
+      }
+      throw new Error(error.detail || 'Calculation failed');
+    }
+    
+    const result = await response.json();
+    console.log('API Success:', result);
+    return result;
+  } catch (error) {
+    console.error('API calculation error:', error);
+    // Fallback to client-side calculation if API fails
+    console.warn('Falling back to client-side calculation');
+    throw error;
+  }
+}
+/**
+ * LEGACY: Calculate the Moon's position and Nakshatra/Nadi with enhanced accuracy.
+ * DEPRECATED: Now using server-side API (calculateNakshatraAndNadiAPI)
+ * Kept for reference/fallback only.
  * @param {Date} utDate
  * @returns { {nakshatra:string, nakshatraIndex:number, pada:number, nadi:string, siderealLongitude:number, tropicalLongitude:number, accuracy:string} }
+ * @deprecated Use calculateNakshatraAndNadiAPI instead
  */
 function calculateNakshatraAndNadi(utDate) {
   // Step 1: Julian Date
@@ -3760,7 +4016,6 @@ function calculateNakshatraAndNadi(utDate) {
   }
 
   lambda = norm360(lambda);
-
   // Step 5: Enhanced Lahiri Ayanamsa calculation
   // Using Lahiri's formula based on Chitrapaksha Ayanamsa
   // Reference point: 285° on 21 March 1956 (Lahiri's definition)
@@ -3806,7 +4061,6 @@ function calculateNakshatraAndNadi(utDate) {
     accuracy: 'Enhanced (±0.5 arc-minutes)'
   };
 }
-
 /**
  * Parse various date formats and convert to YYYY-MM-DD
  * @param {string} dateStr 
@@ -3992,10 +4246,8 @@ function validateFormValues(values, isSingleMode) {
       );
       return false;
     }
-    
     // Update with normalized format
     values[`dob${i}`] = normalizedDate;
-    
     // ============================================
     // 3. TIME OF BIRTH VALIDATION
     // ============================================
@@ -4114,7 +4366,6 @@ function showValidationError(fieldId, title, hint) {
   // Show error message in a card (not alert)
   showErrorCard(title, hint);
 }
-
 /**
  * Show error card instead of alert
  * @param {string} title - Error title
@@ -4191,7 +4442,6 @@ function getNadiDescription(nadiType) {
   };
   return descKeys[nadiType] ? t(descKeys[nadiType]) : '';
 }
-
 /**
  * Loading state management functions
  */
@@ -4317,7 +4567,6 @@ function addBackToFormButton() {
   const resultsSection = document.getElementById('resultsSection');
   resultsSection.parentNode.insertBefore(backButton, resultsSection);
 }
-
 function showErrorState(errorMessage) {
   const errorHTML = `
     <div class="error-container">
@@ -4336,7 +4585,266 @@ function showErrorState(errorMessage) {
 /**
  * Main calculation and UI update workflow.
  */
+// Register Service Worker for PWA support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('✅ Service Worker registered:', registration.scope);
+        
+        // Check for updates periodically
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New service worker available
+              console.log('🔄 New Service Worker available. Page will reload when you close all tabs.');
+              // Optionally show a notification to user
+            }
+          });
+        });
+      })
+      .catch((error) => {
+        console.warn('⚠️ Service Worker registration failed:', error);
+      });
+  });
+  
+  // Listen for service worker updates
+  let refreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!refreshing) {
+      refreshing = true;
+      console.log('🔄 Service Worker updated. Reloading page...');
+      window.location.reload();
+    }
+  });
+}
+// PWA Install Prompt (First-time users only)
+const PWA_PROMPT_ENABLED = false;
+let deferredPrompt = null;
+const PWA_INSTALL_COOKIE = 'nadi_pwa_install_dismissed';
+const PWA_INSTALLED_COOKIE = 'nadi_pwa_installed';
+let autoHideTimer = null;
+
+function checkPWAPrompt() {
+  if (!PWA_PROMPT_ENABLED) { return; }
+  // Don't show if already installed or dismissed
+  if (localStorage.getItem(PWA_INSTALLED_COOKIE) || localStorage.getItem(PWA_INSTALL_COOKIE)) {
+    return;
+  }
+  
+  // Don't show if already running as PWA
+  if (window.matchMedia('(display-mode: standalone)').matches || 
+      window.navigator.standalone === true) {
+    localStorage.setItem(PWA_INSTALLED_COOKIE, 'true');
+    return;
+  }
+  
+  const prompt = document.getElementById('pwaInstallPrompt');
+  if (!prompt) return;
+  
+  // Check if prompt is already visible
+  if (prompt.style.display === 'flex') {
+    return;
+  }
+  
+  // Show prompt after a delay (better UX)
+  // If native install is available, show sooner
+  const delay = deferredPrompt ? 2000 : 3000;
+  setTimeout(() => {
+    prompt.style.display = 'flex';
+    console.log('📱 PWA install prompt shown', deferredPrompt ? '(native install available)' : '(manual install)');
+    
+    // Auto-hide after 10 seconds if user doesn't interact
+    autoHideTimer = setTimeout(() => {
+      console.log('⏱️ PWA install prompt auto-hiding after 10 seconds');
+      hideInstallPrompt();
+      // Don't mark as dismissed - user can see it again on next visit
+    }, 10000); // 10 seconds
+  }, delay);
+}
+
+function setupPWAInstallPrompt() {
+  if (!PWA_PROMPT_ENABLED) { return; }
+  const prompt = document.getElementById('pwaInstallPrompt');
+  const installBtn = document.getElementById('pwaInstallBtn');
+  const dismissBtn = document.getElementById('pwaDismissBtn');
+  
+  if (!prompt || !installBtn || !dismissBtn) return;
+  
+  let installPromptTimer = null;
+  
+  // Listen for beforeinstallprompt event (Chrome/Edge/Android)
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    console.log('✅ beforeinstallprompt event received - native install available');
+    
+    // Clear any pending timer
+    if (installPromptTimer) {
+      clearTimeout(installPromptTimer);
+      installPromptTimer = null;
+    }
+    
+    // Show our custom prompt immediately when event fires
+    checkPWAPrompt();
+  });
+  
+  // Check if browser supports native install after a delay
+  // This helps catch the event even if it fires late
+  installPromptTimer = setTimeout(() => {
+    if (!deferredPrompt) {
+      // Event hasn't fired yet, but we can still show prompt
+      // It will use native install if available when clicked
+      console.log('⏳ beforeinstallprompt not yet received, showing prompt anyway');
+      checkPWAPrompt();
+    }
+  }, 2000); // Wait 2 seconds for the event
+  
+  // Install button click
+  installBtn.addEventListener('click', async () => {
+    // Clear auto-hide timer when user interacts
+    if (autoHideTimer) {
+      clearTimeout(autoHideTimer);
+      autoHideTimer = null;
+    }
+    
+    // Wait a bit more if deferredPrompt is not yet available
+    // (especially on mobile where event might fire late)
+    if (!deferredPrompt) {
+      console.log('⏳ Waiting for beforeinstallprompt event...');
+      
+      // Wait up to 1 second for the event
+      let waited = 0;
+      const checkInterval = setInterval(() => {
+        waited += 100;
+        if (deferredPrompt) {
+          clearInterval(checkInterval);
+          // Retry install
+          installBtn.click();
+          return;
+        }
+        if (waited >= 1000) {
+          clearInterval(checkInterval);
+          // Fallback for browsers that don't support beforeinstallprompt (iOS Safari)
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+          if (isIOS) {
+            showManualInstallInstructions();
+          } else {
+            // For Android/Desktop, try to trigger install anyway
+            // Some browsers might still show install prompt
+            console.log('⚠️ Native install not available, showing manual instructions');
+            showManualInstallInstructions();
+          }
+        }
+      }, 100);
+      return;
+    }
+    try {
+      // Show native install prompt
+      console.log('📱 Showing native install prompt...');
+      await deferredPrompt.prompt();
+      
+      // Wait for user response
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        console.log('✅ User accepted PWA install');
+        localStorage.setItem(PWA_INSTALLED_COOKIE, 'true');
+        hideInstallPrompt();
+        
+        // Show success message
+        showInstallSuccess();
+      } else {
+        console.log('❌ User declined PWA install');
+        localStorage.setItem(PWA_INSTALL_COOKIE, 'true');
+        hideInstallPrompt();
+      }
+    } catch (error) {
+      console.error('❌ Error showing install prompt:', error);
+      // Fallback to manual instructions
+      showManualInstallInstructions();
+    }
+    
+    deferredPrompt = null;
+  });
+  
+  // Dismiss button click
+  dismissBtn.addEventListener('click', () => {
+    // Clear auto-hide timer
+    if (autoHideTimer) {
+      clearTimeout(autoHideTimer);
+      autoHideTimer = null;
+    }
+    
+    localStorage.setItem(PWA_INSTALL_COOKIE, 'true');
+    hideInstallPrompt();
+  });
+  
+  // Check if already installed (for iOS Safari)
+  window.addEventListener('appinstalled', () => {
+    console.log('✅ PWA installed');
+    localStorage.setItem(PWA_INSTALLED_COOKIE, 'true');
+    hideInstallPrompt();
+    showInstallSuccess();
+  });
+  
+  // Check on page load (for first-time users)
+  checkPWAPrompt();
+}
+
+function hideInstallPrompt() {
+  const prompt = document.getElementById('pwaInstallPrompt');
+  if (prompt) {
+    prompt.style.display = 'none';
+  }
+  
+  // Clear auto-hide timer if it exists
+  if (autoHideTimer) {
+    clearTimeout(autoHideTimer);
+    autoHideTimer = null;
+  }
+}
+
+function showInstallSuccess() {
+  // Optional: Show success notification
+  console.log('🎉 App installed successfully!');
+}
+function showManualInstallInstructions() {
+  // Show instructions for manual installation (iOS Safari, etc.)
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isAndroid = /Android/.test(navigator.userAgent);
+  const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge|Edg/.test(navigator.userAgent);
+  
+  let message = '';
+  if (isIOS) {
+    // iOS Safari requires manual installation
+    message = t('pwa.iosInstructions');
+    alert(message);
+  } else if (isAndroid && isChrome) {
+    // Android Chrome should support native install
+    // If we're here, something went wrong - show helpful message
+    message = t('pwa.androidInstructions') + '\n\n' + 
+              'If you see an install icon in your browser\'s address bar, tap it for direct installation.';
+    alert(message);
+  } else if (isAndroid) {
+    // Android non-Chrome browsers
+    message = t('pwa.androidInstructions');
+    alert(message);
+  } else {
+    // Desktop
+    message = t('pwa.desktopInstructions');
+    alert(message);
+  }
+  
+  // Don't dismiss the prompt after showing instructions
+  // User might want to try again or follow the instructions
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize PWA install prompt
+  setupPWAInstallPrompt();
+  
   const form = document.getElementById('nadiForm');
   const resultSection = document.getElementById('resultsSection');
   const resultsTitle = document.getElementById('resultsTitle');
@@ -4426,7 +4934,6 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.remove('active');
     }
   });
-
   // Handle mode change
   function updateFormMode() {
     const isSingleMode = modeSingle.checked;
@@ -4453,7 +4960,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (btnText) btnText.textContent = t('form.buttonCompare');
     }
   }
-
   modeSingle.addEventListener('change', updateFormMode);
   modeCompare.addEventListener('change', updateFormMode);
   updateFormMode();
@@ -4490,106 +4996,88 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show loading UI with better UX
     showLoadingState();
+    updateLoadingMessage('Processing birth details and calculating Nadi...');
     
     // Hide the form and show results section
     document.querySelector('.nadi-form').style.display = 'none';
     resultSection.style.display = 'block';
     
-    // Store values for later use
-    const name1 = values.name1 || 'Person 1';
-    const name2 = values.name2 || 'Person 2';
-
     // Save scroll position to restore later
     lastScroll = window.scrollY;
 
-    // For both persons (or just one in single mode), fetch tz and do calculation
     try {
-      const persons = [];
-      const maxPerson = isSingleMode ? 1 : 2;
-      for (let i=1; i<=maxPerson; i++) {
-        const personName = values[`name${i}`] || `Person ${i}`;
-        
-        // Geocoding
-        let geo;
-        try {
-          updateLoadingMessage(`Analyzing ${personName}'s birth details...`);
-          geo = await geocodePlace(values[`pob${i}`]);
-        } catch (err) {
-          // Enhanced error message with helpful suggestions
-          // Show user-friendly error
-          showErrorState(`Could not find the location you entered.\n\n💡 Please try:\n• "Mumbai, Maharashtra, India"\n• "Delhi, India"\n• "London, UK"\n\nOr select from the dropdown suggestions.`);
-          
-          // Show form again
-          document.querySelector('.nadi-form').style.display = 'block';
-          resultSection.style.display = 'none';
-          
-          // Highlight the problematic input
-          const pobInput = document.getElementById(`pob${i}`);
-          if (pobInput) {
-            pobInput.focus();
-            pobInput.style.borderColor = '#ef4444';
-            setTimeout(() => {
-              pobInput.style.borderColor = '';
-            }, 3000);
-          }
-          return;
+      // ============================================
+      // SINGLE API CALL - All logic on server side
+      // ============================================
+      console.log('🚀 Making single API call to server...');
+      
+      const requestBody = {
+        person1: {
+          name: values.name1 || 'Person 1',
+          birth_date: values.dob1,
+          birth_time: values.tob1,
+          place_of_birth: values.pob1
         }
-        // Get timezone (uses exact timezone from API if available, otherwise estimates)
-        const tz = await getTimeZone(
-          geo.lat, 
-          geo.lon, 
-          geo.timezoneExact || false,  // Pass exact timezone flag
-          geo.timezone || null,         // Pass IANA timezone name
-          values[`dob${i}`]             // Pass birth date for DST handling
-        );
-        
-        // Prefer DST offset if applicable and non-zero, else rawOffset
-        const offset = (typeof tz.dstOffset === 'number' && tz.dstOffset !== tz.rawOffset) ? tz.dstOffset : tz.rawOffset;
-        
-        // Local -> UT
-        const utDate = convertToUT(values[`dob${i}`], values[`tob${i}`], offset);
-
-        // Moon nakshatra/nadi calculation
-        updateLoadingMessage(`Computing ${personName}'s Nadi analysis...`);
-        const moon = calculateNakshatraAndNadi(utDate);
-
-        // Store the data - we'll update DOM after hideLoadingState()
-        persons.push({...moon, name: values[`name${i}`]});
-      }
-
-      // Final loading message
-      updateLoadingMessage('Generating compatibility report...');
-
-      // Dosha verdict or single nadi result
-      if (isSingleMode) {
-        // Single mode - just show the nadi info
-        judgementCard.style.display = 'none';
-      } else {
-        // Compare mode - show compatibility
-        judgementCard.style.display = 'flex';
-      if (persons[0].nadi === persons[1].nadi) {
-          doshaDiv.textContent = t('results.doshaPresent');
-        doshaDiv.classList.add('danger');
-          judgementCard.classList.add('incompatible');
-          judgementIcon.textContent = '⚠️';
-          judgementExplanation.textContent = t('judgement.incompatible')
-            .replace('{name1}', persons[0].name)
-            .replace('{name2}', persons[1].name);
-      } else {
-          doshaDiv.textContent = t('results.noDosha');
-        doshaDiv.classList.add('success');
-          judgementCard.classList.add('compatible');
-          judgementIcon.textContent = '✓';
-          judgementExplanation.textContent = t('judgement.compatible')
-            .replace('{name1}', persons[0].name)
-            .replace('{name2}', persons[1].name);
-        }
+      };
+      
+      // Add person2 if in comparison mode
+      if (!isSingleMode && values.dob2 && values.tob2 && values.pob2) {
+        requestBody.person2 = {
+          name: values.name2 || 'Person 2',
+          birth_date: values.dob2,
+          birth_time: values.tob2,
+          place_of_birth: values.pob2
+        };
       }
       
+      console.log('📤 Request:', requestBody);
+      
+      // Simple HTTP call - just like Postman!
+      const apiUrl = buildApiUrl('/api/calculate-nadi-complete');
+      console.log('🌐 API URL:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => 'Unknown error');
+        let errorData;
+        try {
+          errorData = JSON.parse(errorText);
+        } catch {
+          errorData = { detail: errorText || `API error: ${response.status}` };
+        }
+        throw new Error(errorData.detail || `API error: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      console.log('📥 Response:', result);
+      
+      // Extract person data for display
+      const persons = [{
+        ...result.person1,
+        name: result.person1.name || values.name1 || 'Person 1'
+      }];
+      
+      if (result.person2) {
+        persons.push({
+          ...result.person2,
+          name: result.person2.name || values.name2 || 'Person 2'
+        });
+      }
+
       // Hide loading and show results
       hideLoadingState();
       
-      // NOW we can safely access the restored DOM elements
+      // Extract names for display
+      const name1 = result.person1.name || values.name1 || 'Person 1';
+      const name2 = result.person2 ? (result.person2.name || values.name2 || 'Person 2') : null;
+      
       // Update title based on mode
       resultsTitle.textContent = isSingleMode 
         ? `Nadi Analysis for ${name1}` 
@@ -4600,46 +5088,100 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsPersons.classList.add('single-mode');
         document.getElementById('resultPerson2').style.display = 'none';
         document.getElementById('comparisonDivider').style.display = 'none';
+        judgementCard.style.display = 'none';
       } else {
         resultsPersons.classList.remove('single-mode');
         document.getElementById('resultPerson2').style.display = 'block';
         document.getElementById('comparisonDivider').style.display = 'flex';
+        judgementCard.style.display = 'flex';
+        
+        // Update dosha judgement from server response
+        if (result.hasDosha) {
+          doshaDiv.textContent = t('results.doshaPresent');
+          doshaDiv.classList.add('danger');
+          judgementCard.classList.add('incompatible');
+          judgementIcon.textContent = '⚠️';
+          judgementExplanation.textContent = result.message || t('judgement.incompatible')
+            .replace('{name1}', name1)
+            .replace('{name2}', name2);
+        } else {
+          doshaDiv.textContent = t('results.noDosha');
+          doshaDiv.classList.add('success');
+          judgementCard.classList.add('compatible');
+          judgementIcon.textContent = '✓';
+          judgementExplanation.textContent = result.message || t('judgement.compatible')
+            .replace('{name1}', name1)
+            .replace('{name2}', name2);
+        }
       }
       
       // Update person names in results
       document.getElementById('resultName1').textContent = name1;
-      if (!isSingleMode) {
+      if (!isSingleMode && name2) {
         document.getElementById('resultName2').textContent = name2;
       }
-      
       // Populate birth details summary
       populateBirthDetailsSummary(values, isSingleMode);
       
       // Update Nakshatra and Nadi information for each person
-      for (let i = 1; i <= maxPerson; i++) {
-        const person = persons[i - 1];
-        
-        // Update nakshatra and nadi text with translations
-        document.getElementById(`nakshatra${i}`).textContent = getNakshatraName(person.nakshatra);
-        document.getElementById(`nadi${i}`).textContent = getNadiName(person.nadi);
-        
-        // Update nadi badge with icon and style
-        const nadiBadge = document.getElementById(`nadiBadge${i}`);
-        const nadiIcon = document.getElementById(`nadiIcon${i}`);
-        const nadiDesc = document.getElementById(`nadiDesc${i}`);
-        
-        nadiBadge.classList.add(person.nadi.toLowerCase());
-        nadiIcon.textContent = getNadiIcon(person.nadi);
-        nadiDesc.textContent = getNadiDescription(person.nadi);
+      const maxPerson = isSingleMode ? 1 : (result.person2 ? 2 : 1);
+      
+      // Person 1
+      document.getElementById(`nakshatra1`).textContent = getNakshatraName(result.person1.nakshatra);
+      document.getElementById(`nadi1`).textContent = getNadiName(result.person1.nadi);
+      const nadiBadge1 = document.getElementById(`nadiBadge1`);
+      const nadiIcon1 = document.getElementById(`nadiIcon1`);
+      const nadiDesc1 = document.getElementById(`nadiDesc1`);
+      nadiBadge1.classList.add(result.person1.nadi.toLowerCase());
+      nadiIcon1.textContent = getNadiIcon(result.person1.nadi);
+      nadiDesc1.textContent = getNadiDescription(result.person1.nadi);
+      
+      // Person 2 (if exists)
+      if (result.person2) {
+        document.getElementById(`nakshatra2`).textContent = getNakshatraName(result.person2.nakshatra);
+        document.getElementById(`nadi2`).textContent = getNadiName(result.person2.nadi);
+        const nadiBadge2 = document.getElementById(`nadiBadge2`);
+        const nadiIcon2 = document.getElementById(`nadiIcon2`);
+        const nadiDesc2 = document.getElementById(`nadiDesc2`);
+        nadiBadge2.classList.add(result.person2.nadi.toLowerCase());
+        nadiIcon2.textContent = getNadiIcon(result.person2.nadi);
+        nadiDesc2.textContent = getNadiDescription(result.person2.nadi);
       }
       
       // scroll to result
       resultSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      const sheetPayload = {
+        submittedAt: new Date().toISOString(),
+        mode: isSingleMode ? 'single' : 'compare',
+        person1: {
+          name: name1,
+          dob: values.dob1,
+          tob: `${values.tobHour1}:${values.tobMin1} ${values.tobPeriod1}`,
+          pob: values.pob1,
+          nakshatra: getNakshatraName(persons[0].nakshatra),
+          nadi: getNadiName(persons[0].nadi),
+        },
+        verdict: isSingleMode
+          ? getNadiName(persons[0].nadi)
+          : persons[0].nadi === persons[1].nadi
+            ? 'Nadi Dosha (same Nadi)'
+            : 'No Nadi Dosha (different Nadi)',
+      };
+      if (!isSingleMode) {
+        sheetPayload.person2 = {
+          name: name2,
+          dob: values.dob2,
+          tob: `${values.tobHour2}:${values.tobMin2} ${values.tobPeriod2}`,
+          pob: values.pob2,
+          nakshatra: getNakshatraName(persons[1].nakshatra),
+          nadi: getNadiName(persons[1].nadi),
+        };
+      }
+      submitNadiResultToSheet(sheetPayload);
     } catch (err) {
       hideLoadingState();
       showErrorState(err.message);
     }
   });
 });
-
-
